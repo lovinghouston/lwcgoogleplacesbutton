@@ -17,7 +17,8 @@ public with sharing class ACCT_Finder {
     public List<Account> findAccounts (Account inputAccount, Integer thresholdDistance) {
         List<Account> accountsToCompare = new List<Account>();
         List<Account> validAccounts = new List<Account>();
-
+        
+        // refactor to get IDs from map
         if (inputAccount.RecordTypeId == '0121N000000qpORQAY') {
             accountsToCompare = ACCT_Finder.getRelatedAccounts('Church');
         }
