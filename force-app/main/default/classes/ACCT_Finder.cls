@@ -115,11 +115,11 @@ public with sharing class ACCT_Finder {
 
         for (Account account : inputAccounts) {
 
-            if (account.RecordTypeId == churchRT) {
+            if (account.RecordTypeId == CHURCH_RECORD_TYPE) {
                 accountsByType.get('Church').add(account);
             }
 
-            else if (account.RecordTypeId == schoolRT) {
+            else if (account.RecordTypeId == SCHOOL_RECORD_TYPE) {
                 accountsByType.get('School').add(account);
             }
         }
