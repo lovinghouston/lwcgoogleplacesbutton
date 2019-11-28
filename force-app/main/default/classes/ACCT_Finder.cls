@@ -1,10 +1,8 @@
 //Utility class for finding viable Accounts to create CSP records on
 
 public with sharing class ACCT_Finder {
-
-    // add map of record type Ids
-    //
-    // public Map<String, Id> recordTypes;
+    public static Id schoolRT = Schema.SObjectType.Account.getRecordTypeInfosByName().get('School').getRecordTypeId();
+    public static Id churchRT = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Church').getRecordTypeId();
 
     public ACCT_Finder() {
         // After the map is implemented 
@@ -13,21 +11,37 @@ public with sharing class ACCT_Finder {
         // this.recordTypes.put('Church', Schema.SObjectType.Account.getRecordTypeInfosByName().get('Church').getRecordTypeId());
     }
 
+    @InvocableMethod (label='Get potential Accounts')
+    public static List<Account> findAccountsBatch (List<ACCT_Finder_Request> requests) {
+        List<Account> relatedAccounts = new List<Account>();
+
+        for (ACCT_Finder_Request request : requests) {
+            relatedAccounts.addAll(findAccounts(request));
+        }
+
+        return relatedAccounts;
+    }
     
-    public List<Account> findAccounts (Account inputAccount, Integer thresholdDistance) {
+    public static List<Account> findAccounts (ACCT_Finder_Request request) {
         List<Account> accountsToCompare = new List<Account>();
         List<Account> validAccounts = new List<Account>();
+        Account inputAccount = request.inputAccount;
+        Integer thresholdDistance = request.threshold;
         
-        // refactor to get IDs from map
-        if (inputAccount.RecordTypeId == '0121N000000qpORQAY') {
+        if (inputAccount.RecordTypeId == churchRT) {
             accountsToCompare = ACCT_Finder.getRelatedAccounts('Church');
         }
-        else if (inputAccount.RecordTypeId == '0121N000000qpO2QAI') {
+        else if (inputAccount.RecordTypeId == schoolRT) {
             accountsToCompare = ACCT_Finder.getRelatedAccounts('School');
         }
         
         if (accountsToCompare.size() > 0) {
             for (Account account : accountsToCompare) {
+
+                // Max 100 Accounts returned
+                if (validAccounts.size() == 100) {
+                    break;
+                }
 
                 Integer distance = ACCT_Finder.calculateDistance(inputAccount, account).intValue();
 
@@ -55,18 +69,21 @@ public with sharing class ACCT_Finder {
 
         // Re-factor to get record Type id from the map
         if (type.equals('School')) {
-            relatedAccounts = [SELECT Id, Name
+            relatedAccounts = [SELECT Id, Name, BillingLatitude, BillingLongitude
                                 FROM Account
-                                WHERE account.RecordTypeId = '0121N000000qpORQAY'
+                                WHERE account.RecordTypeId = :churchRT
+                                AND BillingLongitude != null
                                 AND BillingPostalCode != null
                                 LIMIT 10000];
         }
 
         else if (type.equals('Church')) {
-            relatedAccounts = [SELECT Id, Name
+            relatedAccounts = [SELECT Id, Name, BillingLatitude, BillingLongitude
                                 FROM Account
-                                WHERE account.RecordTypeId = '0121N000000qpO2QAI'
+                                WHERE account.RecordTypeId = :schoolRT
+                                AND BillingLongitude != null
                                 AND BillingPostalCode != null
+                                AND Type != 'School District'
                                 LIMIT 10000];        
         }
 
@@ -81,11 +98,11 @@ public with sharing class ACCT_Finder {
 
         for (Account account : inputAccounts) {
 
-            if (account.RecordTypeId == '0121N000000qpORQAY') {
+            if (account.RecordTypeId == churchRT) {
                 accountsByType.get('Church').add(account);
             }
 
-            else if (account.RecordTypeId == '0121N000000qpO2QAI') {
+            else if (account.RecordTypeId == schoolRT) {
                 accountsByType.get('School').add(account);
             }
         }
