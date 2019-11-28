@@ -12,7 +12,8 @@ public with sharing class ACCT_Finder {
     }
 
     @InvocableMethod (label='Get potential Accounts')
-    public static List<Account> findAccountsBatch (List<ACCT_Finder_Request> requests) {
+    public static List<List<Account>> findAccountsBatch (List<ACCT_Finder_Request> requests) {
+        List<List<Account>> toReturn = new List<List<Account>>();
         List<Account> relatedAccounts = new List<Account>();
         System.debug('Beginning invocable method');
 
@@ -20,14 +21,18 @@ public with sharing class ACCT_Finder {
             relatedAccounts.addAll(findAccounts(request));
         }
 
-        return relatedAccounts;
+        toReturn.add(relatedAccounts);
+        return toReturn;
     }
     
     public static List<Account> findAccounts (ACCT_Finder_Request request) {
         List<Account> accountsToCompare = new List<Account>();
         List<Account> validAccounts = new List<Account>();
-        Account inputAccount = request.inputAccount;
         Integer thresholdDistance = request.threshold;
+        Account inputAccount = [SELECT Name, Type, BillingLatitude, BillingLongitude
+                                FROM Account
+                                WHERE Id = :request.inputAccountId];
+
         System.debug('Beginning process of flow request with Account ' + inputAccount.Name + ' and threshold distance of ' + thresholdDistance + ' miles.');
         
         if (inputAccount.Type.equals('Church')) {

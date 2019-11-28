@@ -1,13 +1,13 @@
 public class ACCT_Finder_Request {
 
     // Method for testing the Request in dev console
-    public void setInputs(Account input, Integer threshold) {
-        this.inputAccount = input;
+    public void setInputs(Id inputAccountId, Integer threshold) {
+        this.inputAccountId = inputAccountId;
         this.threshold = threshold;
     }
     
-    @InvocableVariable (label='Account')
-    public Account inputAccount;
+    @InvocableVariable (label='Account Id')
+    public Id inputAccountId;
 
     @InvocableVariable (label='Threshold Distance')
     public Integer threshold;
