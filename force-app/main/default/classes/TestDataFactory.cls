@@ -7,15 +7,22 @@ public class TestDataFactory {
 
         for (Integer i = 0; i < numberOfAccounts; i ++) {
             Account acct = new Account();
-            acct.Name = 'Testing Trigger Part ' + i;
+            acct.Name = 'Test ' + i;
 
-            if (type == 'Church') {
-                acct.RecordTypeId = CHURCH_ACCOUNT_RECORD_TYPE;
+            if (type.equals('Church')) {
+                acct.Type = 'Church';
             }
 
-            if (type == 'School District') {
+            if (type.equals('School District')) {
                 acct.Type = 'School District';
             }
+
+            if (type.equals('School')) {
+                acct.Type = 'School';
+            }
+
+            acct.BillingLongitude = 20 + (i * 0.1);
+            acct.BillingLatitude = 20 + (i * 0.1);
 
             accts.add(acct);
         }
