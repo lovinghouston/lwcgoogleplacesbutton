@@ -22,6 +22,7 @@ private with sharing class Test_ACCT_Finder {
         }
     }
 
+    /*
     @isTest
     static void testRelatedAccountReturn() {
         List<ACCT_Finder_Request> requests = new List<ACCT_Finder_Request>();
@@ -46,4 +47,5 @@ private with sharing class Test_ACCT_Finder {
         // Assert that the distance is less than threshold
         // Assert that the type of returned account is expected
     }
+    */
 }

@@ -12,23 +12,46 @@ public with sharing class ACCT_Finder {
     }
 
     @InvocableMethod (label='Get potential Accounts')
-    public static List<List<Account>> findAccountsBatch (List<ACCT_Finder_Request> requests) {
-        List<List<Account>> toReturn = new List<List<Account>>();
-        List<Account> relatedAccounts = new List<Account>();
+    public static List<List<Church_School_Partnership__c>> findAccountsBatch (List<ACCT_Finder_Request> requests) {
+        List<List<Church_School_Partnership__c>> toReturn = new List<List<Church_School_Partnership__c>>();
+        List<List<Account>> relatedAccounts = new List<List<Account>>();
         System.debug('Beginning invocable method');
 
         for (ACCT_Finder_Request request : requests) {
-            relatedAccounts.addAll(findAccounts(request));
+            toReturn.add(findAccounts(request));
         }
 
-        toReturn.add(relatedAccounts);
         return toReturn;
     }
+
+    public static List<Church_School_Partnership__c> createCSPRecords (List<ACCT_Finder_Request> holders, Account parentAccount) {
+        List<Church_School_Partnership__c> cspRecords = new List<Church_School_Partnership__c>();
+        // Should not create CSP record if there is an existing one
+
+        for (ACCT_Finder_Request holder : holders) {
+            Church_School_Partnership__c cspRecord = new Church_School_Partnership__c();
+
+            if (parentAccount.Type.equals('Church')) {
+                cspRecord.Church_Account__c = parentAccount.Id;
+                cspRecord.School_Account__c = holder.getAccount().Id;
+            } else {
+                cspRecord.Church_Account__c = holder.getAccount().Id;
+                cspRecord.School_Account__c = parentAccount.Id;
+            }
+            cspRecord.Distance__c = holder.threshold;
+            cspRecords.add(cspRecord);
+            System.debug('CSP record in memory: ' + cspRecord);
+        }
+
+        return cspRecords;
+    }
     
-    public static List<Account> findAccounts (ACCT_Finder_Request request) {
+    public static List<Church_School_Partnership__c> findAccounts (ACCT_Finder_Request request) {
         List<Account> accountsToCompare = new List<Account>();
         List<Account> validAccounts = new List<Account>();
-        Integer thresholdDistance = request.threshold;
+        List<ACCT_Finder_Request> holderForSort = new List<ACCT_Finder_Request>();
+        List<ACCT_Finder_Request> cspRequests = new List<ACCT_Finder_Request>();
+        Double thresholdDistance = request.threshold;
         Account inputAccount = [SELECT Name, Type, BillingLatitude, BillingLongitude
                                 FROM Account
                                 WHERE Id = :request.inputAccountId];
@@ -47,29 +70,33 @@ public with sharing class ACCT_Finder {
         
         if (accountsToCompare.size() > 0) {
             for (Account account : accountsToCompare) {
-
-                // Potential improvement: Currently this loop will take the first 100 records that fit the requested proximity. This may leave out other potential accounts
-                // that might be closer but are not touched because the loop breaks. One way would be to not break after hitting 100 records and letting it run through the whole
-                // list, sorting the results by Distance, then trimming that list to 100 and returning that.
-                // 
-                // Max 100 Accounts returned
-                if (validAccounts.size() == 100) {
-                    System.debug('Found 100 Accounts, breaking loop.');
-                    break;
-                }
-
-                Integer distance = ACCT_Finder.calculateDistance(inputAccount, account).intValue();
+                
+                 // Creating holder Objects to sort by Distance
+                ACCT_Finder_Request holder = new ACCT_Finder_Request();
+                Double distance = ACCT_Finder.calculateDistance(inputAccount, account);
                 System.debug('Account ' + account.Name + ' has distance of ' + distance + ' miles.');
 
                 if (distance < thresholdDistance) {
                     System.debug('Found potential Account: ' + account.Name);
-                    validAccounts.add(account);
+                    holder.holdValues(account, distance);
+                    holderForSort.add(holder);
+                    System.debug('Added Account to Holder: ' + holder);
                 }
-
             }
         }
 
-        return validAccounts;
+        System.debug('Sorting by distance');
+        holderForSort.sort();
+        for (Integer i = 0; i < holderForSort.size(); i ++) {
+            if (cspRequests.size() == 100) {
+                break;
+            }
+            System.debug('Holder ' + i + ': ' + holderForSort[i]);
+            validAccounts.add(holderForSort[i].getAccount());
+            cspRequests.add(holderForSort[i]);
+        }
+
+        return createCSPRecords(cspRequests, inputAccount);
     }
 
     // Utility method for calculating distance btwn given input and comparison account
