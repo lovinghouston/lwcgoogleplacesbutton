@@ -22,12 +22,12 @@ public class GooglePlaces {
             // Cast the values in the 'animals' key as a list
             List<Object> results = (List<Object>) googleresults.get('results');
             System.debug('Received the following results:');
-            for (Object result: results) {
-                System.debug(result);
-                System.debug('formatting');
-                Map<String,Object> formatted = (Map<string,Object>) result;
-                System.debug(formatted.get('formatted_address'));
-                System.debug(formatted.get('name'));
+            for (Integer i = 0; i < 5; i ++) {
+                System.debug('raw data: ' + results[i]);
+                Map<String,Object> formatted = (Map<string,Object>) results[i];
+                System.debug('Creating Churches: ');
+                createChurches(formatted);
+                createCSPs(formatted);
 
             }
             System.debug('Status: ' + googleresults.get('status'));
@@ -35,8 +35,32 @@ public class GooglePlaces {
         }
     }
     
-    public static void createChurches(Account account) {
-        
+    public static void createChurches(Map<String,Object> result) {
+        Account church = new Account();
+        church.Name = (String)result.get('Name');
+        System.debug(result.get('formatted_address'));
+        String address = (String)result.get('formatted_address');
+        List<String> fullAddress = formatAddress(address);
+        System.debug('formatted address: ');
+        for (String value : fullAddress) {
+            System.debug(value);
+        }        
+    }
+    
+    public static List<String> formatAddress (String address) {
+        List<String> formatted = address.split(', ');
+        System.debug('List size: ' + formatted.size());
+        if (formatted.size() == 3) {
+            List<String> stateZip = formatted[2].split(' ');
+            formatted.remove(2);
+            for (String value : stateZip) {
+                formatted.add(value);
+            }
+        }
+        return formatted;
+    }
+    
+    public static void createCSPs(Map<String,Object> result) {
         
     }
 }
