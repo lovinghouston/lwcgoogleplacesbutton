@@ -9,10 +9,10 @@ public class GooglePlaces {
         }
         
         // Using the textsearch call instead of nearbyplaces since the former provides formatted addresses. 
-        String googleNerbyPlacesUrl = 'https://maps.googleapis.com/maps/api/place/textsearch/json'+ '?location=' + longitude + ',' + latitude + '&radius=' + radius + '&type=' + type + '&key=' + key;
+        String googleNearbyPlacesUrl = 'https://maps.googleapis.com/maps/api/place/textsearch/json'+ '?location=' + longitude + ',' + latitude + '&radius=' + radius + '&type=' + type + '&key=' + key;
         Http http = new Http();
         HttpRequest request = new HttpRequest();
-        request.setEndpoint(googleNerbyPlacesUrl);
+        request.setEndpoint(googleNearbyPlacesUrl);
         request.setMethod('GET');
         HttpResponse response = http.send(request);
         
@@ -49,15 +49,20 @@ public class GooglePlaces {
     
 
     public static List<Account> createChurches (Map<Integer, Map<String,Object>> bulkData) {
+
+        String churchRecordId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Church').getRecordTypeId();
         List<Account> churches = new List<Account>();
 
         for (Integer index : bulkData.keySet()) {
+
             // Typecasting the address value and using the utility method to format it
             String address = (String)bulkData.get(index).get('formatted_address');
             List<String> formattedAddress = formatAddress(address);
             Account church = new Account();
             
             church.Name = (String)bulkData.get(index).get('name');
+            church.Type = 'Church';
+            church.RecordTypeId = churchRecordId;
             
             if (formattedAddress.size() == 4) {
                 church.BillingStreet = formattedAddress[0];
@@ -67,6 +72,7 @@ public class GooglePlaces {
             }
             
             churches.add(church);
+
         }
         
         try {
@@ -75,7 +81,7 @@ public class GooglePlaces {
             System.debug(e.getMessage());
         }
         
-        for (Account church: churches) {
+        for (Account church : churches) {
             System.debug('Inserted Account id: ' + church.Id);
         }
         
@@ -83,7 +89,29 @@ public class GooglePlaces {
     }
 
     public static void createPotentialCSPs (List<Account> churches, Id account) {
-        
+
+        List<Church_School_Partnership__c> partnerships = new List<Church_School_Partnership__c>();
+
+        for (Account church : churches) {
+
+            Church_School_Partnership__c partnership = new Church_School_Partnership__c();
+            partnership.Church_Account__c = church.Id;
+            partnership.School_Account__c = account;
+            partnership.Status__c = 'Potential';
+            partnership.Church_Status__c = 'Not Ready Yet';
+            partnerships.add(partnership);
+
+        }
+
+        try {
+            insert partnerships;
+        } catch (Exception e) {
+            System.debug(e.getMessage());
+        }
+
+        for (Church_School_Partnership__c partnership : partnerships) {
+            System.debug('Inserted CSP record Id: ' + partnership.Id);
+        }
     }
     
     // Utility method for formatting the address that is returned
