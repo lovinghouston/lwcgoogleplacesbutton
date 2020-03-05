@@ -1,50 +1,26 @@
 public class GooglePlaces {
 
- 	public static void searchPlace (Id account, Decimal longitude, Decimal latitude, Integer radius, String type, String key){
-        
-        // Validation to check if type is church. In the future it would be nice to add functionality to take in different types like School.
-        if (type != 'church') {
-            System.debug('Type needs to be church.');
-            return;
+    @AuraEnabled
+ 	public static List<Church_School_Partnership__c> searchPlace (Id account, Decimal longitude, Decimal latitude, Integer radius, String type, String key){
+
+         // Validation to check if type is church. In the future it would be nice to add functionality to take in different types like School.
+        if (GooglePlacesUtility.validateInputs(account, longitude, latitude, radius, type).equals('invalid')) {
+            return null;
         }
         
-        // Using the textsearch call instead of nearbyplaces since the former provides formatted addresses. 
-        String googleNearbyPlacesUrl = 'https://maps.googleapis.com/maps/api/place/textsearch/json'+ '?location=' + longitude + ',' + latitude + '&radius=' + radius + '&type=' + type + '&key=' + key;
-        Http http = new Http();
-        HttpRequest request = new HttpRequest();
-        request.setEndpoint(googleNearbyPlacesUrl);
-        request.setMethod('GET');
-        HttpResponse response = http.send(request);
+        HttpResponse response = GooglePlacesUtility.createCall(longitude, latitude, radius, key, type);
         
         // If the request is successful, parse the JSON response. Status code is always 200 for Google Maps API
         if (response.getStatusCode() == 200) {
             
             // Deserialize the JSON string into collections of primitive data types.
-            Map<String, Object> googleResults = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
-            Map<Integer, Map<String,Object>> bulkData = new Map<Integer, Map<String,Object>>();
-            // Cast the values in the 'animals' key as a list
-            List<Object> results = (List<Object>) googleResults.get('results');
-            System.debug('Received the following results:');
+            Map<Integer, Map<String,Object>> bulkData = GooglePlacesUtility.processResults(response);            
             
-            for (Integer i = 0; i < results.size(); i ++) {
-                
-            	// Setting the limit of records created to 5 for now. In the future, can add functionality to dynamically create a requested number of records.
-                if (i == 5) {
-                    break;
-                }
-                
-                Map<String,Object> formatted = (Map<string,Object>) results[i];
-                bulkData.put(i, formatted);
-                
-            }
-            
-            // Log any error messages if present.
-            System.debug('Status: ' + googleresults.get('status'));
-            System.debug('Error Message: ' + googleresults.get('error_message'));
             List<Account> churches = createChurches(bulkData);
-            createPotentialCSPs(churches, account);
+            return createPotentialCSPs(churches, account);
             
         }
+        return null;
     }
     
 
@@ -88,7 +64,7 @@ public class GooglePlaces {
         return churches;
     }
 
-    public static void createPotentialCSPs (List<Account> churches, Id account) {
+    public static List<Church_School_Partnership__c> createPotentialCSPs (List<Account> churches, Id account) {
 
         List<Church_School_Partnership__c> partnerships = new List<Church_School_Partnership__c>();
 
@@ -98,7 +74,7 @@ public class GooglePlaces {
             partnership.Church_Account__c = church.Id;
             partnership.School_Account__c = account;
             partnership.Status__c = 'Potential';
-            partnership.Church_Status__c = 'Not Ready Yet';
+            // partnership.Church_Status__c = 'Not Ready Yet';
             partnerships.add(partnership);
 
         }
@@ -109,9 +85,17 @@ public class GooglePlaces {
             System.debug(e.getMessage());
         }
 
+        List<Id> cspIds = new List<Id>();
         for (Church_School_Partnership__c partnership : partnerships) {
             System.debug('Inserted CSP record Id: ' + partnership.Id);
+            cspIds.add(partnership.Id);
         }
+
+        List<Church_School_Partnership__c> queriedPartnerships = [SELECT Name, Church_Name__c, School_Name__c, Id, Status__c
+                                                                    FROM Church_School_Partnership__c
+                                                                    WHERE Id IN :cspIds];
+
+        return queriedPartnerships;
     }
     
     // Utility method for formatting the address that is returned

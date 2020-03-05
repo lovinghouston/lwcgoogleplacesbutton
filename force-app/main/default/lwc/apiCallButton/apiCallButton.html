@@ -1,5 +1,10 @@
 <template>
-    <div class="slds-m-top_small slds-m-bottom_medium">
-        <lightning-button variant="brand-outline" label="Find Churches" title="Primary action with lighter look" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
-    </div>
+    <lightning-card>
+        <lightning-button variant="brand-outline" label="Find Churches" title="findChurchesButton"
+            onclick={handleFindChurchesClick} class="slds-m-left_x-small"></lightning-button>
+    </lightning-card>
+    <template if:true={showCSPs}>
+        <lightning-datatable data={csps} key-field="Id" columns={columns} selected-rows={selectedRows}>
+        </lightning-datatable>
+    </template>
 </template>
