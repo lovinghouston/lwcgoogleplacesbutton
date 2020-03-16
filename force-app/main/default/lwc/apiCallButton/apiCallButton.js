@@ -14,11 +14,13 @@ const FIELDS = [
 ];
 
 const columns = [
-    {label: 'CSP Link', fieldName: 'Id', type: 'url'},
-    {label: 'School', fieldName: 'School_Name__c'},
-    {label: 'Church', fieldName: 'Church_Name__c'},
-    {label: 'Status', fieldName: 'Status__c'},
-    {label: 'Name', fieldName: 'Name'}
+    {label: 'CSP', fieldName: 'cspUrl', type: 'url', typeAttributes: {label: {fieldName: 'cspName'}}},
+    {label: 'School', fieldName: 'schoolUrl' ,type: 'url', typeAttributes: {label: {fieldName: 'schoolName'}}},
+    {label: 'Church', fieldName: 'churchUrl', type: 'url', typeAttributes: {label: {fieldName: 'churchName'}}},
+    {label: 'Status', fieldName: 'status'},
+    {label: 'Website', fieldName: 'website', type: 'url'},
+    {label: 'Google Maps Listing', fieldName: 'googleMapsListing', type: 'url'},
+    {label: 'Phone', fieldName: 'phone', type: 'String'}
 ];
 
 export default class ApiCallButton extends NavigationMixin(LightningElement) {
@@ -57,7 +59,6 @@ export default class ApiCallButton extends NavigationMixin(LightningElement) {
                 this.noCSPs = false;
                 this.csps = result;
                 console.log('CSPs: ' + this.csps);
-                this.generateURLs(this.csps);
                 this.showCSPs = true;
             }
             this.loading = false;

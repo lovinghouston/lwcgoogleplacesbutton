@@ -27,7 +27,7 @@ public with sharing class GooglePlacesUtility {
         return success;
     }
 
-    // Here is where the API call is formed and sent
+    // Textsearch API Call for the initial search
     public static HttpResponse createTextSearchCall(Decimal longitude, Decimal latitude, Integer radius, String key, String type) {
         Http http = new Http();
         HttpRequest request = new HttpRequest();
@@ -37,20 +37,62 @@ public with sharing class GooglePlacesUtility {
         request.setMethod('GET');
 
         HttpResponse response = http.send(request);
-        return response;
+        System.debug('Text Search status code: ' + response.getStatusCode());
+        System.debug('Text Search status: ' + response.getStatus());
+        if (response.getStatusCode() == 200) {
+            return response;
+        }
+
+        return null;
     }
 
+    // Details call for more information about each place (placeId is from textSearch call)
+    public static HttpResponse createDetailsCall(String key, String placeId) {
+        Http http = new Http();
+        HttpRequest request = new HttpRequest();
+        String googleDetailsUrl = 'https://maps.googleapis.com/maps/api/place/details/json'+ '?place_id=' + placeId + '&key=' + key;
+
+        request.setEndpoint(googleDetailsUrl);
+        request.setMethod('GET');
+
+        HttpResponse response = http.send(request);
+        System.debug('Details Call status code: ' + response.getStatusCode());
+        System.debug('Details Call status: ' + response.getStatus());
+        if (response.getStatusCode() == 200) {
+            return response;
+        } 
+
+        return null;
+    }
+
+    // Transform the returned Google response into readable Map
     public static Map<Integer, Map<String,Object>> processResults(HttpResponse response) {
 
         Map<Integer, Map<String,Object>> bulkData = new Map<Integer, Map<String,Object>>();
         Map<String, Object> googleResults = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+        System.debug('google Results: ' + googleResults);
         List<Object> results = (List<Object>) googleResults.get('results');
         
         for (Integer i = 0; i < results.size(); i ++) {
 
-            Map<String,Object> formatted = (Map<string,Object>) results[i];
+            Map<String,Object> formatted = (Map<String,Object>) results[i];
             bulkData.put(i, formatted);
 
+        }
+
+        for (Integer i = 0; i < bulkData.keySet().size(); i ++) {
+
+            Map<String, Object> bulkDataDetails = bulkData.get(i);
+            HttpResponse detailsResponse = createDetailsCall('AIzaSyBJYW5TNtGJ10l9CxUoy0RHJSb6zlbilPk', (String)bulkDataDetails.get('place_id'));
+            Map<String, Object> detailsData = (Map<String, Object>) JSON.deserializeUntyped(detailsResponse.getBody());
+            Map<String, Object> detailsResults = (Map<String, Object>) detailsData.get('result');
+            bulkDataDetails.putAll(detailsResults);
+        }
+
+        for (Integer index : bulkData.keySet()) {
+            for (String key : bulkData.get(index).keySet()) {
+                System.debug(key + ' : ' + bulkData.get(index).get(key));
+            }
         }
 
         // Log any error messages if present.
@@ -58,82 +100,37 @@ public with sharing class GooglePlacesUtility {
         System.debug('Error Message: ' + googleResults.get('error_message'));
         
         return bulkData;
-    } 
+    }
 
-    
-    public static Map<String, List<Account>> checkAccountDupes (List<Account> rawChurches) {
+    // Utility method for formatting the address that is returned
+    public static List<String> formatAddress (String address) {
+        
+        // Google provides formatted address like the following: 123 Sunny drive, Los Angeles, CA 90210.
+        // Because of this, I'm currently doing two split methods. If the first split does not provide three items, I assume that street is not given and do not enter the address values for the Account record.
+        // First split
+        List<String> formatted = address.split(', ');
 
-        Map<String, List<Account>> churches = new Map<String, List<Account>>();
-        List<Datacloud.FindDuplicatesResult> dupeResults;
-        List<Account> processedChurches = new List<Account>();
-        List<Account> dupeChurches = new List<Account>();
-      
-        try {
-            dupeResults = Datacloud.FindDuplicates.findDuplicates(rawChurches);
-        } catch (Exception e) {
-            System.debug(e.getMessage());
-            return null;
-        }
-
-        System.debug('Dupe results size ' + dupeResults.size());
-        System.debug('dupe results: ' + dupeResults);
-
-        for (Integer i = 0; i < dupeResults.size(); i ++) {
-
-            for (Datacloud.DuplicateResult result : dupeResults[i].getDuplicateResults()) {
-
-                if (result.matchResults.size() > 0 && result.getMatchResults()[0].matchRecords.size() > 0) {
-
-                    System.debug('Duplicate found.');
-                    System.debug('Duplicate Rule: ' + result.getDuplicateRule());
-
-                    for (Datacloud.MatchResult matchResult : result.getMatchResults()) {
-
-                        System.debug('Matching Rule: ' + matchResult.getRule());
-                        System.debug('Matches found: ' + matchResult.getSize());
-
-                        for (Datacloud.MatchRecord matchRecord : matchResult.getMatchRecords()) {
-                            System.debug('Match record: ' + matchRecord.getRecord());
-                            dupeChurches.add((Account)matchRecord.getRecord());
-                        }
-                    }
-
-                } else {
-
-                    processedChurches.add(rawChurches[i]);
-
-                }
-                
+        if (formatted.size() == 3) {
+            // Second split
+            List<String> stateZip = formatted[2].split(' ');
+            // Removing the "CA 90210" item to replace with separated ones.
+            formatted.remove(2);
+            for (String value : stateZip) {
+                formatted.add(value);
             }
         }
 
-        churches.put('Dupes', dupeChurches);
-        churches.put('Non-dupes', processedChurches);
-
-        return churches;
+        return formatted;
     }
 
-    public static List<Account> checkCSPDupes(List<Account> churches, Id school) {
+    public static void calculateDistance (Account school, Account church) {
+        Address schoolLoc = school.BillingAddress;
+        Address churchLoc = church.BillingAddress;
 
-        Map<Id, Account> churchesById = new Map<Id, Account>();
+        System.debug('School location: ' + schoolLoc);
+        System.debug('church locatin: ' + churchLoc);
 
-        for (Account church : churches) {
-            churchesById.put(church.Id, church);
-        }
-
-        List<Church_School_Partnership__c> dupes = [SELECT Id, Church_Account__c, School_Account__c
-                                                    FROM Church_School_Partnership__c
-                                                    WHERE School_Account__c = :school
-                                                    AND Church_Account__c IN :churchesById.keySet()];
-
-        if (dupes.size() > 0) {
-
-            for (Church_School_Partnership__c dupe : dupes) {
-                churchesById.remove(dupe.Church_Account__c);
-            }
-        }
-
-        return churchesById.values();
+        System.debug('Distance: ' + schoolLoc.getDistance(churchLoc, 'mi'));
+        
     }
-
 }
