@@ -1,10 +1,16 @@
 <template>
     <lightning-card>
-        <lightning-button variant="brand-outline" label="Find Churches" title="findChurchesButton"
-            onclick={handleFindChurchesClick} class="slds-m-left_x-small"></lightning-button>
+        <lightning-button variant="brand-outline" label="Find Closest Churches" title="findChurchesButton"
+            onclick={handleFindChurchesClick} class="slds-m-left_small"></lightning-button>
+            <template if:true={loading}>
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </template>
+            <template if:true={noCSPs}>
+                <lightning-formatted-text class="slds-p-left_medium" value="20 closest Churches have already been found and created"></lightning-formatted-text>
+            </template>
     </lightning-card>
-    <template if:true={showCSPs}>
-        <lightning-datatable data={csps} key-field="Id" columns={columns} selected-rows={selectedRows}>
+    <template class="slds-p-top_medium" if:true={showCSPs}>
+        <lightning-datatable class="slds-p-top_medium" data={csps} key-field="Id" columns={columns}>
         </lightning-datatable>
     </template>
 </template>

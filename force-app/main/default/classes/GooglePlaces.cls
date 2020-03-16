@@ -8,7 +8,7 @@ public class GooglePlaces {
             return null;
         }
         
-        HttpResponse response = GooglePlacesUtility.createCall(longitude, latitude, radius, key, type);
+        HttpResponse response = GooglePlacesUtility.createTextSearchCall(longitude, latitude, radius, key, type);
         
         // If the request is successful, parse the JSON response. Status code is always 200 for Google Maps API
         if (response.getStatusCode() == 200) {
@@ -16,21 +16,34 @@ public class GooglePlaces {
             // Deserialize the JSON string into collections of primitive data types.
             Map<Integer, Map<String,Object>> bulkData = GooglePlacesUtility.processResults(response);            
             
-            List<Account> churches = createChurches(bulkData);
-            return createPotentialCSPs(churches, account);
-            
+            // Check for dupes here
+            // List<Account> nonDupes = GooglePlacesUtility.checkDupes(bulkData)
+            // List<Account> churches = createChurches(nonDupes)
+            List<Account> rawChurches = createRawChurches(bulkData);
+            Map<String, List<Account>> processedChurches = GooglePlacesUtility.checkAccountDupes(rawchurches);
+            if (processedChurches == null) {
+                System.debug('Dupe check failed, breaking call.');
+                return null;
+            }
+            List<Account> churchesNeedCSP = GooglePlacesUtility.checkCSPDupes(processedChurches.get('Dupes'), account);
+            churchesNeedCSP.addAll(createProcessedChurches(processedChurches.get('Non-dupes')));
+            return createPotentialCSPs(churchesNeedCSP, account);
         }
         return null;
     }
     
 
-    public static List<Account> createChurches (Map<Integer, Map<String,Object>> bulkData) {
+    public static List<Account> createRawChurches (Map<Integer, Map<String,Object>> bulkData) {
 
         String churchRecordId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Church').getRecordTypeId();
         List<Account> churches = new List<Account>();
+        Integer i = 1;
 
         for (Integer index : bulkData.keySet()) {
 
+            if (i == 50) {
+                break;
+            }
             // Typecasting the address value and using the utility method to format it
             String address = (String)bulkData.get(index).get('formatted_address');
             List<String> formattedAddress = formatAddress(address);
@@ -45,26 +58,32 @@ public class GooglePlaces {
                 church.BillingCity = formattedAddress[1];
                 church.BillingState = formattedAddress[2];
                 church.BillingPostalCode = formattedAddress[3];
+                churches.add(church);
             }
             
-            churches.add(church);
-
-        }
-        
-        try {
-            insert churches;
-        } catch (Exception e) {
-            System.debug(e.getMessage());
-        }
-        
-        for (Account church : churches) {
-            System.debug('Inserted Account id: ' + church.Id);
+            i ++;
         }
         
         return churches;
     }
 
+    public static List<Account> createProcessedChurches (List<Account> processedChurches) {
+
+        try {
+            insert processedChurches;
+        } catch (Exception e) {
+            System.debug(e.getMessage());
+        }
+
+        return processedChurches;
+
+    }
+
     public static List<Church_School_Partnership__c> createPotentialCSPs (List<Account> churches, Id account) {
+        
+        if (churches.size() == 0) {
+            System.debug('20 closest Churches have already been found and created');
+        }
 
         List<Church_School_Partnership__c> partnerships = new List<Church_School_Partnership__c>();
 
