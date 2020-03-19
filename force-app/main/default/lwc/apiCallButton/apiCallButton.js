@@ -15,12 +15,11 @@ const FIELDS = [
 
 const columns = [
     {label: 'CSP', fieldName: 'cspUrl', type: 'url', typeAttributes: {label: {fieldName: 'cspName'}}},
-    {label: 'School', fieldName: 'schoolUrl' ,type: 'url', typeAttributes: {label: {fieldName: 'schoolName'}}},
     {label: 'Church', fieldName: 'churchUrl', type: 'url', typeAttributes: {label: {fieldName: 'churchName'}}},
-    {label: 'Status', fieldName: 'status'},
     {label: 'Website', fieldName: 'website', type: 'url'},
     {label: 'Google Maps Listing', fieldName: 'googleMapsListing', type: 'url'},
-    {label: 'Phone', fieldName: 'phone', type: 'String'}
+    {label: 'Phone', fieldName: 'phone', type: 'String'},
+    {label: 'Distance', fieldName: 'distance', type: 'number', cellAttributes: { alignment: 'left' }}
 ];
 
 export default class ApiCallButton extends NavigationMixin(LightningElement) {

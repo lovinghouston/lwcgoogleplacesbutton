@@ -94,6 +94,10 @@ public with sharing class GooglePlacesDML {
 
         }
 
+        for (Church_School_Partnership__c csp : partnerships) {
+            System.debug('CSP: ' + csp);
+        }
+
         try {
             insert partnerships;
         } catch (Exception e) {

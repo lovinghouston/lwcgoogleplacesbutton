@@ -42,22 +42,27 @@ public class GooglePlaces {
     public static List<DataTableWrapper> wrapCSPs (List<Church_School_Partnership__c> csps) {
         List<DataTableWrapper> wrappers = new List<DataTableWrapper>();
         Set<Id> accountIds = new Set<Id>();
+        Set<Id> cspIds = new Set<Id>();
         Map<Id, Account> accounts = new Map<Id, Account>();
         
         for (Church_School_Partnership__c csp : csps) {
             accountIds.add(csp.School_Account__c);
             accountIds.add(csp.Church_Account__c);
+            cspIds.add(csp.Id);
         }
 
         List<Account> schools = [SELECT Id, Name FROM Account WHERE Type = 'School' AND Id IN :accountIds];
         List<Account> churches = [SELECT Id, Name, Website, Phone, Google_Maps_Listing__c FROM Account WHERE Type = 'Church' AND Id IN :accountIds];
+        List<Church_School_Partnership__c> partnerships = [SELECT Id, Name, School_Account__c, School_Name__c, Church_Account__c, Church_Name__c, Status__c,Church_School_Disatnce__c
+                                                            FROM Church_School_Partnership__c 
+                                                            WHERE Id IN :cspIds];
         churches.addAll(schools);
 
         for (Account account : churches) {
             accounts.put(account.Id, account);
         }
 
-        for (Church_School_Partnership__c csp : csps) {
+        for (Church_School_Partnership__c csp : partnerships) {
             DataTableWrapper wrapper = new DataTableWrapper();
             wrapper.cspUrl = '/' + csp.Id;
             wrapper.cspName = csp.Name;
@@ -69,6 +74,7 @@ public class GooglePlaces {
             wrapper.website = accounts.get(csp.Church_Account__c).Website;
             wrapper.googleMapsListing = accounts.get(csp.Church_Account__c).Google_Maps_Listing__c;
             wrapper.phone = accounts.get(csp.Church_Account__c).Phone;
+            wrapper.distance = csp.Church_School_Disatnce__c;
             wrappers.add(wrapper);
         }
 
@@ -97,5 +103,7 @@ public class GooglePlaces {
         public String googleMapsListing {get; set;}
         @AuraEnabled
         public String phone {get; set;}
+        @AuraEnabled
+        public Decimal distance {get; set;}
     }
 }

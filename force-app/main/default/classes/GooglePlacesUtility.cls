@@ -9,7 +9,7 @@ public with sharing class GooglePlacesUtility {
     public static String validateInputs(Id account, Decimal longitude, Decimal latitude, Integer radius, String type) {
 
         String success = 'valid';
-        if (type != 'church') {
+        if (!type.equalsIgnoreCase('church')) {
             System.debug('Type needs to be church.');
             success = 'invalid';
         }
