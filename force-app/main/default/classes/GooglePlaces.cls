@@ -1,7 +1,7 @@
 public class GooglePlaces {
 
     @AuraEnabled
- 	public static List<Church_School_Partnership__c> searchPlace (Id account, Decimal longitude, Decimal latitude, Integer radius, String type, String key){
+ 	public static List<DataTableWrapper> searchPlace (Id account, Decimal longitude, Decimal latitude, Integer radius, String type, String key){
 
          // Validation to check if type is church. In the future it would be nice to add functionality to take in different types like School.
         if (GooglePlacesUtility.validateInputs(account, longitude, latitude, radius, type).equals('invalid')) {
@@ -14,127 +14,88 @@ public class GooglePlaces {
         if (response.getStatusCode() == 200) {
             
             // Deserialize the JSON string into collections of primitive data types.
-            Map<Integer, Map<String,Object>> bulkData = GooglePlacesUtility.processResults(response);            
-            
-            // Check for dupes here
-            // List<Account> nonDupes = GooglePlacesUtility.checkDupes(bulkData)
-            // List<Account> churches = createChurches(nonDupes)
-            List<Account> rawChurches = createRawChurches(bulkData);
-            Map<String, List<Account>> processedChurches = GooglePlacesUtility.checkAccountDupes(rawchurches);
+            Map<Integer, Map<String,Object>> bulkData = GooglePlacesUtility.processResults(response); 
+            // Create "raw" churches that will be checked for duplicates.           
+            List<Account> rawChurches = GooglePlacesDML.createRawChurches(bulkData);
+            Map<String, List<Account>> processedChurches = GooglePlacesDupeChecker.checkAccountDupes(rawchurches);
+            List<Account> churchesNeedCSP = new List<Account>();
+
             if (processedChurches == null) {
-                System.debug('Dupe check failed, breaking call.');
-                return null;
+                // If no dupes, all churches will need CSPs
+                System.debug('Found no Duplicates');
+                processedChurches.put('Non-dupes', rawChurches);
+            } else {
+                // The matched records will go through a check to see if CSPs exist for them
+                System.debug('Found duplicates');
+                churchesNeedCSP = GooglePlacesDupeChecker.checkCSPDupes(processedChurches.get('Dupes'), account);
             }
-            List<Account> churchesNeedCSP = GooglePlacesUtility.checkCSPDupes(processedChurches.get('Dupes'), account);
-            churchesNeedCSP.addAll(createProcessedChurches(processedChurches.get('Non-dupes')));
-            return createPotentialCSPs(churchesNeedCSP, account);
+            
+            // Raw churches will be inserted
+            churchesNeedCSP.addAll(GooglePlacesDML.createProcessedChurches(processedChurches.get('Non-dupes')));
+            List<Church_School_Partnership__c> csps = GooglePlacesDML.createPotentialCSPs(churchesNeedCSP, account);
+            return wrapCSPs(csps);
         }
         return null;
     }
-    
 
-    public static List<Account> createRawChurches (Map<Integer, Map<String,Object>> bulkData) {
-
-        String churchRecordId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Church').getRecordTypeId();
-        List<Account> churches = new List<Account>();
-        Integer i = 1;
-
-        for (Integer index : bulkData.keySet()) {
-
-            if (i == 50) {
-                break;
-            }
-            // Typecasting the address value and using the utility method to format it
-            String address = (String)bulkData.get(index).get('formatted_address');
-            List<String> formattedAddress = formatAddress(address);
-            Account church = new Account();
-            
-            church.Name = (String)bulkData.get(index).get('name');
-            church.Type = 'Church';
-            church.RecordTypeId = churchRecordId;
-            
-            if (formattedAddress.size() == 4) {
-                church.BillingStreet = formattedAddress[0];
-                church.BillingCity = formattedAddress[1];
-                church.BillingState = formattedAddress[2];
-                church.BillingPostalCode = formattedAddress[3];
-                churches.add(church);
-            }
-            
-            i ++;
-        }
+    // Translate CSP data into readable wrappers for LWC component. This allows URLs to be sent in name format
+    public static List<DataTableWrapper> wrapCSPs (List<Church_School_Partnership__c> csps) {
+        List<DataTableWrapper> wrappers = new List<DataTableWrapper>();
+        Set<Id> accountIds = new Set<Id>();
+        Map<Id, Account> accounts = new Map<Id, Account>();
         
-        return churches;
+        for (Church_School_Partnership__c csp : csps) {
+            accountIds.add(csp.School_Account__c);
+            accountIds.add(csp.Church_Account__c);
+        }
+
+        List<Account> schools = [SELECT Id, Name FROM Account WHERE Type = 'School' AND Id IN :accountIds];
+        List<Account> churches = [SELECT Id, Name, Website, Phone, Google_Maps_Listing__c FROM Account WHERE Type = 'Church' AND Id IN :accountIds];
+        churches.addAll(schools);
+
+        for (Account account : churches) {
+            accounts.put(account.Id, account);
+        }
+
+        for (Church_School_Partnership__c csp : csps) {
+            DataTableWrapper wrapper = new DataTableWrapper();
+            wrapper.cspUrl = '/' + csp.Id;
+            wrapper.cspName = csp.Name;
+            wrapper.schoolUrl = '/' + csp.School_Account__c;
+            wrapper.schoolName = csp.School_Name__c;
+            wrapper.churchUrl = '/' + csp.Church_Account__c;
+            wrapper.churchName = csp.Church_Name__c;
+            wrapper.status = csp.Status__c;
+            wrapper.website = accounts.get(csp.Church_Account__c).Website;
+            wrapper.googleMapsListing = accounts.get(csp.Church_Account__c).Google_Maps_Listing__c;
+            wrapper.phone = accounts.get(csp.Church_Account__c).Phone;
+            wrappers.add(wrapper);
+        }
+
+        return wrappers;
     }
 
-    public static List<Account> createProcessedChurches (List<Account> processedChurches) {
-
-        try {
-            insert processedChurches;
-        } catch (Exception e) {
-            System.debug(e.getMessage());
-        }
-
-        return processedChurches;
-
-    }
-
-    public static List<Church_School_Partnership__c> createPotentialCSPs (List<Account> churches, Id account) {
-        
-        if (churches.size() == 0) {
-            System.debug('20 closest Churches have already been found and created');
-        }
-
-        List<Church_School_Partnership__c> partnerships = new List<Church_School_Partnership__c>();
-
-        for (Account church : churches) {
-
-            Church_School_Partnership__c partnership = new Church_School_Partnership__c();
-            partnership.Church_Account__c = church.Id;
-            partnership.School_Account__c = account;
-            partnership.Status__c = 'Potential';
-            // partnership.Church_Status__c = 'Not Ready Yet';
-            partnerships.add(partnership);
-
-        }
-
-        try {
-            insert partnerships;
-        } catch (Exception e) {
-            System.debug(e.getMessage());
-        }
-
-        List<Id> cspIds = new List<Id>();
-        for (Church_School_Partnership__c partnership : partnerships) {
-            System.debug('Inserted CSP record Id: ' + partnership.Id);
-            cspIds.add(partnership.Id);
-        }
-
-        List<Church_School_Partnership__c> queriedPartnerships = [SELECT Name, Church_Name__c, School_Name__c, Id, Status__c
-                                                                    FROM Church_School_Partnership__c
-                                                                    WHERE Id IN :cspIds];
-
-        return queriedPartnerships;
-    }
-    
-    // Utility method for formatting the address that is returned
-    public static List<String> formatAddress (String address) {
-        
-        // Google provides formatted address like the following: 123 Sunny drive, Los Angeles, CA 90210.
-        // Because of this, I'm currently doing two split methods. If the first split does not provide three items, I assume that street is not given and do not enter the address values for the Account record.
-        // First split
-        List<String> formatted = address.split(', ');
-
-        if (formatted.size() == 3) {
-            // Second split
-            List<String> stateZip = formatted[2].split(' ');
-            // Removing the "CA 90210" item to replace with separated ones.
-            formatted.remove(2);
-            for (String value : stateZip) {
-                formatted.add(value);
-            }
-        }
-
-        return formatted;
+    // Wrapper class for sending data back to LWC component
+    private class DataTableWrapper {
+        @AuraEnabled
+        public String cspUrl {get; set;}
+        @AuraEnabled
+        public String schoolUrl {get; set;}
+        @AuraEnabled
+        public String churchUrl {get; set;}
+        @AuraEnabled
+        public String status {get; set;}
+        @AuraEnabled
+        public String cspName {get; set;}
+        @AuraEnabled
+        public String schoolName {get; set;}
+        @AuraEnabled
+        public String churchName {get; set;}
+        @AuraEnabled
+        public String website {get; set;}
+        @AuraEnabled
+        public String googleMapsListing {get; set;}
+        @AuraEnabled
+        public String phone {get; set;}
     }
 }
