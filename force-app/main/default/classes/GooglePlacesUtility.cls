@@ -103,34 +103,46 @@ public with sharing class GooglePlacesUtility {
     }
 
     // Utility method for formatting the address that is returned
-    public static List<String> formatAddress (String address) {
+    public static Map<String, String> formatAddress (List<Object> addresses) {
+        Map<String, String> formatted = new Map<String, String>();
         
-        // Google provides formatted address like the following: 123 Sunny drive, Los Angeles, CA 90210.
-        // Because of this, I'm currently doing two split methods. If the first split does not provide three items, I assume that street is not given and do not enter the address values for the Account record.
-        // First split
-        List<String> formatted = address.split(', ');
+        System.debug('NEW CHURCH');
+        for (Object address : addresses) {
+            Map<String, Object> component = (Map<String, Object>) address;
+            for (String key : component.keySet()) {
 
-        if (formatted.size() == 3) {
-            // Second split
-            List<String> stateZip = formatted[2].split(' ');
-            // Removing the "CA 90210" item to replace with separated ones.
-            formatted.remove(2);
-            for (String value : stateZip) {
-                formatted.add(value);
+                if (key.equals('types')) {
+
+                    List<String> typeStrings = new List<String>();
+                    List<Object> typesObjects = (List<Object>) component.get(key);
+
+                    for (Object typeObject : typesObjects) {
+                        typeStrings.add(String.valueOf(typeObject));
+                    }
+
+                    if (typeStrings.contains('street_number')) { formatted.put('Street Number', (String)component.get('long_name')); }
+                    if (typeStrings.contains('route')) { formatted.put('Street Name', (String)component.get('long_name')); }
+                    if (typeStrings.contains('locality')) { formatted.put('City', (String)component.get('long_name')); }
+                    if (typeStrings.contains('administrative_area_level_1')) { formatted.put('State', (String)component.get('long_name')); }
+                    if (typeStrings.contains('country')) { formatted.put('Country', (String)component.get('long_name')); }
+                    if (typeStrings.contains('postal_code')) { formatted.put('Zip', (String)component.get('long_name')); }
+                }
             }
         }
 
+        System.debug(formatted);
         return formatted;
     }
 
-    public static void calculateDistance (Account school, Account church) {
+    public static Double calculateDistance (Account school, Account church) {
         Address schoolLoc = school.BillingAddress;
         Address churchLoc = church.BillingAddress;
 
-        System.debug('School location: ' + schoolLoc);
-        System.debug('church locatin: ' + churchLoc);
+        if (schoolLoc == null || churchLoc == null) {
+            System.debug('could not compute location');
+            return 0;
+        }
 
-        System.debug('Distance: ' + schoolLoc.getDistance(churchLoc, 'mi'));
-        
+        return schoolLoc.getDistance(churchLoc, 'mi');      
     }
 }
