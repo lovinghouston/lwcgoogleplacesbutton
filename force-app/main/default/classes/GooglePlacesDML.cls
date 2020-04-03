@@ -26,6 +26,8 @@ public with sharing class GooglePlacesDML {
             if (bulkDataDetails.containsKey('website')) {church.Website = (String)bulkDataDetails.get('website');}
             if (bulkDataDetails.containsKey('url')) {church.Google_Maps_Listing__c = (String)bulkDataDetails.get('url');}
             if (bulkDataDetails.containsKey('formatted_phone_number')) {church.Phone = (String)bulkDataDetails.get('formatted_phone_number');}
+            if (bulkDataDetails.containsKey('rating')) {church.Google_Maps_Rating__c = (Double)bulkDataDetails.get('rating');}
+            if (bulkDataDetails.containsKey('user_ratings_total')) {church.Number_of_Google_Maps_Ratings__c = (Double)bulkDataDetails.get('user_ratings_total');}
             church.RecordTypeId = churchRecordId;
             
             
@@ -92,6 +94,10 @@ public with sharing class GooglePlacesDML {
             // partnership.Church_Status__c = 'Not Ready Yet';
             partnerships.add(partnership);
 
+        }
+
+        for (Church_School_Partnership__c csp : partnerships) {
+            System.debug('CSP: ' + csp);
         }
 
         try {
