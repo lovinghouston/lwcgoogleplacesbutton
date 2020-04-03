@@ -1,20 +1,25 @@
 public class GooglePlaces {
 
     @AuraEnabled
- 	public static List<DataTableWrapper> searchPlace (Id account, Decimal longitude, Decimal latitude, Integer radius, String type, String key){
+ 	public static List<DataTableWrapper> searchPlace (Id account, Decimal longitude, Decimal latitude, Integer radius, String type){
 
          // Validation to check if type is church. In the future it would be nice to add functionality to take in different types like School.
         if (GooglePlacesUtility.validateInputs(account, longitude, latitude, radius, type).equals('invalid')) {
             return null;
         }
         
-        HttpResponse response = GooglePlacesUtility.createTextSearchCall(longitude, latitude, radius, key, type);
+        Google_API_Key__mdt googleKey = [SELECT Id, Value__c
+                                        FROM Google_API_Key__mdt
+                                        LIMIT 1];
+        String apiKey = (String)googleKey.Value__c;
+
+        HttpResponse response = GooglePlacesUtility.createTextSearchCall(longitude, latitude, radius, apiKey, 'church');
         
         // If the request is successful, parse the JSON response. Status code is always 200 for Google Maps API
         if (response.getStatusCode() == 200) {
             
             // Deserialize the JSON string into collections of primitive data types.
-            Map<Integer, Map<String,Object>> bulkData = GooglePlacesUtility.processResults(response); 
+            Map<Integer, Map<String,Object>> bulkData = GooglePlacesUtility.processResults(response, apiKey); 
             // Create "raw" churches that will be checked for duplicates.           
             List<Account> rawChurches = GooglePlacesDML.createRawChurches(bulkData);
             Map<String, List<Account>> processedChurches = GooglePlacesDupeChecker.checkAccountDupes(rawchurches);

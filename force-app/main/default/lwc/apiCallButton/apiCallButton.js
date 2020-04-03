@@ -56,9 +56,8 @@ export default class ApiCallButton extends NavigationMixin(LightningElement) {
             account: this.recordId,
             longitude: this.account.data.fields.BillingLongitude.value,
             latitude: this.account.data.fields.BillingLatitude.value,
-            radius: 5,
+            radius: 20,
             type: this.account.data.fields.Type.value,
-            key: 'AIzaSyBJYW5TNtGJ10l9CxUoy0RHJSb6zlbilPk'
         }).then(result => {
             console.log('Result: ' + result);
             if (result.length === 0) {
