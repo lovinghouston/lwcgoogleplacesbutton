@@ -9,14 +9,14 @@ public with sharing class GooglePlacesUtility {
     public static String validateInputs(Id account, Decimal longitude, Decimal latitude, Integer radius, String type) {
 
         String success = 'valid';
-        if (!type.equalsIgnoreCase('church')) {
-            System.debug('Type needs to be church.');
-            success = 'invalid';
+        if (!type.equalsIgnoreCase('school')) {
+            System.debug('Type needs to be school.');
+            throw new AuraHandledException('Type needs to be school.');
         }
 
         if (longitude == null || latitude == null) {
             System.debug('Longitude and latitude are invalid');
-            success = 'invalid';
+            throw new AuraHandledException('Account Longitude and/or latitude are invalid.');
         }
 
         if (radius > 100) {
