@@ -17,8 +17,8 @@ public with sharing class GooglePlacesDML {
                 break;
             }
             // Typecasting the address value and using the utility method to format it
-            String address = (String)bulkDataDetails.get('formatted_address');
-            List<String> formattedAddress = GooglePlacesUtility.formatAddress(address);
+            System.debug('Address for ' + (String)bulkDataDetails.get('name'));
+            Map<String, String> formattedAddress = GooglePlacesUtility.formatAddress((List<Object>)bulkDataDetails.get('address_components'));
             Account church = new Account();
             
             church.Name = (String)bulkDataDetails.get('name');
@@ -26,17 +26,26 @@ public with sharing class GooglePlacesDML {
             if (bulkDataDetails.containsKey('website')) {church.Website = (String)bulkDataDetails.get('website');}
             if (bulkDataDetails.containsKey('url')) {church.Google_Maps_Listing__c = (String)bulkDataDetails.get('url');}
             if (bulkDataDetails.containsKey('formatted_phone_number')) {church.Phone = (String)bulkDataDetails.get('formatted_phone_number');}
+            if (bulkDataDetails.containsKey('rating')) {church.Google_Maps_Rating__c = (Double)bulkDataDetails.get('rating');}
+            if (bulkDataDetails.containsKey('user_ratings_total')) {church.Number_of_Google_Maps_Ratings__c = (Double)bulkDataDetails.get('user_ratings_total');}
             church.RecordTypeId = churchRecordId;
             
-            if (formattedAddress.size() == 4) {
-                church.BillingStreet = formattedAddress[0];
-                church.BillingCity = formattedAddress[1];
-                church.BillingState = formattedAddress[2];
-                church.BillingPostalCode = formattedAddress[3];
+            
+            if (formattedAddress.keySet().size() >= 5) {
+                if (formattedAddress.get('Street Number') == null) {
+                    church.BillingStreet = formattedAddress.get('Street Name');
+                } else {
+                    church.BillingStreet = formattedAddress.get('Street Number') + ' ' + formattedAddress.get('Street Name');
+                }
+                church.BillingCity = formattedAddress.get('City');
+                church.BillingState = formattedAddress.get('State');
+                church.BillingPostalCode = formattedAddress.get('Zip');
+                church.BillingCountry = formattedAddress.get('Country');
                 churches.add(church);
             } else {
                 System.debug('Invalid address for ' + church.Name + '. Address: ' + formattedAddress);
             }
+            
 
             for (String key : bulkDataDetails.keySet()) {
                 church.Google_API_Place_Details_Response__c += key + ' : ' + bulkDataDetails.get(key);
@@ -57,6 +66,10 @@ public with sharing class GooglePlacesDML {
             System.debug(e.getMessage());
         }
 
+        for (Account account : processedChurches) {
+            System.debug('Processed Church: ' + account.Id);
+        }
+
         return processedChurches;
 
     }
@@ -73,13 +86,18 @@ public with sharing class GooglePlacesDML {
         for (Account church : churches) {
 
             Church_School_Partnership__c partnership = new Church_School_Partnership__c();
+            System.debug('Creating partnership for ' + church);
             partnership.Church_Account__c = church.Id;
             partnership.School_Account__c = account;
             partnership.Status__c = 'Potential';
-            GooglePlacesUtility.calculateDistance(school, church);
+            // GooglePlacesUtility.calculateDistance(school, church);
             // partnership.Church_Status__c = 'Not Ready Yet';
             partnerships.add(partnership);
 
+        }
+
+        for (Church_School_Partnership__c csp : partnerships) {
+            System.debug('CSP: ' + csp);
         }
 
         try {

@@ -15,12 +15,17 @@ const FIELDS = [
 
 const columns = [
     {label: 'CSP', fieldName: 'cspUrl', type: 'url', typeAttributes: {label: {fieldName: 'cspName'}}},
-    {label: 'School', fieldName: 'schoolUrl' ,type: 'url', typeAttributes: {label: {fieldName: 'schoolName'}}},
     {label: 'Church', fieldName: 'churchUrl', type: 'url', typeAttributes: {label: {fieldName: 'churchName'}}},
-    {label: 'Status', fieldName: 'status'},
     {label: 'Website', fieldName: 'website', type: 'url'},
     {label: 'Google Maps Listing', fieldName: 'googleMapsListing', type: 'url'},
+    {label: 'Google Maps Rating', fieldName: 'googleMapsRating', type: 'number', cellAttributes: { alignment: 'left' }},
+    {label: 'Number of Ratings ', fieldName: 'googleMapsRatingAmount', type: 'number', cellAttributes: { alignment: 'left' }},
     {label: 'Phone', fieldName: 'phone', type: 'String'}
+
+    /* 
+    Removing Distance for now since it is calculated incorrectly at first
+    {label: 'Distance', fieldName: 'distance', type: 'number', cellAttributes: { alignment: 'left' }}
+    */
 ];
 
 export default class ApiCallButton extends NavigationMixin(LightningElement) {
@@ -66,23 +71,5 @@ export default class ApiCallButton extends NavigationMixin(LightningElement) {
         .catch(error => {
             console.log('Error: ' + error);
         });
-    }
-
-    generateURLs(partnerships) {
-
-        let entries = Object.entries(partnerships);
-        console.log('generating URL: ');
-        for (let [key, value] of Object.entries(partnerships)) {
-            this[NavigationMixin.GenerateUrl]({
-                type: 'standard__recordPage',
-                attributes: {
-                    recordId: value.Id,
-                    actionName: 'view',
-                },
-            }).then(url => {
-                console.log(value);
-                value.Id = url;
-            });
-        }
     }
 }

@@ -75,6 +75,7 @@ public with sharing class GooglePlacesDupeChecker {
             }
         }
 
+        System.debug('Churches By Id: ' + churchesById);
         return churchesById.values();
     }
 }
