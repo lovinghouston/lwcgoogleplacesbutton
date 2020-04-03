@@ -7,15 +7,11 @@ public with sharing class GooglePlacesDML {
 
         String churchRecordId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Church').getRecordTypeId();
         List<Account> churches = new List<Account>();
-        Integer i = 1;
 
         for (Integer index : bulkData.keySet()) {
 
             Map<String, Object> bulkDataDetails = bulkData.get(index);
 
-            if (i == 50) {
-                break;
-            }
             // Typecasting the address value and using the utility method to format it
             System.debug('Address for ' + (String)bulkDataDetails.get('name'));
             Map<String, String> formattedAddress = GooglePlacesUtility.formatAddress((List<Object>)bulkDataDetails.get('address_components'));
@@ -52,7 +48,6 @@ public with sharing class GooglePlacesDML {
                 church.Google_API_Place_Details_Response__c += '\n';
             }
             
-            i ++;
         }
         
         return churches;

@@ -4,9 +4,7 @@ public class GooglePlaces {
  	public static List<DataTableWrapper> searchPlace (Id account, Decimal longitude, Decimal latitude, Integer radius, String type){
 
          // Validation to check if type is church. In the future it would be nice to add functionality to take in different types like School.
-        if (GooglePlacesUtility.validateInputs(account, longitude, latitude, radius, type).equals('invalid')) {
-            return null;
-        }
+        GooglePlacesUtility.validateInputs(account, longitude, latitude, radius, type);
         
         Google_API_Key__mdt googleKey = [SELECT Id, Value__c
                                         FROM Google_API_Key__mdt
