@@ -9,14 +9,14 @@ public with sharing class GooglePlacesUtility {
     public static String validateInputs(Id account, Decimal longitude, Decimal latitude, Integer radius, String type) {
 
         String success = 'valid';
-        if (!type.equalsIgnoreCase('church')) {
-            System.debug('Type needs to be church.');
-            success = 'invalid';
+        if (!type.equalsIgnoreCase('school')) {
+            System.debug('Type needs to be school.');
+            throw new AuraHandledException('Type needs to be school.');
         }
 
         if (longitude == null || latitude == null) {
             System.debug('Longitude and latitude are invalid');
-            success = 'invalid';
+            throw new AuraHandledException('Account Longitude and/or latitude are invalid.');
         }
 
         if (radius > 100) {
@@ -28,10 +28,10 @@ public with sharing class GooglePlacesUtility {
     }
 
     // Textsearch API Call for the initial search
-    public static HttpResponse createTextSearchCall(Decimal longitude, Decimal latitude, Integer radius, String key, String type) {
+    public static HttpResponse createTextSearchCall(Decimal longitude, Decimal latitude, Integer radius, String apiKey, String type) {
         Http http = new Http();
         HttpRequest request = new HttpRequest();
-        String googleTextSearchUrl = 'https://maps.googleapis.com/maps/api/place/textsearch/json'+ '?location=' + latitude + ',' + longitude + '&radius=' + radius + '&type=' + type + '&key=' + key;
+        String googleTextSearchUrl = 'https://maps.googleapis.com/maps/api/place/textsearch/json'+ '?location=' + latitude + ',' + longitude + '&radius=' + radius + '&type=' + type + '&key=' + apiKey;
 
         request.setEndpoint(googleTextSearchUrl);
         request.setMethod('GET');
@@ -47,10 +47,10 @@ public with sharing class GooglePlacesUtility {
     }
 
     // Details call for more information about each place (placeId is from textSearch call)
-    public static HttpResponse createDetailsCall(String key, String placeId) {
+    public static HttpResponse createDetailsCall(String apiKey, String placeId) {
         Http http = new Http();
         HttpRequest request = new HttpRequest();
-        String googleDetailsUrl = 'https://maps.googleapis.com/maps/api/place/details/json'+ '?place_id=' + placeId + '&key=' + key;
+        String googleDetailsUrl = 'https://maps.googleapis.com/maps/api/place/details/json'+ '?place_id=' + placeId + '&key=' + apiKey;
 
         request.setEndpoint(googleDetailsUrl);
         request.setMethod('GET');
@@ -66,7 +66,7 @@ public with sharing class GooglePlacesUtility {
     }
 
     // Transform the returned Google response into readable Map
-    public static Map<Integer, Map<String,Object>> processResults(HttpResponse response) {
+    public static Map<Integer, Map<String,Object>> processResults(HttpResponse response, String apiKey) {
 
         Map<Integer, Map<String,Object>> bulkData = new Map<Integer, Map<String,Object>>();
         Map<String, Object> googleResults = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
@@ -83,7 +83,7 @@ public with sharing class GooglePlacesUtility {
         for (Integer i = 0; i < bulkData.keySet().size(); i ++) {
 
             Map<String, Object> bulkDataDetails = bulkData.get(i);
-            HttpResponse detailsResponse = createDetailsCall('AIzaSyBJYW5TNtGJ10l9CxUoy0RHJSb6zlbilPk', (String)bulkDataDetails.get('place_id'));
+            HttpResponse detailsResponse = createDetailsCall(apiKey, (String)bulkDataDetails.get('place_id'));
             Map<String, Object> detailsData = (Map<String, Object>) JSON.deserializeUntyped(detailsResponse.getBody());
             Map<String, Object> detailsResults = (Map<String, Object>) detailsData.get('result');
             bulkDataDetails.putAll(detailsResults);

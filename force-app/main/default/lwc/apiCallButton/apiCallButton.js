@@ -4,6 +4,7 @@ import searchPlace from '@salesforce/apex/GooglePlaces.searchPlace';
 import BillingPostalCode from '@salesforce/schema/Account.BillingPostalCode';
 import BillingLongitude from '@salesforce/schema/Account.BillingLongitude';
 import BillingLatitude from '@salesforce/schema/Account.BillingLatitude';
+import Type from '@salesforce/schema/Account.Type';
 import { NavigationMixin } from 'lightning/navigation';
 
 
@@ -11,6 +12,7 @@ const FIELDS = [
     'Account.BillingPostalCode',
     'Account.BillingLatitude',
     'Account.BillingLongitude',
+    'Account.Type'
 ];
 
 const columns = [
@@ -36,6 +38,8 @@ export default class ApiCallButton extends NavigationMixin(LightningElement) {
     @track csps;
     @track columns = columns;
     @track loading = false;
+    @track hasError = false;
+    @track errorMessage;
 
     @wire(getRecord, {recordId: '$recordId', fields: FIELDS})
     account;
@@ -52,9 +56,8 @@ export default class ApiCallButton extends NavigationMixin(LightningElement) {
             account: this.recordId,
             longitude: this.account.data.fields.BillingLongitude.value,
             latitude: this.account.data.fields.BillingLatitude.value,
-            radius: 5,
-            type: 'church',
-            key: 'AIzaSyBJYW5TNtGJ10l9CxUoy0RHJSb6zlbilPk'
+            radius: 20,
+            type: this.account.data.fields.Type.value,
         }).then(result => {
             console.log('Result: ' + result);
             if (result.length === 0) {
@@ -69,7 +72,10 @@ export default class ApiCallButton extends NavigationMixin(LightningElement) {
             this.loading = false;
         })
         .catch(error => {
-            console.log('Error: ' + error);
+            this.errorMessage = 'Error: ' + error.body.message;
+            this.hasError = true;
+            this.loading = false;
+            console.log('Error: ' + error.body.message);
         });
     }
 }

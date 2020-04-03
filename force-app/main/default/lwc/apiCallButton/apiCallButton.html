@@ -8,6 +8,9 @@
             <template if:true={noCSPs}>
                 <lightning-formatted-text class="slds-p-left_medium" value="20 closest Churches have already been found and created"></lightning-formatted-text>
             </template>
+            <template if:true={hasError}>
+                <lightning-formatted-text class="slds-p-left_medium" value={errorMessage}></lightning-formatted-text>
+            </template>
     </lightning-card>
     <template class="slds-p-top_medium" if:true={showCSPs}>
         <lightning-datatable class="slds-p-top_medium" data={csps} key-field="Id" columns={columns}>
