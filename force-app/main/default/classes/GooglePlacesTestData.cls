@@ -28,10 +28,31 @@ public with sharing class GooglePlacesTestData {
         return queriedSchools;
     }
 
-    public static List<Account> createSchoolAccountInvalidAddress(Integer amount) {
-        List<Account> schools = new List<Account>();
-        return schools;
+    public static List<Account> createDuplicateChurchAccount(Integer amount) {
+        String churchRT = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Church').getRecordTypeId();
+        List<Account> churches = new List<Account>();
+        Set<Id> churchId = new Set<Id>();
 
+        for (Integer i = 0; i < amount; i ++) {
+
+            Account church = new Account();
+            church.Name = 'Del Mar Church ' + i;
+            church.RecordTypeId = churchRT;
+            church.Type = 'Church';
+            church.BillingStreet = '1425 Ocean Avenue';
+            church.BillingCity = 'Del Mar';
+            church.BillingState = 'CA';
+            church.BillingCountry = 'US';
+            church.BillingPostalCode = '92014';
+            churches.add(church);
+        }
+        insert churches;
+        for (Account church : churches) {
+            churchId.add(church.Id);
+        }
+        List<Account> queriedSchools = [SELECT Id, BillingLongitude, BillingLatitude, Type FROM Account WHERE Id IN :churchId];
+
+        return queriedSchools;
     }
 
     public static String textSearchValidKey() {

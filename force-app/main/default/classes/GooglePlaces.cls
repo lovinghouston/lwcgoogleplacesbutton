@@ -85,7 +85,7 @@ public class GooglePlaces {
     }
 
     // Wrapper class for sending data back to LWC component
-    private class DataTableWrapper {
+    public class DataTableWrapper {
         @AuraEnabled
         public String cspUrl {get; set;}
         @AuraEnabled

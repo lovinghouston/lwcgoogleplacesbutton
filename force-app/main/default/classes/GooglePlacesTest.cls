@@ -7,8 +7,11 @@ private with sharing class GooglePlacesTest {
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new GoogleMockCalloutValidKey());
-        GooglePlaces.searchPlace(school.Id, 56.1232, 81.123, 20, school.Type);
+        List<GooglePlaces.DataTableWrapper> wraps = GooglePlaces.searchPlace(school.Id, 56.1232, 81.123, 20, school.Type);
         Test.stopTest();
+        System.debug(wraps);
+        System.assert(wraps.size() > 0,
+        'Response should contain data table wrappers.');
     }
 
     @isTest
@@ -20,6 +23,8 @@ private with sharing class GooglePlacesTest {
             GooglePlaces.searchPlace(school.Id, 56.1232, 81.123, 20, school.Type);
         } catch (Exception e) {
             System.debug('Test Error message: ' + e.getMessage());
+            System.assert(e.getMessage() == 'Error with Google Call: Status: REQUEST_DENIED Error Message: The provided API key is invalid.',
+            'Google Response should contain error message.');
         }
         Test.stopTest();
     }
@@ -27,12 +32,15 @@ private with sharing class GooglePlacesTest {
     @isTest
     static void testInvalidAddress() {
         Account school = GooglePlacesTestData.createSchoolAccount(1)[0];
+
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new GoogleMockCalloutValidKey());
         try {
             GooglePlaces.searchPlace(school.Id, null, null, 20, school.Type);
         } catch (Exception e) {
             System.debug('Test Error message: ' + e.getMessage());
+            System.assert(e.getMessage() == 'Account Longitude and/or latitude are invalid.',
+            'Longitude/Latitude error should be thrown.');
         }
         Test.stopTest();
     }
@@ -40,19 +48,28 @@ private with sharing class GooglePlacesTest {
     @isTest
     static void testInvalidType() {
         Account school = GooglePlacesTestData.createSchoolAccount(1)[0];
+
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new GoogleMockCalloutValidKey());
         try {
             GooglePlaces.searchPlace(school.Id, 56.123, 81.123, 20, 'Church');
         } catch (Exception e) {
             System.debug('Test Error message: ' + e.getMessage());
+            System.assert(e.getMessage() == 'Type needs to be school.',
+            'Type error should be thrown.');
         }
         Test.stopTest();
     }
 
     @isTest
     static void testBadStatusCode() {
+        Account school = GooglePlacesTestData.createSchoolAccount(1)[0];
 
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new GoogleMockCalloutBadStatusCode());
+        List<GooglePlaces.DataTableWrapper> wraps = GooglePlaces.searchPlace(school.Id, 56.1232, 81.123, 20, school.Type);
+        Test.stopTest();
+        System.assert(wraps == null, 'Should return nothing if status code is bad.');
     }
 
     @isTest
@@ -62,6 +79,15 @@ private with sharing class GooglePlacesTest {
 
     @isTest
     static void testDuplicates() {
+        Account duplicateChurch = GooglePlacesTestData.createDuplicateChurchAccount(1)[0];
+        Account school = GooglePlacesTestData.createSchoolAccount(1)[0];
+
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, new GoogleMockCalloutValidKey());
+        List<GooglePlaces.DataTableWrapper> wraps = GooglePlaces.searchPlace(school.Id, 56.1232, 81.123, 20, school.Type);
+        Test.stopTest();
+        System.assert(wraps.size() > 0, 'Should return data even if dupe is present.');
+        System.assert(wraps[0].website == null, 'If duplicate is found, the website will not be updated on the existing Account.');
 
     }
 
@@ -113,6 +139,16 @@ private with sharing class GooglePlacesTest {
             response.setBody(GooglePlacesTestData.textSearchInvalidKey());
             response.setStatusCode(200);
             response.setStatus('OK');
+            return response;
+        }
+    }
+
+    public class GoogleMockCalloutBadStatusCode implements HttpCalloutMock {
+
+        public HttpResponse respond (HttpRequest request) {
+            HttpResponse response = new HttpResponse();
+            response.setBody(GooglePlacesTestData.textSearchInvalidKey());
+            response.setStatusCode(0);
             return response;
         }
     }
