@@ -1,10 +1,5 @@
 public with sharing class GooglePlacesUtility {
 
-    // Utility Class
-    public GooglePlacesUtility() {
-
-    }
-
     // Making sure inputs are acceptable before making the call
     public static void validateInputs(Id account, Decimal longitude, Decimal latitude, Integer radius, String type) {
 
@@ -130,17 +125,5 @@ public with sharing class GooglePlacesUtility {
 
         System.debug(formatted);
         return formatted;
-    }
-
-    public static Double calculateDistance (Account school, Account church) {
-        Address schoolLoc = school.BillingAddress;
-        Address churchLoc = church.BillingAddress;
-
-        if (schoolLoc == null || churchLoc == null) {
-            System.debug('could not compute location');
-            return 0;
-        }
-
-        return schoolLoc.getDistance(churchLoc, 'mi');      
     }
 }

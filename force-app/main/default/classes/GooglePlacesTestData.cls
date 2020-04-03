@@ -12,11 +12,11 @@ public with sharing class GooglePlacesTestData {
             school.Name = 'Test School ' + i;
             school.RecordTypeId = schoolRT;
             school.Type = 'School';
-            school.BillingStreet = '1425 Ocean Avenue';
-            school.BillingCity = 'Del Mar';
+            school.BillingStreet = '6587 Jaffe Ct';
+            school.BillingCity = 'San Deiego';
             school.BillingState = 'CA';
             school.BillingCountry = 'US';
-            school.BillingPostalCode = '92014';
+            school.BillingPostalCode = '92119';
             schools.add(school);
         }
         insert schools;

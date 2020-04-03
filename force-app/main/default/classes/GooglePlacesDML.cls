@@ -1,7 +1,4 @@
 public with sharing class GooglePlacesDML {
-    public GooglePlacesDML() {
-
-    }
 
     public static List<Account> createRawChurches (Map<Integer, Map<String,Object>> bulkData) {
 
