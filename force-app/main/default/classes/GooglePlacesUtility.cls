@@ -71,6 +71,12 @@ public with sharing class GooglePlacesUtility {
         Map<Integer, Map<String,Object>> bulkData = new Map<Integer, Map<String,Object>>();
         Map<String, Object> googleResults = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
         System.debug('google Results: ' + googleResults);
+        
+        if (!googleResults.get('status').equals('OK')) {
+            System.debug('Error: ' + googleResults.get('error_message'));
+            throw new AuraHandledException('Error with Google Call: Status: ' + googleResults.get('status') + ' Error Message: ' + googleResults.get('error_message'));
+        }
+
         List<Object> results = (List<Object>) googleResults.get('results');
         
         for (Integer i = 0; i < results.size(); i ++) {

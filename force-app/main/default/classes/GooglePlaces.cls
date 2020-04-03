@@ -56,14 +56,12 @@ public class GooglePlaces {
             cspIds.add(csp.Id);
         }
 
-        List<Account> schools = [SELECT Id, Name FROM Account WHERE Type = 'School' AND Id IN :accountIds];
-        List<Account> churches = [SELECT Id, Name, Website, Phone, Google_Maps_Listing__c, Number_of_Google_Maps_Ratings__c, Google_Maps_Rating__c FROM Account WHERE Type = 'Church' AND Id IN :accountIds];
+        List<Account> allAccounts = [SELECT Id, Name, Website, Phone, Google_Maps_Listing__c, Number_of_Google_Maps_Ratings__c, Google_Maps_Rating__c FROM Account WHERE Id IN :accountIds];
         List<Church_School_Partnership__c> partnerships = [SELECT Id, Name, School_Account__c, School_Name__c, Church_Account__c, Church_Name__c, Status__c,Church_School_Disatnce__c
                                                             FROM Church_School_Partnership__c 
                                                             WHERE Id IN :cspIds];
-        churches.addAll(schools);
 
-        for (Account account : churches) {
+        for (Account account : allAccounts) {
             accounts.put(account.Id, account);
         }
 
