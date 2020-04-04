@@ -1,7 +1,4 @@
 public with sharing class GooglePlacesDupeChecker {
-    public GooglePlacesDupeChecker() {
-
-    }
 
     public static Map<String, List<Account>> checkAccountDupes (List<Account> rawChurches) {
 

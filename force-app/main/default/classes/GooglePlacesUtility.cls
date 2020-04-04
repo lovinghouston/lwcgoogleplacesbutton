@@ -1,30 +1,19 @@
 public with sharing class GooglePlacesUtility {
 
-    // Utility Class
-    public GooglePlacesUtility() {
-
-    }
-
     // Making sure inputs are acceptable before making the call
-    public static String validateInputs(Id account, Decimal longitude, Decimal latitude, Integer radius, String type) {
+    public static void validateInputs(Id account, Decimal longitude, Decimal latitude, Integer radius, String type) {
 
-        String success = 'valid';
         if (!type.equalsIgnoreCase('school')) {
-            System.debug('Type needs to be school.');
-            throw new AuraHandledException('Type needs to be school.');
+            AuraHandledException e = new AuraHandledException('Type needs to be school.');
+            e.setMessage('Type needs to be school.');
+            throw e;
         }
 
         if (longitude == null || latitude == null) {
-            System.debug('Longitude and latitude are invalid');
-            throw new AuraHandledException('Account Longitude and/or latitude are invalid.');
+            AuraHandledException e = new AuraHandledException('Account Longitude and/or latitude are invalid.');
+            e.setMessage('Account Longitude and/or latitude are invalid.');
+            throw e;
         }
-
-        if (radius > 100) {
-            System.debug('radius is too large');
-            success = 'invalid';
-        }
-
-        return success;
     }
 
     // Textsearch API Call for the initial search
@@ -39,11 +28,8 @@ public with sharing class GooglePlacesUtility {
         HttpResponse response = http.send(request);
         System.debug('Text Search status code: ' + response.getStatusCode());
         System.debug('Text Search status: ' + response.getStatus());
-        if (response.getStatusCode() == 200) {
-            return response;
-        }
-
-        return null;
+    
+        return response;
     }
 
     // Details call for more information about each place (placeId is from textSearch call)
@@ -58,23 +44,24 @@ public with sharing class GooglePlacesUtility {
         HttpResponse response = http.send(request);
         System.debug('Details Call status code: ' + response.getStatusCode());
         System.debug('Details Call status: ' + response.getStatus());
-        if (response.getStatusCode() == 200) {
-            return response;
-        } 
 
-        return null;
+        return response;
     }
 
     // Transform the returned Google response into readable Map
     public static Map<Integer, Map<String,Object>> processResults(HttpResponse response, String apiKey) {
 
         Map<Integer, Map<String,Object>> bulkData = new Map<Integer, Map<String,Object>>();
+        System.debug('Test Response: ' + response);
+        System.debug('Response Body: ' + response.getBody());
         Map<String, Object> googleResults = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
         System.debug('google Results: ' + googleResults);
         
         if (!googleResults.get('status').equals('OK')) {
             System.debug('Error: ' + googleResults.get('error_message'));
-            throw new AuraHandledException('Error with Google Call: Status: ' + googleResults.get('status') + ' Error Message: ' + googleResults.get('error_message'));
+            AuraHandledException e = new AuraHandledException('Error with Google Call: Status: ' + googleResults.get('status') + ' Error Message: ' + googleResults.get('error_message'));
+            e.setMessage('Error with Google Call: Status: ' + googleResults.get('status') + ' Error Message: ' + googleResults.get('error_message'));
+            throw e;
         }
 
         List<Object> results = (List<Object>) googleResults.get('results');
@@ -138,17 +125,5 @@ public with sharing class GooglePlacesUtility {
 
         System.debug(formatted);
         return formatted;
-    }
-
-    public static Double calculateDistance (Account school, Account church) {
-        Address schoolLoc = school.BillingAddress;
-        Address churchLoc = church.BillingAddress;
-
-        if (schoolLoc == null || churchLoc == null) {
-            System.debug('could not compute location');
-            return 0;
-        }
-
-        return schoolLoc.getDistance(churchLoc, 'mi');      
     }
 }

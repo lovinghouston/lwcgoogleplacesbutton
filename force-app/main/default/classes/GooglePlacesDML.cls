@@ -1,21 +1,14 @@
 public with sharing class GooglePlacesDML {
-    public GooglePlacesDML() {
-
-    }
 
     public static List<Account> createRawChurches (Map<Integer, Map<String,Object>> bulkData) {
 
         String churchRecordId = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Church').getRecordTypeId();
         List<Account> churches = new List<Account>();
-        Integer i = 1;
 
         for (Integer index : bulkData.keySet()) {
 
             Map<String, Object> bulkDataDetails = bulkData.get(index);
 
-            if (i == 50) {
-                break;
-            }
             // Typecasting the address value and using the utility method to format it
             System.debug('Address for ' + (String)bulkDataDetails.get('name'));
             Map<String, String> formattedAddress = GooglePlacesUtility.formatAddress((List<Object>)bulkDataDetails.get('address_components'));
@@ -52,7 +45,6 @@ public with sharing class GooglePlacesDML {
                 church.Google_API_Place_Details_Response__c += '\n';
             }
             
-            i ++;
         }
         
         return churches;
@@ -60,11 +52,7 @@ public with sharing class GooglePlacesDML {
 
     public static List<Account> createProcessedChurches (List<Account> processedChurches) {
 
-        try {
-            insert processedChurches;
-        } catch (Exception e) {
-            System.debug(e.getMessage());
-        }
+        insert processedChurches;
 
         for (Account account : processedChurches) {
             System.debug('Processed Church: ' + account.Id);
@@ -100,11 +88,7 @@ public with sharing class GooglePlacesDML {
             System.debug('CSP: ' + csp);
         }
 
-        try {
-            insert partnerships;
-        } catch (Exception e) {
-            System.debug(e.getMessage());
-        }
+        insert partnerships;       
 
         List<Id> cspIds = new List<Id>();
         for (Church_School_Partnership__c partnership : partnerships) {
