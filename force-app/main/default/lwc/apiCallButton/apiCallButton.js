@@ -72,7 +72,7 @@ export default class ApiCallButton extends NavigationMixin(LightningElement) {
             this.loading = false;
         })
         .catch(error => {
-            this.errorMessage = 'Error: ' + error.body.message;
+            this.errorMessage = error.body.message;
             this.hasError = true;
             this.loading = false;
             console.log('Error: ' + error.body.message);
