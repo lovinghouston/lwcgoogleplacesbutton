@@ -52,11 +52,7 @@ public with sharing class GooglePlacesDML {
 
     public static List<Account> createProcessedChurches (List<Account> processedChurches) {
 
-        try {
-            insert processedChurches;
-        } catch (Exception e) {
-            System.debug(e.getMessage());
-        }
+        insert processedChurches;
 
         for (Account account : processedChurches) {
             System.debug('Processed Church: ' + account.Id);
@@ -92,11 +88,7 @@ public with sharing class GooglePlacesDML {
             System.debug('CSP: ' + csp);
         }
 
-        try {
-            insert partnerships;
-        } catch (Exception e) {
-            System.debug(e.getMessage());
-        }
+        insert partnerships;       
 
         List<Id> cspIds = new List<Id>();
         for (Church_School_Partnership__c partnership : partnerships) {

@@ -55,6 +55,21 @@ public with sharing class GooglePlacesTestData {
         return queriedSchools;
     }
 
+    public static List<Church_School_Partnership__c> createExistingCSP(Integer amount, List<Account> schools, List<Account> churches) {
+        List<Church_School_Partnership__c> csps = new List<Church_School_Partnership__c>();
+
+        for (Integer i = 0; i < amount; i ++) {
+            Church_School_Partnership__c csp = new Church_School_Partnership__c();
+            csp.Church_Account__c = churches[i].Id;
+            csp.School_Account__c = schools[i].Id;
+            csp.Status__c = 'Potential';
+            csps.add(csp);
+        }
+
+        insert csps;
+        return csps;
+    }
+
     public static String textSearchValidKey() {
         String result = '{' +
         '   \"results\" : [' +
@@ -80,6 +95,38 @@ public with sharing class GooglePlacesTestData {
         return result;
     }
 
+    public static String textSearchValidKeyNoStreetNumber() {
+        String result = '{' +
+        '   \"results\" : [' +
+        '       {' +
+        '           \"formatted_address\" : \"Ocean Avenue, Del Mar, CA 92014\",' +
+        '           \"name\" : \"Del Mar Church\",' +
+        '           \"place_id\" : \"1425Ocean\",' +
+        '           \"rating\" : 5,' +
+        '           \"user_ratings_total\" : 20' +
+        '       }' +
+        '   ],' +
+        '   \"status\" : \"OK\"' +
+        '}';
+        return result;
+    }
+
+    public static String textSearchValidKeyBadAddress() {
+        String result = '{' +
+        '   \"results\" : [' +
+        '       {' +
+        '           \"formatted_address\" : \"Del Mar, CA 92014\",' +
+        '           \"name\" : \"Del Mar Church\",' +
+        '           \"place_id\" : \"1425Ocean\",' +
+        '           \"rating\" : 5,' +
+        '           \"user_ratings_total\" : 20' +
+        '       }' +
+        '   ],' +
+        '   \"status\" : \"OK\"' +
+        '}';
+        return result;
+    }
+
     public static String detailsSearchValidKey() {
         String result = '{' +
         '   \"result\" : {' +
@@ -94,6 +141,79 @@ public with sharing class GooglePlacesTestData {
         '               \"short_name\" : \"Ocean Ave\",' +
         '               \"types\" : [ \"route\" ]' +
         '           },' +
+        '           {' +
+        '               \"long_name\" : \"Del Mar\",' +
+        '               \"short_name\" : \"Del Mar\",' +
+        '               \"types\" : [ \"locality\" ]' +
+        '           },' +
+        '           {' +
+        '               \"long_name\" : \"California\",' +
+        '               \"short_name\" : \"CA\",' +
+        '               \"types\" : [ \"administrative_area_level_1\" ]' +
+        '           },' +
+        '           {' +
+        '               \"long_name\" : \"United States\",' +
+        '               \"short_name\" : \"US\",' +
+        '               \"types\" : [ \"country\" ]' +
+        '           },' +
+        '           {' +
+        '               \"long_name\" : \"92014\",' +
+        '               \"short_name\" : \"92014\",' +
+        '               \"types\" : [ \"postal_code\" ]' +
+        '           }' +
+        '       ],' +
+        '       \"formatted_phone_number\" : \"1234567890\",' +
+        '       \"name\" : \"Del Mar Church\",' +
+        '       \"website\" : \"delmarchurch\"' +
+        '       },' +
+        '   \"status\" : \"OK\"' +
+        '}';
+        return result;
+    }
+
+    public static String detailsSearchValidKeyNoStreetNumber() {
+        String result = '{' +
+        '   \"result\" : {' +
+        '       \"address_components\" : [' +
+        '           {' +
+        '               \"long_name\" : \"Ocean Avenue\",' +
+        '               \"short_name\" : \"Ocean Ave\",' +
+        '               \"types\" : [ \"route\" ]' +
+        '           },' +
+        '           {' +
+        '               \"long_name\" : \"Del Mar\",' +
+        '               \"short_name\" : \"Del Mar\",' +
+        '               \"types\" : [ \"locality\" ]' +
+        '           },' +
+        '           {' +
+        '               \"long_name\" : \"California\",' +
+        '               \"short_name\" : \"CA\",' +
+        '               \"types\" : [ \"administrative_area_level_1\" ]' +
+        '           },' +
+        '           {' +
+        '               \"long_name\" : \"United States\",' +
+        '               \"short_name\" : \"US\",' +
+        '               \"types\" : [ \"country\" ]' +
+        '           },' +
+        '           {' +
+        '               \"long_name\" : \"92014\",' +
+        '               \"short_name\" : \"92014\",' +
+        '               \"types\" : [ \"postal_code\" ]' +
+        '           }' +
+        '       ],' +
+        '       \"formatted_phone_number\" : \"1234567890\",' +
+        '       \"name\" : \"Del Mar Church\",' +
+        '       \"website\" : \"delmarchurch\"' +
+        '       },' +
+        '   \"status\" : \"OK\"' +
+        '}';
+        return result;
+    }
+
+    public static String detailsSearchValidKeyBadAddress() {
+        String result = '{' +
+        '   \"result\" : {' +
+        '       \"address_components\" : [' +
         '           {' +
         '               \"long_name\" : \"Del Mar\",' +
         '               \"short_name\" : \"Del Mar\",' +
