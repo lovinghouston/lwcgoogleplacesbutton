@@ -67,9 +67,13 @@ private with sharing class GooglePlacesTest {
 
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new GoogleMockCalloutBadStatusCode());
-        List<GooglePlaces.DataTableWrapper> wraps = GooglePlaces.searchPlace(school.Id, 56.1232, 81.123, 20, school.Type);
+        try {
+            List<GooglePlaces.DataTableWrapper> wraps = GooglePlaces.searchPlace(school.Id, 56.1232, 81.123, 20, school.Type);
+        } catch (Exception e) {
+            System.debug(e.getMessage());
+            System.assert(e.getMessage() == 'BAD STATUS', 'Status will be bad if status code is not 200.');
+        }
         Test.stopTest();
-        System.assert(wraps == null, 'Should return nothing if status code is bad.');
     }
 
     @isTest
@@ -159,6 +163,7 @@ private with sharing class GooglePlacesTest {
             HttpResponse response = new HttpResponse();
             response.setBody(GooglePlacesTestData.textSearchInvalidKey());
             response.setStatusCode(0);
+            response.setStatus('BAD STATUS');
             return response;
         }
     }
