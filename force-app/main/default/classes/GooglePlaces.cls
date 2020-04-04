@@ -14,38 +14,40 @@ public class GooglePlaces {
         HttpResponse response = GooglePlacesUtility.createTextSearchCall(longitude, latitude, radius, apiKey, 'church');
         
         // If the request is successful, parse the JSON response. Status code is always 200 for Google Maps API
-        if (response.getStatusCode() == 200) {
-            
-            // Deserialize the JSON string into collections of primitive data types.
-            Map<Integer, Map<String,Object>> bulkData = GooglePlacesUtility.processResults(response, apiKey); 
-            // Create "raw" churches that will be checked for duplicates.           
-            List<Account> rawChurches = GooglePlacesDML.createRawChurches(bulkData);
-            Map<String, List<Account>> processedChurches = GooglePlacesDupeChecker.checkAccountDupes(rawchurches);
-            List<Account> churchesNeedCSP = new List<Account>();
-
-            if (processedChurches == null) {
-                // If no dupes, all churches will need CSPs
-                System.debug('Found no Duplicates');
-                try {
-                    processedChurches.put('Non-dupes', rawChurches);
-                } catch (Exception e) {
-                    System.debug('Error found! ' + e.getMessage());
-                    AuraHandledException ae = new AuraHandledException('No valid data returned.');
-                    ae.setMessage('No valid data returned.');
-                    throw ae;
-                }
-            } else {
-                // The matched records will go through a check to see if CSPs exist for them
-                System.debug('Found duplicates');
-                churchesNeedCSP = GooglePlacesDupeChecker.checkCSPDupes(processedChurches.get('Dupes'), account);
-            }
-            
-            // Raw churches will be inserted
-            churchesNeedCSP.addAll(GooglePlacesDML.createProcessedChurches(processedChurches.get('Non-dupes')));
-            List<Church_School_Partnership__c> csps = GooglePlacesDML.createPotentialCSPs(churchesNeedCSP, account);
-            return wrapCSPs(csps);
+        if (response.getStatusCode() != 200) {
+            AuraHandledException ae = new AuraHandledException(response.getStatus());
+            ae.setMessage(response.getStatus());
+            throw ae;
         }
-        return null;
+            
+        // Deserialize the JSON string into collections of primitive data types.
+        Map<Integer, Map<String,Object>> bulkData = GooglePlacesUtility.processResults(response, apiKey); 
+        // Create "raw" churches that will be checked for duplicates.           
+        List<Account> rawChurches = GooglePlacesDML.createRawChurches(bulkData);
+        Map<String, List<Account>> processedChurches = GooglePlacesDupeChecker.checkAccountDupes(rawchurches);
+        List<Account> churchesNeedCSP = new List<Account>();
+
+        if (processedChurches == null) {
+            // If no dupes, all churches will need CSPs
+            System.debug('Found no Duplicates');
+            try {
+                processedChurches.put('Non-dupes', rawChurches);
+            } catch (Exception e) {
+                System.debug('Error found! ' + e.getMessage());
+                AuraHandledException ae = new AuraHandledException('No valid data returned.');
+                ae.setMessage('No valid data returned.');
+                throw ae;
+            }
+        } else {
+            // The matched records will go through a check to see if CSPs exist for them
+            System.debug('Found duplicates');
+            churchesNeedCSP = GooglePlacesDupeChecker.checkCSPDupes(processedChurches.get('Dupes'), account);
+        }
+            
+        // Raw churches will be inserted
+        churchesNeedCSP.addAll(GooglePlacesDML.createProcessedChurches(processedChurches.get('Non-dupes')));
+        List<Church_School_Partnership__c> csps = GooglePlacesDML.createPotentialCSPs(churchesNeedCSP, account);
+        return wrapCSPs(csps);
     }
 
     // Translate CSP data into readable wrappers for LWC component. This allows URLs to be sent in name format
