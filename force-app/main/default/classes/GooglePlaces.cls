@@ -26,7 +26,14 @@ public class GooglePlaces {
             if (processedChurches == null) {
                 // If no dupes, all churches will need CSPs
                 System.debug('Found no Duplicates');
-                processedChurches.put('Non-dupes', rawChurches);
+                try {
+                    processedChurches.put('Non-dupes', rawChurches);
+                } catch (Exception e) {
+                    System.debug('Error found! ' + e.getMessage());
+                    AuraHandledException ae = new AuraHandledException('No valid data returned.');
+                    ae.setMessage('No valid data returned.');
+                    throw ae;
+                }
             } else {
                 // The matched records will go through a check to see if CSPs exist for them
                 System.debug('Found duplicates');

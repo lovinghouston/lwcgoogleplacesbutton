@@ -95,7 +95,7 @@ private with sharing class GooglePlacesTest {
         try {
             List<GooglePlaces.DataTableWrapper> wraps = GooglePlaces.searchPlace(school.Id, 56.1232, 81.123, 20, school.Type);
         } catch (Exception e) {
-            System.assert(e.getMessage() == 'Attempt to de-reference a null object', 'rawChurches will be null if no valid addresses are returned.');
+            System.assert(e.getMessage() == 'No valid data returned.', 'No churches created if return data is invalid.');
         }
         Test.stopTest();
     }
