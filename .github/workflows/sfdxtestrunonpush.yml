@@ -33,9 +33,9 @@ jobs:
 
      
     test:
-  
+        
         runs-on: ubuntu-latest
-
+        needs: push_to_sf
         steps:
           - uses: actions/checkout@v1
 
