@@ -26,13 +26,15 @@ jobs:
 
 #           - run: echo hello > path/to/artifact/world.txt
 
-          - uses: actions/upload-artifact@v1
-            with:
-                name: repo
-                path: ./
+#           - uses: actions/upload-artifact@v1
+#             with:
+#                 name: repo
+#                 path: ./
           - uses: sfdx-actions/setup-sfdx@v1
             with:
               sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
+          - name: sfdx-test-run
+            run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
           - name: sfdx-test-run
             run: sfdx force:apex:test:run -l RunLocalTests -w 30
 
