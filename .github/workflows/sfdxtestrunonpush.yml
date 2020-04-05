@@ -16,8 +16,8 @@ jobs:
       - name: output-directory
         run: ls -a
       - name: output-directory
-        run: cd sfdx
+        run: cd ~
       - name: output-directory
         run: ls -a
-      - name: Zip Folder
-        run: zip -r release.zip .
+#       - name: Zip Folder
+#         run: zip -r release.zip .
