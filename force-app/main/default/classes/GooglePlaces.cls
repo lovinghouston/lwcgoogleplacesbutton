@@ -18,8 +18,6 @@ public class GooglePlaces {
         callParameters.put('type', 'church');
 
         HttpResponse response = GooglePlacesUtility.createApiCall('textsearch', callParameters);
-
-        // HttpResponse response = GooglePlacesUtility.createTextSearchCall(longitude, latitude, radius, apiKey, 'church');
             
         // Deserialize the JSON string into collections of primitive data types.
         Map<Integer, Map<String,Object>> bulkData = GooglePlacesUtility.processResults(response, apiKey); 

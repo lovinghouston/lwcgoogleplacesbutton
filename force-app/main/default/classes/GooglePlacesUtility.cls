@@ -35,42 +35,6 @@ public with sharing class GooglePlacesUtility {
         }
     }
 
-    // Textsearch API Call for the initial search -- Refactored into createApiCall
-    /*
-    public static HttpResponse createTextSearchCall(Decimal longitude, Decimal latitude, Integer radius, String apiKey, String type) {
-        Http http = new Http();
-        HttpRequest request = new HttpRequest();
-        String googleTextSearchUrl = 'https://maps.googleapis.com/maps/api/place/textsearch/json'+ '?location=' + latitude + ',' + longitude + '&radius=' + radius + '&type=' + type + '&key=' + apiKey;
-
-        request.setEndpoint(googleTextSearchUrl);
-        request.setMethod('GET');
-
-        HttpResponse response = http.send(request);
-        System.debug('Text Search status code: ' + response.getStatusCode());
-        System.debug('Text Search status: ' + response.getStatus());
-        
-        return response;
-    }
-    */
-
-    // Details call for more information about each place (placeId is from textSearch call) -- Refactored into createApiCall
-    /*
-    public static HttpResponse createDetailsCall(String apiKey, String placeId) {
-        Http http = new Http();
-        HttpRequest request = new HttpRequest();
-        String googleDetailsUrl = 'https://maps.googleapis.com/maps/api/place/details/json'+ '?place_id=' + placeId + '&key=' + apiKey;
-
-        request.setEndpoint(googleDetailsUrl);
-        request.setMethod('GET');
-
-        HttpResponse response = http.send(request);
-        System.debug('Details Call status code: ' + response.getStatusCode());
-        System.debug('Details Call status: ' + response.getStatus());
-
-        return response;
-    }
-    */
-
     // Method for creating API call for both textsearch and details call
     public static HttpResponse createApiCall(String callType, Map<String, String> callParameters) {
         Http http = new Http();
@@ -120,7 +84,6 @@ public with sharing class GooglePlacesUtility {
             callParameters.put('placeId', (String)bulkDataDetails.get('place_id'));
             callParameters.put('apiKey', apiKey);
             HttpResponse detailsResponse = createApiCall('details', callParameters);
-            // HttpResponse detailsResponse = createDetailsCall(apiKey, (String)bulkDataDetails.get('place_id'));
             Map<String, Object> detailsData = (Map<String, Object>) JSON.deserializeUntyped(detailsResponse.getBody());
             Map<String, Object> detailsResults = (Map<String, Object>) detailsData.get('result');
             bulkDataDetails.putAll(detailsResults);
