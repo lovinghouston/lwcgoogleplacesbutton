@@ -27,7 +27,7 @@ jobs:
 #           - run: echo hello > path/to/artifact/world.txt
 
           - uses: actions/upload-artifact@v1
-              with:
+            with:
                 name: sfdx-source
                 path: force-app/main/default
 
