@@ -10,15 +10,14 @@ public class GooglePlaces {
                                         FROM Google_API_Key__mdt
                                         LIMIT 1];
         String apiKey = (String)googleKey.Value__c;
+        Map <String, String> callParameters = new Map<String, String>();
+        callParameters.put('apiKey', apiKey);
+        callParameters.put('longitude', String.valueOf(longitude));
+        callParameters.put('latitude', String.valueOf(latitude));
+        callParameters.put('radius', String.valueOf(radius));
+        callParameters.put('type', 'church');
 
-        HttpResponse response = GooglePlacesUtility.createTextSearchCall(longitude, latitude, radius, apiKey, 'church');
-        
-        // If the request is successful, parse the JSON response. Status code is always 200 for Google Maps API
-        if (response.getStatusCode() != 200) {
-            AuraHandledException ae = new AuraHandledException(response.getStatus());
-            ae.setMessage(response.getStatus());
-            throw ae;
-        }
+        HttpResponse response = GooglePlacesUtility.createApiCall('textsearch', callParameters);
             
         // Deserialize the JSON string into collections of primitive data types.
         Map<Integer, Map<String,Object>> bulkData = GooglePlacesUtility.processResults(response, apiKey); 
@@ -34,9 +33,7 @@ public class GooglePlaces {
                 processedChurches.put('Non-dupes', rawChurches);
             } catch (Exception e) {
                 System.debug('Error found! ' + e.getMessage());
-                AuraHandledException ae = new AuraHandledException('No valid data returned.');
-                ae.setMessage('No valid data returned.');
-                throw ae;
+                GooglePlacesUtility.throwError('All addresses for Google listings found are incomplete and therefore could not be used.');
             }
         } else {
             // The matched records will go through a check to see if CSPs exist for them

@@ -4,46 +4,49 @@ public with sharing class GooglePlacesUtility {
     public static void validateInputs(Id account, Decimal longitude, Decimal latitude, Integer radius, String type) {
 
         if (!type.equalsIgnoreCase('school')) {
-            AuraHandledException e = new AuraHandledException('Type needs to be school.');
-            e.setMessage('Type needs to be school.');
-            throw e;
+            throwError('Invalid Account Type. Type needs to be school.');
         }
 
         if (longitude == null || latitude == null) {
-            AuraHandledException e = new AuraHandledException('Account Longitude and/or latitude are invalid.');
-            e.setMessage('Account Longitude and/or latitude are invalid.');
-            throw e;
+            throwError('Invalid Account Billing Address. Billing Address Country and Zip are missing.');
         }
     }
 
-    // Textsearch API Call for the initial search
-    public static HttpResponse createTextSearchCall(Decimal longitude, Decimal latitude, Integer radius, String apiKey, String type) {
-        Http http = new Http();
-        HttpRequest request = new HttpRequest();
-        String googleTextSearchUrl = 'https://maps.googleapis.com/maps/api/place/textsearch/json'+ '?location=' + latitude + ',' + longitude + '&radius=' + radius + '&type=' + type + '&key=' + apiKey;
+    // Checking the results if status code and if any error message is returned by Google 
+    public static void validateResults(HttpResponse response) {
 
-        request.setEndpoint(googleTextSearchUrl);
-        request.setMethod('GET');
+        if (response.getStatusCode() != 200) {
+            throwError(response.getStatus());
+        }
 
-        HttpResponse response = http.send(request);
-        System.debug('Text Search status code: ' + response.getStatusCode());
-        System.debug('Text Search status: ' + response.getStatus());
-    
-        return response;
+        Map<String, Object> googleResults = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+
+        if (!googleResults.get('status').equals('OK')) {
+            System.debug('Error: ' + googleResults.get('error_message'));
+            throwError('Error with Google Call: Status: ' + googleResults.get('status') + ' Error Message: ' + googleResults.get('error_message'));
+        }
     }
 
-    // Details call for more information about each place (placeId is from textSearch call)
-    public static HttpResponse createDetailsCall(String apiKey, String placeId) {
+    // Method for creating API call for both textsearch and details call
+    public static HttpResponse createApiCall(String callType, Map<String, String> callParameters) {
         Http http = new Http();
         HttpRequest request = new HttpRequest();
-        String googleDetailsUrl = 'https://maps.googleapis.com/maps/api/place/details/json'+ '?place_id=' + placeId + '&key=' + apiKey;
+        String endpoint = '';
+        
+        if (callType.equals('textsearch')) {
+            endpoint = 'https://maps.googleapis.com/maps/api/place/textsearch/json'+ '?location=' + callParameters.get('latitude') + ',' + callParameters.get('longitude') + '&radius=' + callParameters.get('radius') + '&type=' + callParameters.get('type') + '&key=' + callParameters.get('apiKey');
+        }
+        if (callType.equals('details')) {
+            endpoint = 'https://maps.googleapis.com/maps/api/place/details/json'+ '?place_id=' + callParameters.get('placeId') + '&key=' + callParameters.get('apiKey');
+        }
 
-        request.setEndpoint(googleDetailsUrl);
+        request.setEndpoint(endpoint);
         request.setMethod('GET');
 
         HttpResponse response = http.send(request);
-        System.debug('Details Call status code: ' + response.getStatusCode());
-        System.debug('Details Call status: ' + response.getStatus());
+        System.debug(callType + ' status code: ' + response.getStatusCode());
+        System.debug(callType + ' status: ' + response.getStatus());
+        validateResults(response);
 
         return response;
     }
@@ -56,13 +59,6 @@ public with sharing class GooglePlacesUtility {
         System.debug('Response Body: ' + response.getBody());
         Map<String, Object> googleResults = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
         System.debug('google Results: ' + googleResults);
-        
-        if (!googleResults.get('status').equals('OK')) {
-            System.debug('Error: ' + googleResults.get('error_message'));
-            AuraHandledException e = new AuraHandledException('Error with Google Call: Status: ' + googleResults.get('status') + ' Error Message: ' + googleResults.get('error_message'));
-            e.setMessage('Error with Google Call: Status: ' + googleResults.get('status') + ' Error Message: ' + googleResults.get('error_message'));
-            throw e;
-        }
 
         List<Object> results = (List<Object>) googleResults.get('results');
         
@@ -76,7 +72,10 @@ public with sharing class GooglePlacesUtility {
         for (Integer i = 0; i < bulkData.keySet().size(); i ++) {
 
             Map<String, Object> bulkDataDetails = bulkData.get(i);
-            HttpResponse detailsResponse = createDetailsCall(apiKey, (String)bulkDataDetails.get('place_id'));
+            Map<String, String> callParameters = new Map<String, String>();
+            callParameters.put('placeId', (String)bulkDataDetails.get('place_id'));
+            callParameters.put('apiKey', apiKey);
+            HttpResponse detailsResponse = createApiCall('details', callParameters);
             Map<String, Object> detailsData = (Map<String, Object>) JSON.deserializeUntyped(detailsResponse.getBody());
             Map<String, Object> detailsResults = (Map<String, Object>) detailsData.get('result');
             bulkDataDetails.putAll(detailsResults);
@@ -125,5 +124,11 @@ public with sharing class GooglePlacesUtility {
 
         System.debug(formatted);
         return formatted;
+    }
+
+    public static void throwError (String message) {
+        AuraHandledException error = new AuraHandledException(message);
+        error.setMessage(message);
+        throw error;
     }
 }

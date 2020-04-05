@@ -51,6 +51,8 @@ export default class ApiCallButton extends NavigationMixin(LightningElement) {
     */
 
     handleFindChurchesClick() {
+        this.hasError = false;
+        this.noCSPs = false;
         this.loading = true;
         searchPlace({
             account: this.recordId,
