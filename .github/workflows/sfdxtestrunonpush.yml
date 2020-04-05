@@ -19,3 +19,5 @@ jobs:
         run: cd sfdx
       - name: output-directory
         run: ls -a
+      - name: Zip Folder
+        run: zip -r release.zip .
