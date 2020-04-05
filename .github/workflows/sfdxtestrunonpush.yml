@@ -20,8 +20,8 @@ jobs:
             run: cd ~
           - name: output-directory
             run: ls -a
-        #       - name: Zip Folder
-        #         run: zip -r release.zip .
+          - name: push-to-salesforce-org
+            run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
      
     test:
   
