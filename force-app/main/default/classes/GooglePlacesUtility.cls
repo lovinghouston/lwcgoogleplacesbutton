@@ -4,15 +4,11 @@ public with sharing class GooglePlacesUtility {
     public static void validateInputs(Id account, Decimal longitude, Decimal latitude, Integer radius, String type) {
 
         if (!type.equalsIgnoreCase('school')) {
-            AuraHandledException e = new AuraHandledException('Type needs to be school.');
-            e.setMessage('Type needs to be school.');
-            throw e;
+            throwError('Type needs to be school.');
         }
 
         if (longitude == null || latitude == null) {
-            AuraHandledException e = new AuraHandledException('Account Longitude and/or latitude are invalid.');
-            e.setMessage('Account Longitude and/or latitude are invalid.');
-            throw e;
+            throwError('Account Longitude and/or latitude are invalid.');
         }
     }
 
@@ -20,18 +16,14 @@ public with sharing class GooglePlacesUtility {
     public static void validateResults(HttpResponse response) {
 
         if (response.getStatusCode() != 200) {
-            AuraHandledException ae = new AuraHandledException(response.getStatus());
-            ae.setMessage(response.getStatus());
-            throw ae;
+            throwError(response.getStatus());
         }
 
         Map<String, Object> googleResults = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
 
         if (!googleResults.get('status').equals('OK')) {
             System.debug('Error: ' + googleResults.get('error_message'));
-            AuraHandledException e = new AuraHandledException('Error with Google Call: Status: ' + googleResults.get('status') + ' Error Message: ' + googleResults.get('error_message'));
-            e.setMessage('Error with Google Call: Status: ' + googleResults.get('status') + ' Error Message: ' + googleResults.get('error_message'));
-            throw e;
+            throwError('Error with Google Call: Status: ' + googleResults.get('status') + ' Error Message: ' + googleResults.get('error_message'));
         }
     }
 
@@ -132,5 +124,11 @@ public with sharing class GooglePlacesUtility {
 
         System.debug(formatted);
         return formatted;
+    }
+
+    public static void throwError (String message) {
+        AuraHandledException error = new AuraHandledException(message);
+        error.setMessage(message);
+        throw error;
     }
 }

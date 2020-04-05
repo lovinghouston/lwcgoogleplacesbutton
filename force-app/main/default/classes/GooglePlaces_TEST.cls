@@ -107,7 +107,7 @@ private with sharing class GooglePlaces_TEST {
         try {
             List<GooglePlaces.DataTableWrapper> wraps = GooglePlaces.searchPlace(school.Id, 56.1232, 81.123, 20, school.Type);
         } catch (Exception e) {
-            System.assert(e.getMessage() == 'Addresses returned by Google are not valid.', 'No churches created if return data is invalid.');
+            System.assert(e.getMessage() == 'All addresses for Google listings found are incomplete and therefore could not be used.', 'No churches created if return data is invalid.');
         }
         Test.stopTest();
     }
