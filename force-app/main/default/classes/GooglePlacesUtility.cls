@@ -4,11 +4,11 @@ public with sharing class GooglePlacesUtility {
     public static void validateInputs(Id account, Decimal longitude, Decimal latitude, Integer radius, String type) {
 
         if (!type.equalsIgnoreCase('school')) {
-            throwError('Type needs to be school.');
+            throwError('Invalid Account Type. Type needs to be school.');
         }
 
         if (longitude == null || latitude == null) {
-            throwError('Account Longitude and/or latitude are invalid.');
+            throwError('Invalid Account Billing Address. Billing Address Country and Zip are missing.');
         }
     }
 
