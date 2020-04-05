@@ -10,7 +10,8 @@ jobs:
 
         steps:
           - name: Checkout Repo
-            uses: actions/checkout
+            with:
+               ref: ${{ github.ref }}
           - name: output-directory
             run: ls -a
         #         working-directory: ./force-app
