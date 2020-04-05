@@ -4,7 +4,7 @@ on: [push]
 
 
 jobs:
-    push to sf:
+    push_to_sf:
 
         runs-on: ubuntu-latest
 
