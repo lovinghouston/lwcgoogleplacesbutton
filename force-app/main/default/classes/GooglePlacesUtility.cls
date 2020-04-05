@@ -48,6 +48,27 @@ public with sharing class GooglePlacesUtility {
         return response;
     }
 
+    public static HttpResponse createApiCall(String callType, Map<String, String> callParameters) {
+        Http http = new Http();
+        HttpRequest request = new HttpRequest();
+        String endpoint = '';
+        
+        if (callType.equals('textsearch')) {
+            endpoint = 'https://maps.googleapis.com/maps/api/place/textsearch/json'+ '?location=' + callParameters.get('latitude') + ',' + callParameters.get('longitude') + '&radius=' + callParameters.get('radius') + '&type=' + callParameters.get('type') + '&key=' + callParameters.get('apiKey');
+        }
+        if (callType.equals('details')) {
+            endpoint = 'https://maps.googleapis.com/maps/api/place/details/json'+ '?place_id=' + callParameters.get('placeId') + '&key=' + callParameters.get('apiKey');
+        }
+
+        request.setEndpoint(endpoint);
+        request.setMethod('GET');
+
+        HttpResponse response = http.send(request);
+        System.debug(callType + ' status code: ' + response.getStatusCode());
+        System.debug(callType + ' status: ' + response.getStatus());
+        return response;
+    }
+
     // Transform the returned Google response into readable Map
     public static Map<Integer, Map<String,Object>> processResults(HttpResponse response, String apiKey) {
 
@@ -76,6 +97,10 @@ public with sharing class GooglePlacesUtility {
         for (Integer i = 0; i < bulkData.keySet().size(); i ++) {
 
             Map<String, Object> bulkDataDetails = bulkData.get(i);
+            Map<String, String> callParameters = new Map<String, String>();
+            callParameters.put('placeId', (String)bulkDataDetails.get('place_id'));
+            callParameters.put('apiKey', apiKey);
+            HttpResponse detailsResponse2 = createApiCall('details', callParameters);
             HttpResponse detailsResponse = createDetailsCall(apiKey, (String)bulkDataDetails.get('place_id'));
             Map<String, Object> detailsData = (Map<String, Object>) JSON.deserializeUntyped(detailsResponse.getBody());
             Map<String, Object> detailsResults = (Map<String, Object>) detailsData.get('result');

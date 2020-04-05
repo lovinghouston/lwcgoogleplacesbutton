@@ -10,6 +10,14 @@ public class GooglePlaces {
                                         FROM Google_API_Key__mdt
                                         LIMIT 1];
         String apiKey = (String)googleKey.Value__c;
+        Map <String, String> callParameters = new Map<String, String>();
+        callParameters.put('apiKey', apiKey);
+        callParameters.put('longitude', String.valueOf(longitude));
+        callParameters.put('latitude', String.valueOf(latitude));
+        callParameters.put('radius', String.valueOf(radius));
+        callParameters.put('type', 'church');
+
+        HttpResponse response2 = GooglePlacesUtility.createApiCall('textsearch', callParameters);
 
         HttpResponse response = GooglePlacesUtility.createTextSearchCall(longitude, latitude, radius, apiKey, 'church');
         
