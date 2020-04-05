@@ -1,0 +1,18 @@
+File for Apex scripts that will be useful for testing
+
+DELETE ALL CSPS AND CHURCHES FOR A SCHOOL
+List<Church_School_Partnership__c> csps = [SELECT Id, Church_Account__c, School_Account__c
+                                     		FROM Church_School_Partnership__c
+                                     		WHERE School_Account__c = {{SCHOOL_ID}}];
+List<Id> churchIds = new List<Id>();
+
+for (Church_School_Partnership__c csp : csps) {
+    churchIds.add(csp.Church_Account__c);
+}
+
+List<Account> churches = [SELECT Id
+                         FROM Account
+                         WHERE Id IN :churchIds];
+
+delete csps;
+delete churches;
