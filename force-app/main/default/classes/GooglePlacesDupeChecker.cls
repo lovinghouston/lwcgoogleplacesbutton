@@ -6,13 +6,10 @@ public with sharing class GooglePlacesDupeChecker {
         List<Datacloud.FindDuplicatesResult> dupeResults;
         List<Account> processedChurches = new List<Account>();
         List<Account> dupeChurches = new List<Account>();
+        churches.put('Dupes', dupeChurches);
+        churches.put('Non-dupes', processedChurches);
       
-        try {
-            dupeResults = Datacloud.FindDuplicates.findDuplicates(rawChurches);
-        } catch (Exception e) {
-            System.debug(e.getMessage());
-            return null;
-        }
+        dupeResults = Datacloud.FindDuplicates.findDuplicates(rawChurches);
 
         System.debug('Dupe results size ' + dupeResults.size());
         System.debug('dupe results: ' + dupeResults);
@@ -45,9 +42,6 @@ public with sharing class GooglePlacesDupeChecker {
                 
             }
         }
-
-        churches.put('Dupes', dupeChurches);
-        churches.put('Non-dupes', processedChurches);
 
         return churches;
     }

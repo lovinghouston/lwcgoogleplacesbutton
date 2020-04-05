@@ -10,6 +10,7 @@ public class GooglePlaces {
                                         FROM Google_API_Key__mdt
                                         LIMIT 1];
         String apiKey = (String)googleKey.Value__c;
+        List<Account> churchesNeedCSP = new List<Account>();
         Map <String, String> callParameters = new Map<String, String>();
         callParameters.put('apiKey', apiKey);
         callParameters.put('longitude', String.valueOf(longitude));
@@ -24,22 +25,8 @@ public class GooglePlaces {
         // Create "raw" churches that will be checked for duplicates.           
         List<Account> rawChurches = GooglePlacesDML.createRawChurches(bulkData);
         Map<String, List<Account>> processedChurches = GooglePlacesDupeChecker.checkAccountDupes(rawchurches);
-        List<Account> churchesNeedCSP = new List<Account>();
 
-        if (processedChurches == null) {
-            // If no dupes, all churches will need CSPs
-            System.debug('Found no Duplicates');
-            try {
-                processedChurches.put('Non-dupes', rawChurches);
-            } catch (Exception e) {
-                System.debug('Error found! ' + e.getMessage());
-                GooglePlacesUtility.throwError('All addresses for Google listings found are incomplete and therefore could not be used.');
-            }
-        } else {
-            // The matched records will go through a check to see if CSPs exist for them
-            System.debug('Found duplicates');
-            churchesNeedCSP = GooglePlacesDupeChecker.checkCSPDupes(processedChurches.get('Dupes'), account);
-        }
+        if (processedChurches.get('Dupes').size() > 0) {churchesNeedCSP = GooglePlacesDupeChecker.checkCSPDupes(processedChurches.get('Dupes'), account);}
             
         // Raw churches will be inserted
         churchesNeedCSP.addAll(GooglePlacesDML.createProcessedChurches(processedChurches.get('Non-dupes')));
