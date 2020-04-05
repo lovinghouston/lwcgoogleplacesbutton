@@ -15,3 +15,4 @@ jobs:
 #         run: sfdx force:apex:test:run -l RunLocalTests -w 30
       - name: output-directory
         run: ls -a
+            cd .
