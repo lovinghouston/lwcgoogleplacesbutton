@@ -22,14 +22,14 @@ jobs:
             run: ls -a
           - uses: actions/checkout@v1
 
-          - run: mkdir -p force-app/main/default
+#           - run: mkdir -p force-app/main/default
 
 #           - run: echo hello > path/to/artifact/world.txt
 
           - uses: actions/upload-artifact@v1
             with:
-                name: sfdx-source
-                path: force-app/main/default
+                name: force-app
+                path: force-app
 
      
     test:
