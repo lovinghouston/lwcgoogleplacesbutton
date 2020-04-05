@@ -20,14 +20,31 @@ jobs:
             run: cd ~
           - name: output-directory
             run: ls -a
-          - name: push-to-salesforce-org
-            run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
+          - uses: actions/checkout@v1
+
+          - run: mkdir -p force-app/main/default
+
+#           - run: echo hello > path/to/artifact/world.txt
+
+          - uses: actions/upload-artifact@v1
+              with:
+                name: sfdx-source
+                path: force-app/main/default
+
      
     test:
   
         runs-on: ubuntu-latest
 
         steps:
+          - uses: actions/checkout@v1
+
+          - uses: actions/download-artifact@v1
+              with:
+                name: sfdx-source
+
+          - run: cat sfdx-source  
+            
           - uses: sfdx-actions/setup-sfdx@v1
             with:
               sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
@@ -41,3 +58,5 @@ jobs:
             run: ls -a
     #       - name: Zip Folder
     #         run: zip -r release.zip .
+          - name: push-to-salesforce-org
+            run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal             
