@@ -5,35 +5,35 @@ on: [push]
 
 jobs:
     push to sf:
-  
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: output-directory
-        run: ls -a
-#         working-directory: ./force-app
-      - name: output-directory
-        run: cd ~
-      - name: output-directory
-        run: ls -a
-#       - name: Zip Folder
-#         run: zip -r release.zip .
+
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: output-directory
+            run: ls -a
+        #         working-directory: ./force-app
+          - name: output-directory
+            run: cd ~
+          - name: output-directory
+            run: ls -a
+        #       - name: Zip Folder
+        #         run: zip -r release.zip .
      
-  test:
+    test:
   
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: sfdx-actions/setup-sfdx@v1
-        with:
-          sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
-#       - name: sfdx-test-run
-#         run: sfdx force:apex:test:run -l RunLocalTests -w 30
-      - name: output-directory
-        run: ls -a
-      - name: output-directory
-        run: cd ~
-      - name: output-directory
-        run: ls -a
-#       - name: Zip Folder
-#         run: zip -r release.zip .
+        runs-on: ubuntu-latest
+
+        steps:
+          - uses: sfdx-actions/setup-sfdx@v1
+            with:
+              sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
+    #       - name: sfdx-test-run
+    #         run: sfdx force:apex:test:run -l RunLocalTests -w 30
+          - name: output-directory
+            run: ls -a
+          - name: output-directory
+            run: cd ~
+          - name: output-directory
+            run: ls -a
+    #       - name: Zip Folder
+    #         run: zip -r release.zip .
