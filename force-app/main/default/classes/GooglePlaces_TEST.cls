@@ -43,8 +43,8 @@ private with sharing class GooglePlaces_TEST {
             GooglePlaces.searchPlace(school.Id, null, null, 20, school.Type);
         } catch (Exception e) {
             System.debug('Test Error message: ' + e.getMessage());
-            System.assert(e.getMessage() == 'Account Longitude and/or latitude are invalid.',
-            'Longitude/Latitude error should be thrown.');
+            System.assert(e.getMessage() == 'Invalid Account Billing Address. Billing Address Country and Zip are missing.',
+            'Address error should be thrown.');
         }
         Test.stopTest();
     }
@@ -60,8 +60,8 @@ private with sharing class GooglePlaces_TEST {
             GooglePlaces.searchPlace(school.Id, 56.123, 81.123, 20, 'Church');
         } catch (Exception e) {
             System.debug('Test Error message: ' + e.getMessage());
-            System.assert(e.getMessage() == 'Type needs to be school.',
-            'Type error should be thrown.');
+            System.assert(e.getMessage() == 'Invalid Account Type. Type needs to be school.',
+            'Invalid Account Type. Type needs to be school.');
         }
         Test.stopTest();
     }
@@ -107,7 +107,7 @@ private with sharing class GooglePlaces_TEST {
         try {
             List<GooglePlaces.DataTableWrapper> wraps = GooglePlaces.searchPlace(school.Id, 56.1232, 81.123, 20, school.Type);
         } catch (Exception e) {
-            System.assert(e.getMessage() == 'Addresses returned by Google are not valid.', 'No churches created if return data is invalid.');
+            System.assert(e.getMessage() == 'All addresses for Google listings found are incomplete and therefore could not be used.', 'No churches created if return data is invalid.');
         }
         Test.stopTest();
     }

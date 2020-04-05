@@ -33,9 +33,7 @@ public class GooglePlaces {
                 processedChurches.put('Non-dupes', rawChurches);
             } catch (Exception e) {
                 System.debug('Error found! ' + e.getMessage());
-                AuraHandledException ae = new AuraHandledException('Addresses returned by Google are not valid.');
-                ae.setMessage('Addresses returned by Google are not valid.');
-                throw ae;
+                GooglePlacesUtility.throwError('All addresses for Google listings found are incomplete and therefore could not be used.');
             }
         } else {
             // The matched records will go through a check to see if CSPs exist for them
