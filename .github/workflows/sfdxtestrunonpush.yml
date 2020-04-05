@@ -43,7 +43,7 @@ jobs:
             with:
                 name: repo
 
-          - run: cat repo  
+#           - run: cat repo  
             
           - uses: sfdx-actions/setup-sfdx@v1
             with:
