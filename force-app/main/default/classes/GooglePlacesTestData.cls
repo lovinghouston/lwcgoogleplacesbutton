@@ -70,177 +70,174 @@ public with sharing class GooglePlacesTestData {
         return csps;
     }
 
-    public static String textSearchValidKey() {
-        String result = '{' +
-        '   \"results\" : [' +
-        '       {' +
-        '           \"formatted_address\" : \"1425 Ocean Avenue, Del Mar, CA 92014\",' +
-        '           \"name\" : \"Del Mar Church\",' +
-        '           \"place_id\" : \"1425Ocean\",' +
-        '           \"rating\" : 5,' +
-        '           \"user_ratings_total\" : 20' +
-        '       }' +
-        '   ],' +
-        '   \"status\" : \"OK\"' +
-        '}';
-        return result;
-    }
+    public static String apiCallResponse(String callType, String testType) {
+        String result = '';
 
-    public static String textSearchInvalidKey() {
-        String result = '{' +
-        '   \"error_message\" : \"The provided API key is invalid.\",' +
-        '   \"results\" : [],' +
-        '   \"status\" : \"REQUEST_DENIED\"' +
-        '}';
-        return result;
-    }
+        if (callType.equals('textsearch')) {
 
-    public static String textSearchValidKeyNoStreetNumber() {
-        String result = '{' +
-        '   \"results\" : [' +
-        '       {' +
-        '           \"formatted_address\" : \"Ocean Avenue, Del Mar, CA 92014\",' +
-        '           \"name\" : \"Del Mar Church\",' +
-        '           \"place_id\" : \"1425Ocean\",' +
-        '           \"rating\" : 5,' +
-        '           \"user_ratings_total\" : 20' +
-        '       }' +
-        '   ],' +
-        '   \"status\" : \"OK\"' +
-        '}';
-        return result;
-    }
-
-    public static String textSearchValidKeyBadAddress() {
-        String result = '{' +
-        '   \"results\" : [' +
-        '       {' +
-        '           \"formatted_address\" : \"Del Mar, CA 92014\",' +
-        '           \"name\" : \"Del Mar Church\",' +
-        '           \"place_id\" : \"1425Ocean\",' +
-        '           \"rating\" : 5,' +
-        '           \"user_ratings_total\" : 20' +
-        '       }' +
-        '   ],' +
-        '   \"status\" : \"OK\"' +
-        '}';
-        return result;
-    }
-
-    public static String detailsSearchValidKey() {
-        String result = '{' +
-        '   \"result\" : {' +
-        '       \"address_components\" : [' +
-        '           {' +
-        '               \"long_name\" : \"1425\",' +
-        '               \"short_name\" : \"1425\",' +
-        '               \"types\" : [ \"street_number\" ]' +
-        '           },' +
-        '           {' +
-        '               \"long_name\" : \"Ocean Avenue\",' +
-        '               \"short_name\" : \"Ocean Ave\",' +
-        '               \"types\" : [ \"route\" ]' +
-        '           },' +
-        '           {' +
-        '               \"long_name\" : \"Del Mar\",' +
-        '               \"short_name\" : \"Del Mar\",' +
-        '               \"types\" : [ \"locality\" ]' +
-        '           },' +
-        '           {' +
-        '               \"long_name\" : \"California\",' +
-        '               \"short_name\" : \"CA\",' +
-        '               \"types\" : [ \"administrative_area_level_1\" ]' +
-        '           },' +
-        '           {' +
-        '               \"long_name\" : \"United States\",' +
-        '               \"short_name\" : \"US\",' +
-        '               \"types\" : [ \"country\" ]' +
-        '           },' +
-        '           {' +
-        '               \"long_name\" : \"92014\",' +
-        '               \"short_name\" : \"92014\",' +
-        '               \"types\" : [ \"postal_code\" ]' +
-        '           }' +
-        '       ],' +
-        '       \"formatted_phone_number\" : \"1234567890\",' +
-        '       \"name\" : \"Del Mar Church\",' +
-        '       \"website\" : \"delmarchurch\"' +
-        '       },' +
-        '   \"status\" : \"OK\"' +
-        '}';
-        return result;
-    }
-
-    public static String detailsSearchValidKeyNoStreetNumber() {
-        String result = '{' +
-        '   \"result\" : {' +
-        '       \"address_components\" : [' +
-        '           {' +
-        '               \"long_name\" : \"Ocean Avenue\",' +
-        '               \"short_name\" : \"Ocean Ave\",' +
-        '               \"types\" : [ \"route\" ]' +
-        '           },' +
-        '           {' +
-        '               \"long_name\" : \"Del Mar\",' +
-        '               \"short_name\" : \"Del Mar\",' +
-        '               \"types\" : [ \"locality\" ]' +
-        '           },' +
-        '           {' +
-        '               \"long_name\" : \"California\",' +
-        '               \"short_name\" : \"CA\",' +
-        '               \"types\" : [ \"administrative_area_level_1\" ]' +
-        '           },' +
-        '           {' +
-        '               \"long_name\" : \"United States\",' +
-        '               \"short_name\" : \"US\",' +
-        '               \"types\" : [ \"country\" ]' +
-        '           },' +
-        '           {' +
-        '               \"long_name\" : \"92014\",' +
-        '               \"short_name\" : \"92014\",' +
-        '               \"types\" : [ \"postal_code\" ]' +
-        '           }' +
-        '       ],' +
-        '       \"formatted_phone_number\" : \"1234567890\",' +
-        '       \"name\" : \"Del Mar Church\",' +
-        '       \"website\" : \"delmarchurch\"' +
-        '       },' +
-        '   \"status\" : \"OK\"' +
-        '}';
-        return result;
-    }
-
-    public static String detailsSearchValidKeyBadAddress() {
-        String result = '{' +
-        '   \"result\" : {' +
-        '       \"address_components\" : [' +
-        '           {' +
-        '               \"long_name\" : \"Del Mar\",' +
-        '               \"short_name\" : \"Del Mar\",' +
-        '               \"types\" : [ \"locality\" ]' +
-        '           },' +
-        '           {' +
-        '               \"long_name\" : \"California\",' +
-        '               \"short_name\" : \"CA\",' +
-        '               \"types\" : [ \"administrative_area_level_1\" ]' +
-        '           },' +
-        '           {' +
-        '               \"long_name\" : \"United States\",' +
-        '               \"short_name\" : \"US\",' +
-        '               \"types\" : [ \"country\" ]' +
-        '           },' +
-        '           {' +
-        '               \"long_name\" : \"92014\",' +
-        '               \"short_name\" : \"92014\",' +
-        '               \"types\" : [ \"postal_code\" ]' +
-        '           }' +
-        '       ],' +
-        '       \"formatted_phone_number\" : \"1234567890\",' +
-        '       \"name\" : \"Del Mar Church\",' +
-        '       \"website\" : \"delmarchurch\"' +
-        '       },' +
-        '   \"status\" : \"OK\"' +
-        '}';
+            if (testType.equals('validKey')) {
+                result = '{' +
+                '   \"results\" : [' +
+                '       {' +
+                '           \"formatted_address\" : \"1425 Ocean Avenue, Del Mar, CA 92014\",' +
+                '           \"name\" : \"Del Mar Church\",' +
+                '           \"place_id\" : \"1425Ocean\",' +
+                '           \"rating\" : 5,' +
+                '           \"user_ratings_total\" : 20' +
+                '       }' +
+                '   ],' +
+                '   \"status\" : \"OK\"' +
+                '}';
+            }
+            if (testType.equals('invalidKey')) {
+                result = '{' +
+                '   \"error_message\" : \"The provided API key is invalid.\",' +
+                '   \"results\" : [],' +
+                '   \"status\" : \"REQUEST_DENIED\"' +
+                '}';
+            }
+            if (testType.equals('noStreetNumber')) {
+                result = '{' +
+                '   \"results\" : [' +
+                '       {' +
+                '           \"formatted_address\" : \"Ocean Avenue, Del Mar, CA 92014\",' +
+                '           \"name\" : \"Del Mar Church\",' +
+                '           \"place_id\" : \"1425Ocean\",' +
+                '           \"rating\" : 5,' +
+                '           \"user_ratings_total\" : 20' +
+                '       }' +
+                '   ],' +
+                '   \"status\" : \"OK\"' +
+                '}';
+            }
+            if (testType.equals('badAddress')) {
+                result = '{' +
+                '   \"results\" : [' +
+                '       {' +
+                '           \"formatted_address\" : \"Del Mar, CA 92014\",' +
+                '           \"name\" : \"Del Mar Church\",' +
+                '           \"place_id\" : \"1425Ocean\",' +
+                '           \"rating\" : 5,' +
+                '           \"user_ratings_total\" : 20' +
+                '       }' +
+                '   ],' +
+                '   \"status\" : \"OK\"' +
+                '}';
+            }
+        }
+        if (callType.equals('details')) {
+            if (testType.equals('validKey')) {
+                result = '{' +
+                '   \"result\" : {' +
+                '       \"address_components\" : [' +
+                '           {' +
+                '               \"long_name\" : \"1425\",' +
+                '               \"short_name\" : \"1425\",' +
+                '               \"types\" : [ \"street_number\" ]' +
+                '           },' +
+                '           {' +
+                '               \"long_name\" : \"Ocean Avenue\",' +
+                '               \"short_name\" : \"Ocean Ave\",' +
+                '               \"types\" : [ \"route\" ]' +
+                '           },' +
+                '           {' +
+                '               \"long_name\" : \"Del Mar\",' +
+                '               \"short_name\" : \"Del Mar\",' +
+                '               \"types\" : [ \"locality\" ]' +
+                '           },' +
+                '           {' +
+                '               \"long_name\" : \"California\",' +
+                '               \"short_name\" : \"CA\",' +
+                '               \"types\" : [ \"administrative_area_level_1\" ]' +
+                '           },' +
+                '           {' +
+                '               \"long_name\" : \"United States\",' +
+                '               \"short_name\" : \"US\",' +
+                '               \"types\" : [ \"country\" ]' +
+                '           },' +
+                '           {' +
+                '               \"long_name\" : \"92014\",' +
+                '               \"short_name\" : \"92014\",' +
+                '               \"types\" : [ \"postal_code\" ]' +
+                '           }' +
+                '       ],' +
+                '       \"formatted_phone_number\" : \"1234567890\",' +
+                '       \"name\" : \"Del Mar Church\",' +
+                '       \"website\" : \"delmarchurch\"' +
+                '       },' +
+                '   \"status\" : \"OK\"' +
+                '}';
+            }
+            if (testType.equals('noStreetNumber')) {
+                result = '{' +
+                '   \"result\" : {' +
+                '       \"address_components\" : [' +
+                '           {' +
+                '               \"long_name\" : \"Ocean Avenue\",' +
+                '               \"short_name\" : \"Ocean Ave\",' +
+                '               \"types\" : [ \"route\" ]' +
+                '           },' +
+                '           {' +
+                '               \"long_name\" : \"Del Mar\",' +
+                '               \"short_name\" : \"Del Mar\",' +
+                '               \"types\" : [ \"locality\" ]' +
+                '           },' +
+                '           {' +
+                '               \"long_name\" : \"California\",' +
+                '               \"short_name\" : \"CA\",' +
+                '               \"types\" : [ \"administrative_area_level_1\" ]' +
+                '           },' +
+                '           {' +
+                '               \"long_name\" : \"United States\",' +
+                '               \"short_name\" : \"US\",' +
+                '               \"types\" : [ \"country\" ]' +
+                '           },' +
+                '           {' +
+                '               \"long_name\" : \"92014\",' +
+                '               \"short_name\" : \"92014\",' +
+                '               \"types\" : [ \"postal_code\" ]' +
+                '           }' +
+                '       ],' +
+                '       \"formatted_phone_number\" : \"1234567890\",' +
+                '       \"name\" : \"Del Mar Church\",' +
+                '       \"website\" : \"delmarchurch\"' +
+                '       },' +
+                '   \"status\" : \"OK\"' +
+                '}';
+            }
+            if (testType.equals('badAddress')) {
+                result = '{' +
+                '   \"result\" : {' +
+                '       \"address_components\" : [' +
+                '           {' +
+                '               \"long_name\" : \"Del Mar\",' +
+                '               \"short_name\" : \"Del Mar\",' +
+                '               \"types\" : [ \"locality\" ]' +
+                '           },' +
+                '           {' +
+                '               \"long_name\" : \"California\",' +
+                '               \"short_name\" : \"CA\",' +
+                '               \"types\" : [ \"administrative_area_level_1\" ]' +
+                '           },' +
+                '           {' +
+                '               \"long_name\" : \"United States\",' +
+                '               \"short_name\" : \"US\",' +
+                '               \"types\" : [ \"country\" ]' +
+                '           },' +
+                '           {' +
+                '               \"long_name\" : \"92014\",' +
+                '               \"short_name\" : \"92014\",' +
+                '               \"types\" : [ \"postal_code\" ]' +
+                '           }' +
+                '       ],' +
+                '       \"formatted_phone_number\" : \"1234567890\",' +
+                '       \"name\" : \"Del Mar Church\",' +
+                '       \"website\" : \"delmarchurch\"' +
+                '       },' +
+                '   \"status\" : \"OK\"' +
+                '}';
+            }
+        }
         return result;
     }
 }
