@@ -1,5 +1,29 @@
 public with sharing class GooglePlacesDupeChecker {
 
+    // Before returned data are checked for duplicates in the org, they first have to be checked among itself for duplicates. Using address to do this.
+    public static List<Account> preDupeCheck(List<Account> rawChurches) {
+        Map<String, Account> accounts = new Map<String, Account>();
+
+        for (Account church : rawChurches) {
+
+            String address = '';
+            address += church.BillingStreet;
+            address += church.BillingCity;
+            address += church.BillingState;
+            address += church.BillingPostalCode;
+            address += church.BillingCountry;
+            if (accounts.keySet().contains(address)) {
+                System.debug('Duplicate address found: ' + church);
+                System.debug('Duplicate for: ' + accounts.get(address));
+            }
+            accounts.put(address, church);
+        }
+        System.debug('Amount of churches before preDupeCheck: ' + rawChurches.size());
+        System.debug('Amount of churches after preDupeCheck: ' + accounts.keySet().size());
+        
+        return accounts.values();
+    }
+
     public static Map<String, List<Account>> checkAccountDupes (List<Account> rawChurches) {
 
         Map<String, List<Account>> churches = new Map<String, List<Account>>();

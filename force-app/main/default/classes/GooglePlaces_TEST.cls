@@ -97,6 +97,19 @@ private with sharing class GooglePlaces_TEST {
 
     }
 
+    //preDuplicates = duplicate addresses within Google's response
+    @isTest
+    static void testPreDuplicates() {
+        Account school = createSchoolAccount(1)[0];
+        GoogleMockCallout callout = new GoogleMockCallout('preDuplicates');
+
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, callout);
+        List<GooglePlaces.DataTableWrapper> wraps = GooglePlaces.searchPlace(school.Id, 56.1232, 81.123, 20, school.Type);
+        Test.stopTest();
+        System.assert(wraps.size() == 1, 'If addresses are the same for two places returned, only one CSP will be created.');
+    }
+
     @isTest
     static void testBadReturnAddress() {
         Account school = createSchoolAccount(1)[0];
@@ -248,6 +261,8 @@ private with sharing class GooglePlaces_TEST {
 
                 if (type.equals('noStreetNumber')) { response.setBody(apiCallResponse('textsearch', 'noStreetNumber')); }
 
+                if (type.equals('preDuplicates')) { response.setBody(apiCallResponse('textsearch', 'preDuplicates')); }
+
             }
             if (request.getEndpoint().contains('details')) {
 
@@ -258,6 +273,8 @@ private with sharing class GooglePlaces_TEST {
                 if (type.equals('badAddress')) { response.setBody(apiCallResponse('details', 'badAddress')); }
 
                 if (type.equals('noStreetNumber')) { response.setBody(apiCallResponse('details', 'noStreetNumber')); }
+
+                if (type.equals('preDuplicates')) { response.setBody(apiCallResponse('details', 'validKey')); }
 
             }
             if (type.equals('badStatusCode')) { response.setStatusCode(404); response.setStatus('The requested resource does not exist'); }
@@ -278,6 +295,27 @@ private with sharing class GooglePlaces_TEST {
                 '           \"formatted_address\" : \"1425 Ocean Avenue, Del Mar, CA 92014\",' +
                 '           \"name\" : \"Del Mar Church\",' +
                 '           \"place_id\" : \"1425Ocean\",' +
+                '           \"rating\" : 5,' +
+                '           \"user_ratings_total\" : 20' +
+                '       }' +
+                '   ],' +
+                '   \"status\" : \"OK\"' +
+                '}';
+            }
+            if (testType.equals('preDuplicates')) {
+                result = '{' +
+                '   \"results\" : [' +
+                '       {' +
+                '           \"formatted_address\" : \"1425 Ocean Avenue, Del Mar, CA 92014\",' +
+                '           \"name\" : \"Del Mar Church\",' +
+                '           \"place_id\" : \"1425Ocean\",' +
+                '           \"rating\" : 5,' +
+                '           \"user_ratings_total\" : 20' +
+                '       },' +
+                '       {' +
+                '           \"formatted_address\" : \"1425 Ocean Avenue, Del Mar, CA 92014\",' +
+                '           \"name\" : \"Del Mar Church 2\",' +
+                '           \"place_id\" : \"1425Ocean2\",' +
                 '           \"rating\" : 5,' +
                 '           \"user_ratings_total\" : 20' +
                 '       }' +

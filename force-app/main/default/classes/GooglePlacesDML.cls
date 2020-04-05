@@ -46,8 +46,7 @@ public with sharing class GooglePlacesDML {
             }
             
         }
-        
-        return churches;
+        return GooglePlacesDupeChecker.preDupeCheck(churches);
     }
 
     public static List<Account> createProcessedChurches (List<Account> processedChurches) {
