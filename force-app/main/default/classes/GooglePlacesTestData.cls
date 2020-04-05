@@ -124,7 +124,7 @@ public with sharing class GooglePlacesTestData {
         '   ],' +
         '   \"status\" : \"OK\"' +
         '}';
-        return result; 
+        return result;
     }
 
     public static String detailsSearchValidKey() {
