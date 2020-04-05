@@ -16,7 +16,27 @@ public with sharing class GooglePlacesUtility {
         }
     }
 
-    // Textsearch API Call for the initial search
+    // Checking the results if status code and if any error message is returned by Google 
+    public static void validateResults(HttpResponse response) {
+
+        if (response.getStatusCode() != 200) {
+            AuraHandledException ae = new AuraHandledException(response.getStatus());
+            ae.setMessage(response.getStatus());
+            throw ae;
+        }
+
+        Map<String, Object> googleResults = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+
+        if (!googleResults.get('status').equals('OK')) {
+            System.debug('Error: ' + googleResults.get('error_message'));
+            AuraHandledException e = new AuraHandledException('Error with Google Call: Status: ' + googleResults.get('status') + ' Error Message: ' + googleResults.get('error_message'));
+            e.setMessage('Error with Google Call: Status: ' + googleResults.get('status') + ' Error Message: ' + googleResults.get('error_message'));
+            throw e;
+        }
+    }
+
+    // Textsearch API Call for the initial search -- Refactored into createApiCall
+    /*
     public static HttpResponse createTextSearchCall(Decimal longitude, Decimal latitude, Integer radius, String apiKey, String type) {
         Http http = new Http();
         HttpRequest request = new HttpRequest();
@@ -28,11 +48,13 @@ public with sharing class GooglePlacesUtility {
         HttpResponse response = http.send(request);
         System.debug('Text Search status code: ' + response.getStatusCode());
         System.debug('Text Search status: ' + response.getStatus());
-    
+        
         return response;
     }
+    */
 
-    // Details call for more information about each place (placeId is from textSearch call)
+    // Details call for more information about each place (placeId is from textSearch call) -- Refactored into createApiCall
+    /*
     public static HttpResponse createDetailsCall(String apiKey, String placeId) {
         Http http = new Http();
         HttpRequest request = new HttpRequest();
@@ -47,7 +69,9 @@ public with sharing class GooglePlacesUtility {
 
         return response;
     }
+    */
 
+    // Method for creating API call for both textsearch and details call
     public static HttpResponse createApiCall(String callType, Map<String, String> callParameters) {
         Http http = new Http();
         HttpRequest request = new HttpRequest();
@@ -66,6 +90,8 @@ public with sharing class GooglePlacesUtility {
         HttpResponse response = http.send(request);
         System.debug(callType + ' status code: ' + response.getStatusCode());
         System.debug(callType + ' status: ' + response.getStatus());
+        validateResults(response);
+
         return response;
     }
 
@@ -77,13 +103,6 @@ public with sharing class GooglePlacesUtility {
         System.debug('Response Body: ' + response.getBody());
         Map<String, Object> googleResults = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
         System.debug('google Results: ' + googleResults);
-        
-        if (!googleResults.get('status').equals('OK')) {
-            System.debug('Error: ' + googleResults.get('error_message'));
-            AuraHandledException e = new AuraHandledException('Error with Google Call: Status: ' + googleResults.get('status') + ' Error Message: ' + googleResults.get('error_message'));
-            e.setMessage('Error with Google Call: Status: ' + googleResults.get('status') + ' Error Message: ' + googleResults.get('error_message'));
-            throw e;
-        }
 
         List<Object> results = (List<Object>) googleResults.get('results');
         
@@ -100,8 +119,8 @@ public with sharing class GooglePlacesUtility {
             Map<String, String> callParameters = new Map<String, String>();
             callParameters.put('placeId', (String)bulkDataDetails.get('place_id'));
             callParameters.put('apiKey', apiKey);
-            HttpResponse detailsResponse2 = createApiCall('details', callParameters);
-            HttpResponse detailsResponse = createDetailsCall(apiKey, (String)bulkDataDetails.get('place_id'));
+            HttpResponse detailsResponse = createApiCall('details', callParameters);
+            // HttpResponse detailsResponse = createDetailsCall(apiKey, (String)bulkDataDetails.get('place_id'));
             Map<String, Object> detailsData = (Map<String, Object>) JSON.deserializeUntyped(detailsResponse.getBody());
             Map<String, Object> detailsResults = (Map<String, Object>) detailsData.get('result');
             bulkDataDetails.putAll(detailsResults);

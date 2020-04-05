@@ -17,16 +17,9 @@ public class GooglePlaces {
         callParameters.put('radius', String.valueOf(radius));
         callParameters.put('type', 'church');
 
-        HttpResponse response2 = GooglePlacesUtility.createApiCall('textsearch', callParameters);
+        HttpResponse response = GooglePlacesUtility.createApiCall('textsearch', callParameters);
 
-        HttpResponse response = GooglePlacesUtility.createTextSearchCall(longitude, latitude, radius, apiKey, 'church');
-        
-        // If the request is successful, parse the JSON response. Status code is always 200 for Google Maps API
-        if (response.getStatusCode() != 200) {
-            AuraHandledException ae = new AuraHandledException(response.getStatus());
-            ae.setMessage(response.getStatus());
-            throw ae;
-        }
+        // HttpResponse response = GooglePlacesUtility.createTextSearchCall(longitude, latitude, radius, apiKey, 'church');
             
         // Deserialize the JSON string into collections of primitive data types.
         Map<Integer, Map<String,Object>> bulkData = GooglePlacesUtility.processResults(response, apiKey); 
@@ -42,8 +35,8 @@ public class GooglePlaces {
                 processedChurches.put('Non-dupes', rawChurches);
             } catch (Exception e) {
                 System.debug('Error found! ' + e.getMessage());
-                AuraHandledException ae = new AuraHandledException('No valid data returned.');
-                ae.setMessage('No valid data returned.');
+                AuraHandledException ae = new AuraHandledException('Addresses returned by Google are not valid.');
+                ae.setMessage('Addresses returned by Google are not valid.');
                 throw ae;
             }
         } else {
