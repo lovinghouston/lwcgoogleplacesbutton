@@ -2,6 +2,23 @@ name: SFDX Test Run on Push
 
 on: [push]
 
+
+jobs:
+  push to sf:
+  
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: output-directory
+        run: ls -a
+#         working-directory: ./force-app
+      - name: output-directory
+        run: cd ~
+      - name: output-directory
+        run: ls -a
+#       - name: Zip Folder
+#         run: zip -r release.zip .
+
 jobs:
   test:
   
@@ -15,7 +32,6 @@ jobs:
 #         run: sfdx force:apex:test:run -l RunLocalTests -w 30
       - name: output-directory
         run: ls -a
-        working-directory: ./force-app
       - name: output-directory
         run: cd ~
       - name: output-directory
