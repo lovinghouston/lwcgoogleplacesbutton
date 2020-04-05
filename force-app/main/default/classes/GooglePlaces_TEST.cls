@@ -153,7 +153,7 @@ private with sharing class GooglePlaces_TEST {
             GooglePlaces.searchPlace(school.Id, 43.1, 12.1, 5, school.Type);
         } catch (Exception e) {
             System.debug('Test error found: ' + e.getMessage());
-            System.assert(e.getMessage() == 'Type needs to be school.', 'If type is null, component will alert user about invalid Type.');
+            System.assert(e.getMessage() == 'Invalid Account Type. Type needs to be school.', 'If type is null, component will alert user about invalid Type.');
         }
     }
 
