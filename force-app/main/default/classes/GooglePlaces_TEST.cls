@@ -140,6 +140,23 @@ private with sharing class GooglePlaces_TEST {
         System.assert(wraps.size() == 0, 'If existing CSP, no new CSP is created.');
     }
 
+    @isTest
+    static void testNullType() {
+        Account school = createSchoolAccount(1)[0];
+        school.Type = null;
+        update school;
+        GoogleMockCallout callout = new GoogleMockCallout('validKey');
+
+        Test.startTest();
+        Test.setMock(HttpCalloutMock.class, callout);
+        try {
+            GooglePlaces.searchPlace(school.Id, 43.1, 12.1, 5, school.Type);
+        } catch (Exception e) {
+            System.debug('Test error found: ' + e.getMessage());
+            System.assert(e.getMessage() == 'Type needs to be school.', 'If type is null, component will alert user about invalid Type.');
+        }
+    }
+
     public static List<Account> createSchoolAccount(Integer amount) {
         String schoolRT = Schema.SObjectType.Account.getRecordTypeInfosByName().get('School').getRecordTypeId();
         List<Account> schools = new List<Account>();
@@ -208,7 +225,7 @@ private with sharing class GooglePlaces_TEST {
         insert csps;
         return csps;
     }
-    
+
     public class GoogleMockCallout implements HttpCalloutMock {
         public String type;
 
