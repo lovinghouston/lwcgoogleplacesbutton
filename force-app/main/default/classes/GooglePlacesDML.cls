@@ -47,6 +47,7 @@ public with sharing class GooglePlacesDML {
             
         }
         
+        if (churches == null || churches.size() == 0) { GooglePlacesUtility.throwError('All addresses for Google listings found are incomplete and therefore could not be used.'); }
         return churches;
     }
 
