@@ -15,7 +15,7 @@ jobs:
 #         run: sfdx force:apex:test:run -l RunLocalTests -w 30
       - name: output-directory
         run: ls -a
-#         working-directory: force-app
+        working-directory: ./force-app
       - name: output-directory
         run: cd ~
       - name: output-directory
