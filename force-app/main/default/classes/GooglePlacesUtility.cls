@@ -3,7 +3,7 @@ public with sharing class GooglePlacesUtility {
     // Making sure inputs are acceptable before making the call
     public static void validateInputs(Id account, Decimal longitude, Decimal latitude, Integer radius, String type) {
 
-        if (!type.equalsIgnoreCase('school')) {
+        if (type == null || !type.equalsIgnoreCase('school')) {
             throwError('Invalid Account Type. Type needs to be school.');
         }
 
