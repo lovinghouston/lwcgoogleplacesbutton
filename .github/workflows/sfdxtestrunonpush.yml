@@ -41,9 +41,9 @@ jobs:
 
           - uses: actions/download-artifact@v1
             with:
-                name: sfdx-source
+                name: repo
 
-          - run: cat sfdx-source  
+          - run: cat repo  
             
           - uses: sfdx-actions/setup-sfdx@v1
             with:
