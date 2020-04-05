@@ -10,6 +10,7 @@ jobs:
 
         steps:
           - name: Checkout Repo
+            uses: actions/checkout@master
             with:
                ref: ${{ github.ref }}
           - name: output-directory
