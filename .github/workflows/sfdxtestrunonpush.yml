@@ -13,57 +13,10 @@ jobs:
             uses: actions/checkout@master
             with:
                ref: ${{ github.ref }}
-          - name: output-directory
-            run: ls -a
-        #         working-directory: ./force-app
-          - name: output-directory
-            run: cd ~
-          - name: output-directory
-            run: ls -a
-          - uses: actions/checkout@v1
-
-#           - run: mkdir -p force-app/main/default
-
-#           - run: echo hello > path/to/artifact/world.txt
-
-#           - uses: actions/upload-artifact@v1
-#             with:
-#                 name: repo
-#                 path: ./
           - uses: sfdx-actions/setup-sfdx@v1
             with:
               sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
           - name: sfdx-test-run
             run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
           - name: sfdx-test-run
-            run: sfdx force:apex:test:run -l RunLocalTests -w 30
-
-     
-#     test:
-        
-#         runs-on: ubuntu-latest
-#         needs: push_to_sf
-#         steps:
-#           - uses: actions/checkout@v1
-
-#           - uses: actions/download-artifact@v1
-#             with:
-#                 name: repo
-
-# #           - run: cat repo  
-            
-#           - uses: sfdx-actions/setup-sfdx@v1
-#             with:
-#               sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
-#     #       - name: sfdx-test-run
-#     #         run: sfdx force:apex:test:run -l RunLocalTests -w 30
-#           - name: output-directory
-#             run: ls -a
-#           - name: output-directory
-#             run: cd ~
-#           - name: output-directory
-#             run: ls -a
-#     #       - name: Zip Folder
-#     #         run: zip -r release.zip .
-#           - name: push-to-salesforce-org
-#             run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal             
+            run: sfdx force:apex:test:run -l RunLocalTests -w 30         
