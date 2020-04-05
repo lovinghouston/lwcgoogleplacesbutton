@@ -25,7 +25,7 @@ public with sharing class GooglePlacesTestData {
         }
         List<Account> queriedSchools = [SELECT Id, BillingLongitude, BillingLatitude, Type FROM Account WHERE Id IN :schoolId];
 
-        return queriedSchools;
+        return queriedSchools; 
     }
 
     public static List<Account> createDuplicateChurchAccount(Integer amount) {
