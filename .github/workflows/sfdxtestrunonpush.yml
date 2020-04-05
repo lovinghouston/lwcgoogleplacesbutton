@@ -4,7 +4,7 @@ on: [push]
 
 
 jobs:
-  push to sf:
+    push to sf:
   
     runs-on: ubuntu-latest
     
@@ -18,8 +18,7 @@ jobs:
         run: ls -a
 #       - name: Zip Folder
 #         run: zip -r release.zip .
-
-jobs:
+     
   test:
   
     runs-on: ubuntu-latest
