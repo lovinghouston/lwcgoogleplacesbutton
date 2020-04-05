@@ -16,6 +16,6 @@ jobs:
       - name: output-directory
         run: ls -a
       - name: output-directory
-        run: cd ..
+        run: cd sfdx
       - name: output-directory
         run: ls -a
