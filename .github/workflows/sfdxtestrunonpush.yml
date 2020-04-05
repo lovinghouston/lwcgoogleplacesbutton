@@ -17,3 +17,5 @@ jobs:
         run: ls -a
       - name: output-directory
         run: cd ..
+      - name: output-directory
+        run: ls -a
