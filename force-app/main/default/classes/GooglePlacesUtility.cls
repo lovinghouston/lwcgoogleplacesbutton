@@ -34,7 +34,8 @@ public with sharing class GooglePlacesUtility {
         String endpoint = '';
         
         if (callType.equals('textsearch')) {
-            endpoint = 'https://maps.googleapis.com/maps/api/place/textsearch/json'+ '?location=' + callParameters.get('latitude') + ',' + callParameters.get('longitude') + '&radius=' + callParameters.get('radius') + '&type=' + callParameters.get('type') + '&key=' + callParameters.get('apiKey');
+            endpoint = 'https://maps.googleapis.com/maps/api/place/textsearch/json'+ '?location=' + callParameters.get('latitude') + ',' + 
+            callParameters.get('longitude') + '&radius=' + callParameters.get('radius') + '&type=' + callParameters.get('type') + '&key=' + callParameters.get('apiKey');
         }
         if (callType.equals('details')) {
             endpoint = 'https://maps.googleapis.com/maps/api/place/details/json'+ '?place_id=' + callParameters.get('placeId') + '&key=' + callParameters.get('apiKey');

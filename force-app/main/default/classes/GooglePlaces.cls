@@ -42,13 +42,15 @@ public class GooglePlaces {
         Map<Id, Account> accounts = new Map<Id, Account>();
         
         for (Church_School_Partnership__c csp : csps) {
-            accountIds.add(csp.School_Account__c);
             accountIds.add(csp.Church_Account__c);
             cspIds.add(csp.Id);
         }
 
         List<Account> allAccounts = [SELECT Id, Name, Website, Phone, Google_Maps_Listing__c, Number_of_Google_Maps_Ratings__c, Google_Maps_Rating__c FROM Account WHERE Id IN :accountIds];
-        List<Church_School_Partnership__c> partnerships = [SELECT Id, Name, School_Account__c, School_Name__c, Church_Account__c, Church_Name__c, Status__c,Church_School_Disatnce__c
+        // CSP query is required due to formula fields that are required. Recalculate formulas is one way to bypass this, 
+        // but this requires security settings for profiles to be re-evaluated for certain fields (Church_Account__c), so this is a bigger project.
+        List<Church_School_Partnership__c> partnerships = [SELECT Id, Name, School_Account__c, School_Name__c, 
+                                                            Church_Account__c, Church_Name__c, Status__c
                                                             FROM Church_School_Partnership__c 
                                                             WHERE Id IN :cspIds];
 
@@ -70,7 +72,6 @@ public class GooglePlaces {
             wrapper.googleMapsRating = accounts.get(csp.Church_Account__c).Google_Maps_Rating__c;
             wrapper.googleMapsRatingAmount = accounts.get(csp.Church_Account__c).Number_of_Google_Maps_Ratings__c;
             wrapper.phone = accounts.get(csp.Church_Account__c).Phone;
-            wrapper.distance = csp.Church_School_Disatnce__c;
             wrappers.add(wrapper);
         }
 
