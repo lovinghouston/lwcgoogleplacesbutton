@@ -9,6 +9,8 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+          - name: docker image of cumulusci
+            uses: docker://arcusglobal/cumulusci:1.0
           - name: checkout current branch
             uses: actions/checkout@master
             with:
@@ -16,7 +18,7 @@ jobs:
           - name: checkout npsp
             uses: actions/checkout@master
             with:
-              repository: SalesforceFoundation/NPSP
+              repository: SalesforceFoundation/NPSP@master
               path: NPSP
           - name: open NPSP
             run: cd NPSP
