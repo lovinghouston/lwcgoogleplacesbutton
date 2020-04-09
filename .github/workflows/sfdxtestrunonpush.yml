@@ -21,7 +21,7 @@ jobs:
           - name: open NPSP
             run: cd NPSP
           - name: look at NPSP files
-            run: ls
+            run: ls NPSP
           # - uses: sfdx-actions/setup-sfdx@v1
           #   with:
           #     sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
