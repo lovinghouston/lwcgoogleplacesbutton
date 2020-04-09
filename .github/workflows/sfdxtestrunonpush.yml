@@ -10,7 +10,7 @@ jobs:
 
         steps:
           - name: docker image of cumulusci
-            uses: docker://alpine:3.8
+            uses: docker://arcusglobal/cumulusci:1.0
             with:
               entrypoint: /bin/sh
               args: -c "cat /etc/alpine-release >> test.txt"
