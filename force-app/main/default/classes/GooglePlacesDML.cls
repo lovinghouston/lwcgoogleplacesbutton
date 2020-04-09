@@ -64,7 +64,6 @@ public with sharing class GooglePlacesDML {
     }
 
     public static List<Church_School_Partnership__c> createPotentialCSPs (List<Account> churches, Id account) {
-        Account school = [SELECT Id, BillingAddress FROM Account WHERE Id = :account];
         
         if (churches.size() == 0) {
             System.debug('20 closest Churches have already been found and created');
@@ -91,16 +90,10 @@ public with sharing class GooglePlacesDML {
 
         insert partnerships;       
 
-        List<Id> cspIds = new List<Id>();
         for (Church_School_Partnership__c partnership : partnerships) {
             System.debug('Inserted CSP record Id: ' + partnership.Id);
-            cspIds.add(partnership.Id);
         }
 
-        List<Church_School_Partnership__c> queriedPartnerships = [SELECT Name, School_Name__c, Church_Name__c, Church_Account__c, School_Account__c, Id, Status__c
-                                                                    FROM Church_School_Partnership__c
-                                                                    WHERE Id IN :cspIds];
-
-        return queriedPartnerships;
+        return partnerships;
     }
 }
