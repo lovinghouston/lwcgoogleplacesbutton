@@ -6,7 +6,7 @@ on: [push]
 jobs:
     push_to_sf:
 
-        runs-on: macos-latest
+        runs-on: ubuntu-latest
 
         steps:
           - name: docker image of cumulusci
