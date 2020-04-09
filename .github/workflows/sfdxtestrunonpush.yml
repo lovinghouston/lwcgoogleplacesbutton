@@ -11,6 +11,8 @@ jobs:
         steps:
           - name: docker image of cumulusci
             uses: docker://alpine:3.8
+            with:
+              entrypoint: /bin/sh
           # - name: install homebrew step 1
           #   run: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
           # - name: install homebrew step 2
