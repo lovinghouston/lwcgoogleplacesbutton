@@ -9,8 +9,10 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-          - name: docker image of cumulusci
-            uses: docker://arcusglobal/cumulusci:1.0
+          # - name: docker image of cumulusci
+          #   uses: docker://arcusglobal/cumulusci:1.0
+          - name: install cumulusci using homebrew
+            run: brew tap SFDO-Tooling/homebrew-sfdo && brew install cumulusci
           - name: checkout current branch
             uses: actions/checkout@master
             with:
