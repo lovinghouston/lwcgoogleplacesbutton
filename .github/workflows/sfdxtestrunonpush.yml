@@ -18,12 +18,14 @@ jobs:
           - name: checkout npsp
             uses: actions/checkout@master
             with:
-              repository: SalesforceFoundation/NPSP@master
+              repository: SalesforceFoundation/NPSP
               path: NPSP
           - name: open NPSP
             run: cd NPSP
           - name: look at NPSP files
             run: ls NPSP
+          - name: cci org list
+            run: cci org list
           # - uses: sfdx-actions/setup-sfdx@v1
           #   with:
           #     sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
