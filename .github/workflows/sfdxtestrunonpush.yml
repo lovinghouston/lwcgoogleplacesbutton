@@ -9,10 +9,10 @@ jobs:
         runs-on: macos-latest
 
         steps:
-          # - name: docker image of cumulusci
-          #   uses: docker://arcusglobal/cumulusci:1.0
-          - name: install homebrew step 1
-            run: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+          - name: docker image of cumulusci
+            uses: docker://arcusglobal/cumulusci:1.0
+          # - name: install homebrew step 1
+          #   run: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
           # - name: install homebrew step 2
           #   run: test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
           # - name: install homebrew step 3
@@ -21,8 +21,8 @@ jobs:
           #   run: test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
           # - name: install homebrew step 5
           #   run: echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
-          - name: install cumulusci using homebrew
-            run: brew tap SFDO-Tooling/homebrew-sfdo && brew install cumulusci
+          # - name: install cumulusci using homebrew
+          #   run: brew tap SFDO-Tooling/homebrew-sfdo && brew install cumulusci
           - name: checkout current branch
             uses: actions/checkout@master
             with:
