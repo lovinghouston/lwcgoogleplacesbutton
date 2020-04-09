@@ -13,7 +13,6 @@ jobs:
             uses: docker://arcusglobal/cumulusci:1.0
             with:
               entrypoint: /bin/sh
-              args: -c "cat /etc/alpine-release >> test.txt"
           # - name: install homebrew step 1
           #   run: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
           # - name: install homebrew step 2
