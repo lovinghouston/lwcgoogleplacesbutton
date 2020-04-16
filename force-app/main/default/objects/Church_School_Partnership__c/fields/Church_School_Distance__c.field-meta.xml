@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Church_School_Distance__c</fullName>
+    <externalId>false</externalId>
+    <formula>DISTANCE(GEOLOCATION(Church_Account__r.BillingLatitude  , Church_Account__r.BillingLongitude ),     GEOLOCATION( School_Account__r.BillingLatitude ,School_Account__r.BillingLongitude  )    , &#39;mi&#39;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Church School Distance</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
