@@ -5,15 +5,22 @@
             <template if:true={loading}>
                 <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
             </template>
+            <template if:true={showCSPs}>
+                <lightning-formatted-text class="slds-p-left_medium" value="Success! "></lightning-formatted-text>
+                <a href={cspRelatedListUrl}>Click here to see new and existing Church School Partnerships.</a>
+            </template>
             <template if:true={noCSPs}>
-                <lightning-formatted-text class="slds-p-left_medium" value="20 closest Churches have already been found and created"></lightning-formatted-text>
+                <lightning-formatted-text class="slds-p-left_medium" value="Maximum number (20) of Churches have already been found. "></lightning-formatted-text>
+                <a href={cspRelatedListUrl}>Click here to see existing Church School Partnerships.</a>
             </template>
             <template if:true={hasError}>
                 <lightning-formatted-text class="slds-p-left_medium" style="color: red;" value={errorMessage}></lightning-formatted-text>
             </template>
     </lightning-card>
+    <!-- Commenting out since data-table will not be required 
     <template class="slds-p-top_medium" if:true={showCSPs}>
         <lightning-datatable class="slds-p-top_medium" data={csps} key-field="Id" columns={columns}>
         </lightning-datatable>
     </template>
+    -->
 </template>

@@ -33,6 +33,7 @@ const columns = [
 export default class ApiCallButton extends NavigationMixin(LightningElement) {
 
     @track showCSPs = false;
+    showCSPs2 = true;
     @track noCSPs = false;
     @api recordId;
     @track csps;
@@ -40,6 +41,7 @@ export default class ApiCallButton extends NavigationMixin(LightningElement) {
     @track loading = false;
     @track hasError = false;
     @track errorMessage;
+    cspRelatedListUrl;
 
     @wire(getRecord, {recordId: '$recordId', fields: FIELDS})
     account;
@@ -49,6 +51,31 @@ export default class ApiCallButton extends NavigationMixin(LightningElement) {
     billingLatitude = getFieldValue(this.account.fields, BillingLatitude);
     billingLongitude = getFieldValue(this.account.fields, BillingLongitude);
     */
+
+    connectedCallback() {
+        this[NavigationMixin.GenerateUrl]({
+            type: 'standard__recordRelationshipPage',
+            attributes: {
+                objectApiName: 'Account',
+                recordId: this.recordId,
+                actionName: 'view',
+                relationshipApiName: 'Church_School_Partnerships1__r'
+            }
+        }).then(url => {
+            this.cspRelatedListUrl = url;
+        });
+    }
+
+    handleRelatedListClick() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordRelationshipPage',
+            attributes: {
+                objectApiName: 'Account',
+                recordId: this.recordId,
+                actionName: 'view'
+            }
+        })
+    }
 
     handleFindChurchesClick() {
         this.hasError = false;
