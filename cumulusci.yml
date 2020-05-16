@@ -1,0 +1,18 @@
+minimum_cumulusci_version: '3.12.2'
+project:
+    name: lovinghouston
+    package:
+        name:  lovinghouston
+        api_version: '48.0'
+
+tasks:
+    robot:
+        options:
+            suites: robot/lovinghouston/tests
+            options:
+                outputdir: robot/lovinghouston/results
+
+    robot_testdoc:
+        options:
+            path: robot/lovinghouston/tests
+            output: robot/lovinghouston/doc/lovinghouston_tests.html
