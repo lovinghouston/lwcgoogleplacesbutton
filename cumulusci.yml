@@ -4,6 +4,7 @@ project:
     package:
         name:  lovinghouston
         api_version: '48.0'
+    source_format: sfdx
 
 tasks:
     robot:
