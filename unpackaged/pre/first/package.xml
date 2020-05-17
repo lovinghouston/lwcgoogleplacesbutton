@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+	<types>
+		<members>Account</members>
+		<members>Children_at_Risk_Data__c</members>
+		<members>Church_Network__c</members>
+		<members>Church_School_Partnership__c</members>
+		<members>Church__c</members>
+		<members>District__c</members>
+		<members>Network_District_Partnership__c</members>
+		<members>Partnership_Activity_Log__c</members>
+		<members>Partnership_Activity__c</members>
+		<members>Partnership_Hour__c</members>
+		<members>School__c</members>
+		<name>CustomObject</name>
+	</types>
+	<version>48.0</version>
+</Package>

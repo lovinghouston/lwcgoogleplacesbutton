@@ -1,0 +1,1002 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>Default</fullName>
+        <fields>Name</fields>
+        <fields>Church_Network__c</fields>
+        <fields>Denomination__c</fields>
+        <fields>Email__c</fields>
+        <fields>Phone__c</fields>
+        <fields>Pastor__c</fields>
+        <fields>City__c</fields>
+        <label>Default</label>
+    </compactLayouts>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>false</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
+    <fields>
+        <fullName>Church_Network__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Church Network</label>
+        <referenceTo>Church_Network__c</referenceTo>
+        <relationshipLabel>Churches</relationshipLabel>
+        <relationshipName>Churches</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>City__c</fullName>
+        <externalId>false</externalId>
+        <label>City</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Common_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Common Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Denomination_Subgroup__c</fullName>
+        <externalId>false</externalId>
+        <label>Denomination Subgroup</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Denomination__c</controllingField>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>ABA</fullName>
+                    <default>false</default>
+                    <label>ABA</label>
+                </value>
+                <value>
+                    <fullName>ARP</fullName>
+                    <default>false</default>
+                    <label>ARP</label>
+                </value>
+                <value>
+                    <fullName>Association of Evangelical Gospel Assemblies</fullName>
+                    <default>false</default>
+                    <label>Association of Evangelical Gospel Assemblies</label>
+                </value>
+                <value>
+                    <fullName>Disciples of Christ</fullName>
+                    <default>false</default>
+                    <label>Disciples of Christ</label>
+                </value>
+                <value>
+                    <fullName>EFCA</fullName>
+                    <default>false</default>
+                    <label>EFCA</label>
+                </value>
+                <value>
+                    <fullName>ELCA</fullName>
+                    <default>false</default>
+                    <label>ELCA</label>
+                </value>
+                <value>
+                    <fullName>EPC</fullName>
+                    <default>false</default>
+                    <label>EPC</label>
+                </value>
+                <value>
+                    <fullName>Evangelical</fullName>
+                    <default>false</default>
+                    <label>Evangelical</label>
+                </value>
+                <value>
+                    <fullName>Independent</fullName>
+                    <default>false</default>
+                    <label>Independent</label>
+                </value>
+                <value>
+                    <fullName>LCMS</fullName>
+                    <default>false</default>
+                    <label>LCMS</label>
+                </value>
+                <value>
+                    <fullName>Missionary</fullName>
+                    <default>false</default>
+                    <label>Missionary</label>
+                </value>
+                <value>
+                    <fullName>Missouri Synod</fullName>
+                    <default>false</default>
+                    <label>Missouri Synod</label>
+                </value>
+                <value>
+                    <fullName>Nondenominational</fullName>
+                    <default>false</default>
+                    <label>Nondenominational</label>
+                </value>
+                <value>
+                    <fullName>PCA</fullName>
+                    <default>false</default>
+                    <label>PCA</label>
+                </value>
+                <value>
+                    <fullName>PCUSA</fullName>
+                    <default>false</default>
+                    <label>PCUSA</label>
+                </value>
+                <value>
+                    <fullName>Presbytery of the New Covenant</fullName>
+                    <default>false</default>
+                    <label>Presbytery of the New Covenant</label>
+                </value>
+                <value>
+                    <fullName>Reformed Episcopal Church</fullName>
+                    <default>false</default>
+                    <label>Reformed Episcopal Church</label>
+                </value>
+                <value>
+                    <fullName>SBC</fullName>
+                    <default>false</default>
+                    <label>SBC</label>
+                </value>
+                <value>
+                    <fullName>UMC</fullName>
+                    <default>false</default>
+                    <label>UMC</label>
+                </value>
+                <value>
+                    <fullName>United</fullName>
+                    <default>false</default>
+                    <label>United</label>
+                </value>
+                <value>
+                    <fullName>USA</fullName>
+                    <default>false</default>
+                    <label>USA</label>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Lutheran</controllingFieldValue>
+                <valueName>ELCA</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Lutheran</controllingFieldValue>
+                <valueName>LCMS</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Lutheran</controllingFieldValue>
+                <valueName>Missouri Synod</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Methodist</controllingFieldValue>
+                <valueName>UMC</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Nondenominational</controllingFieldValue>
+                <valueName>Independent</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Nondenominational</controllingFieldValue>
+                <valueName>Nondenominational</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Presbyterian</controllingFieldValue>
+                <valueName>ARP</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Presbyterian</controllingFieldValue>
+                <valueName>EPC</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Presbyterian</controllingFieldValue>
+                <valueName>Evangelical</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Presbyterian</controllingFieldValue>
+                <valueName>PCA</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Presbyterian</controllingFieldValue>
+                <valueName>PCUSA</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Presbyterian</controllingFieldValue>
+                <valueName>Presbytery of the New Covenant</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Church of Christ</controllingFieldValue>
+                <valueName>United</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Vineyard</controllingFieldValue>
+                <valueName>USA</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Anglican</controllingFieldValue>
+                <valueName>Reformed Episcopal Church</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Assembly of God</controllingFieldValue>
+                <valueName>Association of Evangelical Gospel Assemblies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Baptist</controllingFieldValue>
+                <valueName>ABA</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Baptist</controllingFieldValue>
+                <valueName>Missionary</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Baptist</controllingFieldValue>
+                <valueName>SBC</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Christian Church</controllingFieldValue>
+                <valueName>Disciples of Christ</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Evangelical Free</controllingFieldValue>
+                <valueName>EFCA</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Denomination__c</fullName>
+        <externalId>false</externalId>
+        <label>Denomination</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>AME</fullName>
+                    <default>false</default>
+                    <label>AME</label>
+                </value>
+                <value>
+                    <fullName>Anglican</fullName>
+                    <default>false</default>
+                    <label>Anglican</label>
+                </value>
+                <value>
+                    <fullName>Apostolic</fullName>
+                    <default>false</default>
+                    <label>Apostolic</label>
+                </value>
+                <value>
+                    <fullName>Assembly of God</fullName>
+                    <default>false</default>
+                    <label>Assembly of God</label>
+                </value>
+                <value>
+                    <fullName>Baptist</fullName>
+                    <default>false</default>
+                    <label>Baptist</label>
+                </value>
+                <value>
+                    <fullName>Brethren</fullName>
+                    <default>false</default>
+                    <label>Brethren</label>
+                </value>
+                <value>
+                    <fullName>Catholic</fullName>
+                    <default>false</default>
+                    <label>Catholic</label>
+                </value>
+                <value>
+                    <fullName>Christian</fullName>
+                    <default>false</default>
+                    <label>Christian</label>
+                </value>
+                <value>
+                    <fullName>Christian Church</fullName>
+                    <default>false</default>
+                    <label>Christian Church</label>
+                </value>
+                <value>
+                    <fullName>Christian Orthodox</fullName>
+                    <default>false</default>
+                    <label>Christian Orthodox</label>
+                </value>
+                <value>
+                    <fullName>Christian Reformed</fullName>
+                    <default>false</default>
+                    <label>Christian Reformed</label>
+                </value>
+                <value>
+                    <fullName>Church of Christ</fullName>
+                    <default>false</default>
+                    <label>Church of Christ</label>
+                </value>
+                <value>
+                    <fullName>Church of God</fullName>
+                    <default>false</default>
+                    <label>Church of God</label>
+                </value>
+                <value>
+                    <fullName>Church of South India</fullName>
+                    <default>false</default>
+                    <label>Church of South India</label>
+                </value>
+                <value>
+                    <fullName>CMA</fullName>
+                    <default>false</default>
+                    <label>CMA</label>
+                </value>
+                <value>
+                    <fullName>CME</fullName>
+                    <default>false</default>
+                    <label>CME</label>
+                </value>
+                <value>
+                    <fullName>COGIC</fullName>
+                    <default>false</default>
+                    <label>COGIC</label>
+                </value>
+                <value>
+                    <fullName>Disciples of Christ</fullName>
+                    <default>false</default>
+                    <label>Disciples of Christ</label>
+                </value>
+                <value>
+                    <fullName>ECFA</fullName>
+                    <default>false</default>
+                    <label>ECFA</label>
+                </value>
+                <value>
+                    <fullName>Episcopal</fullName>
+                    <default>false</default>
+                    <label>Episcopal</label>
+                </value>
+                <value>
+                    <fullName>Evangelical Free</fullName>
+                    <default>false</default>
+                    <label>Evangelical Free</label>
+                </value>
+                <value>
+                    <fullName>Friends Church</fullName>
+                    <default>false</default>
+                    <label>Friends Church</label>
+                </value>
+                <value>
+                    <fullName>Greek Orthodox</fullName>
+                    <default>false</default>
+                    <label>Greek Orthodox</label>
+                </value>
+                <value>
+                    <fullName>Independent</fullName>
+                    <default>false</default>
+                    <label>Independent</label>
+                </value>
+                <value>
+                    <fullName>Lutheran</fullName>
+                    <default>false</default>
+                    <label>Lutheran</label>
+                </value>
+                <value>
+                    <fullName>Mennonite</fullName>
+                    <default>false</default>
+                    <label>Mennonite</label>
+                </value>
+                <value>
+                    <fullName>Methodist</fullName>
+                    <default>false</default>
+                    <label>Methodist</label>
+                </value>
+                <value>
+                    <fullName>Nazarene</fullName>
+                    <default>false</default>
+                    <label>Nazarene</label>
+                </value>
+                <value>
+                    <fullName>Nondenominational</fullName>
+                    <default>false</default>
+                    <label>Nondenominational</label>
+                </value>
+                <value>
+                    <fullName>Pentecostal</fullName>
+                    <default>false</default>
+                    <label>Pentecostal</label>
+                </value>
+                <value>
+                    <fullName>Presbyterian</fullName>
+                    <default>false</default>
+                    <label>Presbyterian</label>
+                </value>
+                <value>
+                    <fullName>Seventh Day Adventist</fullName>
+                    <default>false</default>
+                    <label>Seventh Day Adventist</label>
+                </value>
+                <value>
+                    <fullName>Unitarian</fullName>
+                    <default>false</default>
+                    <label>Unitarian</label>
+                </value>
+                <value>
+                    <fullName>Universal</fullName>
+                    <default>false</default>
+                    <label>Universal</label>
+                </value>
+                <value>
+                    <fullName>Vineyard</fullName>
+                    <default>false</default>
+                    <label>Vineyard</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Email_Errors__c</fullName>
+        <externalId>false</externalId>
+        <label>Email Errors</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Email__c</fullName>
+        <externalId>false</externalId>
+        <label>Email</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>External_ID__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <externalId>true</externalId>
+        <label>External ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Fax__c</fullName>
+        <externalId>false</externalId>
+        <label>Fax</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>Mailing_Address__c</fullName>
+        <externalId>false</externalId>
+        <label>Mailing Address</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Mailing_City__c</fullName>
+        <externalId>false</externalId>
+        <label>Mailing City</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Mailing_State__c</fullName>
+        <externalId>false</externalId>
+        <label>Mailing State</label>
+        <length>2</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Mailing_Zip__c</fullName>
+        <externalId>false</externalId>
+        <label>Mailing Zip</label>
+        <length>10</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Notes__c</fullName>
+        <externalId>false</externalId>
+        <label>Notes</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Other_Partnership_Activities__c</fullName>
+        <externalId>false</externalId>
+        <label>Other Partnership Activities</label>
+        <length>3000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Partnership_Activities__c</fullName>
+        <externalId>false</externalId>
+        <label>Partnership Activities</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>After-School Programs</fullName>
+                    <default>false</default>
+                    <label>After-School Programs</label>
+                </value>
+                <value>
+                    <fullName>Book Drives</fullName>
+                    <default>false</default>
+                    <label>Book Drives</label>
+                </value>
+                <value>
+                    <fullName>Christmas Gifts</fullName>
+                    <default>false</default>
+                    <label>Christmas Gifts</label>
+                </value>
+                <value>
+                    <fullName>Clothing Drives</fullName>
+                    <default>false</default>
+                    <label>Clothing Drives</label>
+                </value>
+                <value>
+                    <fullName>College Prep Assistance</fullName>
+                    <default>false</default>
+                    <label>College Prep Assistance</label>
+                </value>
+                <value>
+                    <fullName>Communities in Service</fullName>
+                    <default>false</default>
+                    <label>Communities in Service</label>
+                </value>
+                <value>
+                    <fullName>ESL Training</fullName>
+                    <default>false</default>
+                    <label>ESL Training</label>
+                </value>
+                <value>
+                    <fullName>Facilities Usage</fullName>
+                    <default>false</default>
+                    <label>Facilities Usage</label>
+                </value>
+                <value>
+                    <fullName>Field Trips/Internships</fullName>
+                    <default>false</default>
+                    <label>Field Trips/Internships</label>
+                </value>
+                <value>
+                    <fullName>Financial Support</fullName>
+                    <default>false</default>
+                    <label>Financial Support</label>
+                </value>
+                <value>
+                    <fullName>Food Drives</fullName>
+                    <default>false</default>
+                    <label>Food Drives</label>
+                </value>
+                <value>
+                    <fullName>GED Support</fullName>
+                    <default>false</default>
+                    <label>GED Support</label>
+                </value>
+                <value>
+                    <fullName>Guest Speakers</fullName>
+                    <default>false</default>
+                    <label>Guest Speakers</label>
+                </value>
+                <value>
+                    <fullName>In-Kind Donations</fullName>
+                    <default>false</default>
+                    <label>In-Kind Donations</label>
+                </value>
+                <value>
+                    <fullName>Kids Hope Mentoring</fullName>
+                    <default>false</default>
+                    <label>Kids Hope Mentoring</label>
+                </value>
+                <value>
+                    <fullName>Literacy Help</fullName>
+                    <default>false</default>
+                    <label>Literacy Help</label>
+                </value>
+                <value>
+                    <fullName>Mentoring</fullName>
+                    <default>false</default>
+                    <label>Mentoring</label>
+                </value>
+                <value>
+                    <fullName>Parent Engagement &amp; Training</fullName>
+                    <default>false</default>
+                    <label>Parent Engagement &amp; Training</label>
+                </value>
+                <value>
+                    <fullName>Prayer</fullName>
+                    <default>false</default>
+                    <label>Prayer</label>
+                </value>
+                <value>
+                    <fullName>PTO Support</fullName>
+                    <default>false</default>
+                    <label>PTO Support</label>
+                </value>
+                <value>
+                    <fullName>Renovations</fullName>
+                    <default>false</default>
+                    <label>Renovations</label>
+                </value>
+                <value>
+                    <fullName>Sports</fullName>
+                    <default>false</default>
+                    <label>Sports</label>
+                </value>
+                <value>
+                    <fullName>Student Ministry</fullName>
+                    <default>false</default>
+                    <label>Student Ministry</label>
+                </value>
+                <value>
+                    <fullName>Teacher Support &amp; Appreciation</fullName>
+                    <default>false</default>
+                    <label>Teacher Support &amp; Appreciation</label>
+                </value>
+                <value>
+                    <fullName>Tutoring</fullName>
+                    <default>false</default>
+                    <label>Tutoring</label>
+                </value>
+                <value>
+                    <fullName>WatchDogs</fullName>
+                    <default>false</default>
+                    <label>WatchDogs</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>Other</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Pastor__c</fullName>
+        <externalId>false</externalId>
+        <label>Pastor</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Phone__c</fullName>
+        <externalId>false</externalId>
+        <label>Phone</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>Placeholder__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Placeholder</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Service_Languages__c</fullName>
+        <externalId>false</externalId>
+        <label>Service Languages</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>English</fullName>
+                    <default>true</default>
+                    <label>English</label>
+                </value>
+                <value>
+                    <fullName>Spanish</fullName>
+                    <default>false</default>
+                    <label>Spanish</label>
+                </value>
+                <value>
+                    <fullName>Mandarin</fullName>
+                    <default>false</default>
+                    <label>Mandarin</label>
+                </value>
+                <value>
+                    <fullName>Cantonese</fullName>
+                    <default>false</default>
+                    <label>Cantonese</label>
+                </value>
+                <value>
+                    <fullName>Korean</fullName>
+                    <default>false</default>
+                    <label>Korean</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>State__c</fullName>
+        <defaultValue>&quot;TX&quot;</defaultValue>
+        <externalId>false</externalId>
+        <label>State</label>
+        <length>2</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Street_Address__c</fullName>
+        <externalId>false</externalId>
+        <label>Street Address</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Updated__c</fullName>
+        <externalId>false</externalId>
+        <label>Updated</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Website__c</fullName>
+        <externalId>false</externalId>
+        <label>Website</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Year_Started__c</fullName>
+        <externalId>false</externalId>
+        <label>Year Started</label>
+        <length>4</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Zip__c</fullName>
+        <externalId>false</externalId>
+        <label>Zip</label>
+        <length>10</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Church</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Common_Name__c</columns>
+        <columns>Church_Network__c</columns>
+        <columns>Denomination__c</columns>
+        <columns>Phone__c</columns>
+        <columns>Email__c</columns>
+        <columns>Pastor__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>Churches_with_Partnerships</fullName>
+        <columns>NAME</columns>
+        <columns>Common_Name__c</columns>
+        <columns>Church_Network__c</columns>
+        <columns>Denomination__c</columns>
+        <columns>Phone__c</columns>
+        <columns>Email__c</columns>
+        <columns>Pastor__c</columns>
+        <columns>Partnership_Activities__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>Churches with Partnerships</label>
+    </listViews>
+    <nameField>
+        <label>Church Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Churches</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Church_Network__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Denomination__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Email__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Phone__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Pastor__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>City__c</customTabListAdditionalFields>
+        <searchResultsAdditionalFields>Street_Address__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>City__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Phone__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Denomination__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

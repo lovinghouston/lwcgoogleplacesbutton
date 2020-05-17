@@ -1,0 +1,857 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Partnership_Hour_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>Partnership_Hour</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>Partnership_Hour</fullName>
+        <fields>Name</fields>
+        <fields>Church_School_Partnership__c</fields>
+        <fields>Church_Name__c</fields>
+        <fields>School_Name__c</fields>
+        <fields>Semester_Year__c</fields>
+        <label>Partnership Hour</label>
+    </compactLayouts>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Annual_Volunteers__c</fullName>
+        <externalId>false</externalId>
+        <label>Annual Volunteers</label>
+        <precision>6</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Challenges__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>What challenges did you experience in your partnership this year?</inlineHelpText>
+        <label>Challenges</label>
+        <length>10000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Church_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>Church_School_Partnership__r.Church_Account__r.Name</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Church Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Church_School_Partnership__c</fullName>
+        <externalId>false</externalId>
+        <label>Church School Partnership</label>
+        <referenceTo>Church_School_Partnership__c</referenceTo>
+        <relationshipName>Partnership_Activities</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>How_can_LH_Help__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Was there anything challenging this semester that we could help with?</inlineHelpText>
+        <label>How LH can help</label>
+        <length>10000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Literacy_Activities__c</fullName>
+        <externalId>false</externalId>
+        <label>Literacy Activities</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Book Drives</fullName>
+                    <default>false</default>
+                    <label>Book Drives</label>
+                </value>
+                <value>
+                    <fullName>Classroom Readers</fullName>
+                    <default>false</default>
+                    <label>Classroom Readers</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>Other</label>
+                </value>
+                <value>
+                    <fullName>Literacy</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Literacy</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Literacy__c</fullName>
+        <externalId>false</externalId>
+        <formula>NOT(ISNULL( Literacy_Activities__c ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Literacy</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Loving_Houston_Support_This_Year__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>How did Loving Houston support your partnership this year?</inlineHelpText>
+        <label>Loving Houston Support This Year</label>
+        <length>10000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Mentoring_Activities__c</fullName>
+        <externalId>false</externalId>
+        <label>Mentoring Activities</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Mentoring</fullName>
+                    <default>false</default>
+                    <label>Mentoring</label>
+                </value>
+                <value>
+                    <fullName>Kids Hope Mentoring</fullName>
+                    <default>false</default>
+                    <label>Kids Hope Mentoring</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>Other</label>
+                </value>
+                <value>
+                    <fullName>KEYS Mentoring</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>KEYS Mentoring</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Mentoring__c</fullName>
+        <externalId>false</externalId>
+        <formula>NOT(ISNULL( Mentoring_Activities__c ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Mentoring</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Monthly_Volunteers__c</fullName>
+        <externalId>false</externalId>
+        <label>Monthly Volunteers</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Other_Activities_Description__c</fullName>
+        <externalId>false</externalId>
+        <label>Other Activities Description</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Other_Activities__c</fullName>
+        <externalId>false</externalId>
+        <label>Other Activities</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>After-School Programs</fullName>
+                    <default>false</default>
+                    <label>After-School Programs</label>
+                </value>
+                <value>
+                    <fullName>Backpack Drives</fullName>
+                    <default>false</default>
+                    <label>Backpack Drives</label>
+                </value>
+                <value>
+                    <fullName>Beautification/Renovation</fullName>
+                    <default>false</default>
+                    <label>Beautification/Renovation</label>
+                </value>
+                <value>
+                    <fullName>Career Day Speakers</fullName>
+                    <default>false</default>
+                    <label>Career Day Speakers</label>
+                </value>
+                <value>
+                    <fullName>Christmas Gifts</fullName>
+                    <default>false</default>
+                    <label>Christmas Gifts</label>
+                </value>
+                <value>
+                    <fullName>Clothing Drives/Donations</fullName>
+                    <default>false</default>
+                    <label>Clothing Drives/Donations</label>
+                </value>
+                <value>
+                    <fullName>College Prep</fullName>
+                    <default>false</default>
+                    <label>College Prep</label>
+                </value>
+                <value>
+                    <fullName>Event Support (i.e. Open House)</fullName>
+                    <default>false</default>
+                    <label>Event Support (i.e. Open House)</label>
+                </value>
+                <value>
+                    <fullName>Facilities Usage</fullName>
+                    <default>false</default>
+                    <label>Facilities Usage</label>
+                </value>
+                <value>
+                    <fullName>Field Trips</fullName>
+                    <default>false</default>
+                    <label>Field Trips</label>
+                </value>
+                <value>
+                    <fullName>Financial Support (including gift cards)</fullName>
+                    <default>false</default>
+                    <label>Financial Support (including gift cards)</label>
+                </value>
+                <value>
+                    <fullName>Food Donations/Drives</fullName>
+                    <default>false</default>
+                    <label>Food Donations/Drives</label>
+                </value>
+                <value>
+                    <fullName>In-Kind Donations (i.e fridge, washer/dryer)</fullName>
+                    <default>false</default>
+                    <label>In-Kind Donations (i.e fridge, washer/dryer)</label>
+                </value>
+                <value>
+                    <fullName>Internships</fullName>
+                    <default>false</default>
+                    <label>Internships</label>
+                </value>
+                <value>
+                    <fullName>Prayer</fullName>
+                    <default>false</default>
+                    <label>Prayer</label>
+                </value>
+                <value>
+                    <fullName>School Supply Drives</fullName>
+                    <default>false</default>
+                    <label>School Supply Drives</label>
+                </value>
+                <value>
+                    <fullName>Sports (i.e. FCA)</fullName>
+                    <default>false</default>
+                    <label>Sports (i.e. FCA)</label>
+                </value>
+                <value>
+                    <fullName>Student Ministry (i.e. YoungLife)</fullName>
+                    <default>false</default>
+                    <label>Student Ministry (i.e. YoungLife)</label>
+                </value>
+                <value>
+                    <fullName>Toiletries Drive</fullName>
+                    <default>false</default>
+                    <label>Toiletries Drive</label>
+                </value>
+                <value>
+                    <fullName>Tutoring</fullName>
+                    <default>false</default>
+                    <label>Tutoring</label>
+                </value>
+                <value>
+                    <fullName>WatchDogs</fullName>
+                    <default>false</default>
+                    <label>WatchDogs</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>Other</label>
+                </value>
+                <value>
+                    <fullName>Communities in Service</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Communities in Service</label>
+                </value>
+                <value>
+                    <fullName>Guest Speakers</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Guest Speakers</label>
+                </value>
+                <value>
+                    <fullName>Renovations</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Renovations</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Parent_Empowerment_Activities__c</fullName>
+        <externalId>false</externalId>
+        <label>Parent Empowerment Activities</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>ESL Training</fullName>
+                    <default>false</default>
+                    <label>ESL Training</label>
+                </value>
+                <value>
+                    <fullName>GED Support</fullName>
+                    <default>false</default>
+                    <label>GED Support</label>
+                </value>
+                <value>
+                    <fullName>Parent Classes</fullName>
+                    <default>false</default>
+                    <label>Parent Classes</label>
+                </value>
+                <value>
+                    <fullName>PTO Support</fullName>
+                    <default>false</default>
+                    <label>PTO Support</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>Other</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Parents__c</fullName>
+        <externalId>false</externalId>
+        <formula>NOT(ISNULL( Parent_Empowerment_Activities__c ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Parents</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Person_filling_out_form__c</fullName>
+        <externalId>false</externalId>
+        <label>Person filling out form</label>
+        <length>80</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>School_Feedback__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Did Loving Houston help your partnership in any way this semester?</inlineHelpText>
+        <label>School Feedback</label>
+        <length>10000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>School_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>Church_School_Partnership__r.School_Account__r.Name</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>School Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Semester_Year__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT( Semester__c )&amp;&quot; - &quot;&amp;TEXT(Year__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Semester &amp; Year</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Semester__c</fullName>
+        <externalId>false</externalId>
+        <label>Semester</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Fall</fullName>
+                    <default>false</default>
+                    <label>Fall</label>
+                </value>
+                <value>
+                    <fullName>Spring</fullName>
+                    <default>false</default>
+                    <label>Spring</label>
+                </value>
+                <value>
+                    <fullName>Summer</fullName>
+                    <default>false</default>
+                    <label>Summer</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Success_Stories__c</fullName>
+        <externalId>false</externalId>
+        <label>Success Stories</label>
+        <length>10000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Teacher_Support_Appreciation_Activity__c</fullName>
+        <externalId>false</externalId>
+        <label>Teacher Support &amp; Appreciation Activity</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Notes of Encouragement</fullName>
+                    <default>false</default>
+                    <label>Notes of Encouragement</label>
+                </value>
+                <value>
+                    <fullName>Appreciation Meal</fullName>
+                    <default>false</default>
+                    <label>Appreciation Meal</label>
+                </value>
+                <value>
+                    <fullName>Classroom Prep Support</fullName>
+                    <default>false</default>
+                    <label>Classroom Prep Support</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>Other</label>
+                </value>
+                <value>
+                    <fullName>School Supply Drives</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>School Supply Drives</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Teachers__c</fullName>
+        <externalId>false</externalId>
+        <formula>NOT(ISNULL( Teacher_Support_Appreciation_Activity__c ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Teachers</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Total_Volunteer_Hours__c</fullName>
+        <externalId>false</externalId>
+        <formula>((Weekly_Volunteers__c *30*30) + ( Monthly_Volunteers__c * 60 * 8) +  (Annual_Volunteers__c * 60))/60</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Volunteer Hours</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Total_Volunteers__c</fullName>
+        <externalId>false</externalId>
+        <formula>Annual_Volunteers__c +  Monthly_Volunteers__c +  Weekly_Volunteers__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Annual + Monthly + Weekly</inlineHelpText>
+        <label>Total Volunteers</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Volunteer_Hours_Total__c</fullName>
+        <externalId>false</externalId>
+        <formula>( of_Volunteers_Week__c * 30 ) + ( of_Volunteers_Month__c *8) + ( of_Volunteers_Year__c * 5 )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Volunteer Hours - Total</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Weekly_Volunteers__c</fullName>
+        <externalId>false</externalId>
+        <label>Weekly Volunteers</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Year__c</fullName>
+        <externalId>false</externalId>
+        <label>Year</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>2017-2018</fullName>
+                    <default>false</default>
+                    <label>2017-2018</label>
+                </value>
+                <value>
+                    <fullName>2018-2019</fullName>
+                    <default>false</default>
+                    <label>2018-2019</label>
+                </value>
+                <value>
+                    <fullName>2019-2020</fullName>
+                    <default>false</default>
+                    <label>2019-2020</label>
+                </value>
+                <value>
+                    <fullName>2020</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>2020</label>
+                </value>
+                <value>
+                    <fullName>2021</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>2021</label>
+                </value>
+                <value>
+                    <fullName>2022</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>2022</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>of_Volunteers_Month__c</fullName>
+        <externalId>false</externalId>
+        <label># of Volunteers/Month</label>
+        <summarizedField>Partnership_Activity_Log__c.Monthly__c</summarizedField>
+        <summaryForeignKey>Partnership_Activity_Log__c.Partnership_Update__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>of_Volunteers_Total__c</fullName>
+        <externalId>false</externalId>
+        <formula>of_Volunteers_Month__c + of_Volunteers_Week__c + of_Volunteers_Year__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label># of Volunteers - Total</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>of_Volunteers_Week__c</fullName>
+        <externalId>false</externalId>
+        <label># of Volunteers/Week</label>
+        <summarizedField>Partnership_Activity_Log__c.Weekly__c</summarizedField>
+        <summaryForeignKey>Partnership_Activity_Log__c.Partnership_Update__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>of_Volunteers_Year__c</fullName>
+        <externalId>false</externalId>
+        <label># of Volunteers/Year</label>
+        <summarizedField>Partnership_Activity_Log__c.Yearly__c</summarizedField>
+        <summaryForeignKey>Partnership_Activity_Log__c.Partnership_Update__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <label>Partnership Update</label>
+    <nameField>
+        <displayFormat>Act-{0}</displayFormat>
+        <label>CSP Update #</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Partnership Updates</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>
