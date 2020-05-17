@@ -30,6 +30,6 @@ jobs:
     # - run: |
     #     cci flow run ci_feature --org dev --delete-org
     - name: use docker image
-      uses: docker://arcusglobal/cumulusci:1.0
-      run: |
+      uses: docker://dacmanj/cumulusci:latest
+    - run: |
         cci org list
