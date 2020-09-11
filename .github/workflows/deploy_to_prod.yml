@@ -7,7 +7,7 @@ on:
 
 
 jobs:
-    push_to_sf:
+    deploy_to_prod:
 
         runs-on: ubuntu-latest
 
