@@ -16,7 +16,5 @@ jobs:
           - uses: sfdx-actions/setup-sfdx@v1
             with:
               sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
-          - name: push branch to authorized salesforce org
-            run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
-          - name: run local tests on salesforce org
-            run: sfdx force:apex:test:run -l RunLocalTests -w 30         
+          - name: push branch to authorized salesforce org & run tests
+            run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal -l RunLocalTests -w 30
