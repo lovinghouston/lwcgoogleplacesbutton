@@ -1,10 +1,13 @@
 name: SFDX Test Run on Push
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 
 jobs:
-    push_to_sf:
+    deploy_to_prod:
 
         runs-on: ubuntu-latest
 
@@ -20,7 +23,7 @@ jobs:
           - name: sfdx-test-run
             run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
           - name: sfdx-test-run
-            run: sfdx force:apex:test:run -l RunLocalTestss -w 30
+            run: sfdx force:apex:test:run -l RunLocalTests -w 30
 
           - uses: sfdx-actions/setup-sfdx@v1
             with:
