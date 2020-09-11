@@ -9,12 +9,23 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-          - name: checkout current branch
+          - name: Checkout Repo
             uses: actions/checkout@master
             with:
                ref: ${{ github.ref }}
+
           - uses: sfdx-actions/setup-sfdx@v1
             with:
               sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
-          - name: push branch to authorized salesforce org & run tests
-            run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal -l RunLocalTests -w 30
+          - name: sfdx-test-run
+            run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
+          - name: sfdx-test-run
+            run: sfdx force:apex:test:run -l RunLocalTestss -w 30
+
+          - uses: sfdx-actions/setup-sfdx@v1
+            with:
+              sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
+          - name: sfdx-test-run
+            run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
+          - name: sfdx-test-run
+            run: sfdx force:apex:test:run -l RunLocalTests -w 30
