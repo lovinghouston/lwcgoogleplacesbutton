@@ -1,10 +1,11 @@
 name: SFDX Test Run on Push
 
 on:
-  push:
-    branches:
-      - master
-
+  workflow_run:
+    workflows: ["deploy_to_sandbox"]
+    branches: master
+    types:
+      - completed
 
 jobs:
     deploy_to_prod:
@@ -16,14 +17,6 @@ jobs:
             uses: actions/checkout@master
             with:
                ref: ${{ github.ref }}
-
-          - uses: sfdx-actions/setup-sfdx@v1
-            with:
-              sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
-          - name: sfdx-test-run
-            run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
-          - name: sfdx-test-run
-            run: sfdx force:apex:test:run -l RunLocalTests -w 30
 
           - uses: sfdx-actions/setup-sfdx@v1
             with:
