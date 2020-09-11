@@ -1,8 +1,8 @@
-name: SFDX Test Run on Push
+name: "Deploy to Prod"
 
 on:
   workflow_run:
-    workflows: ["deploy_to_sandbox"]
+    workflows: ["Deploy to Sandbox"]
     branches: master
     types:
       - completed

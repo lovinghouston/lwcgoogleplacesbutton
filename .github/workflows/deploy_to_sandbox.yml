@@ -1,4 +1,4 @@
-name: SFDX Test Run on Push
+name: "Deploy to Sandbox"
 
 on: [push]
 
