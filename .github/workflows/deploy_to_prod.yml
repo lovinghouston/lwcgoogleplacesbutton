@@ -19,7 +19,7 @@ jobs:
 
           - uses: sfdx-actions/setup-sfdx@v1
             with:
-              sfdx-auth-url: ${{ secrets.SAND_AUTH_SECRET }}
+              sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
           - name: sfdx-test-run
             run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
           - name: sfdx-test-run
@@ -27,7 +27,7 @@ jobs:
 
           - uses: sfdx-actions/setup-sfdx@v1
             with:
-              sfdx-auth-url: ${{ secrets.PROD_AUTH_SECRET }}
+              sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
           - name: sfdx-test-run
             run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
           - name: sfdx-test-run
