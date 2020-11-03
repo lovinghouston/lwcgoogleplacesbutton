@@ -25,3 +25,4 @@ jobs:
             run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
           - name: sfdx-test-run
             run: sfdx force:apex:test:run -l RunLocalTests -w 30
+            
