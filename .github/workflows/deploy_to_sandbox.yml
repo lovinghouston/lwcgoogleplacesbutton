@@ -20,11 +20,11 @@ jobs:
           - uses: sfdx-actions/setup-sfdx@v1
             with:
               sfdx-auth-url: ${{ secrets.SFDX_DEV_HUB_AUTH_URL }}
-          - name: sfdx-test-run
-            run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
-          - name: sfdx-test-run
-            run: sfdx force:apex:test:run -l RunLocalTests -w 30
-          - uses: actions/checkout@v2
+#           - name: sfdx-test-run
+#             run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
+#           - name: sfdx-test-run
+#             run: sfdx force:apex:test:run -l RunLocalTests -w 30
+#           - uses: actions/checkout@v2
 #           - name: Install sfdx
 #             run: |
 #               mkdir sfdx
