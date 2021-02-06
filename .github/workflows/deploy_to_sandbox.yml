@@ -17,13 +17,21 @@ jobs:
             with:
                ref: ${{ github.ref }}
 
-          - uses: sfdx-actions/setup-sfdx@v1
-            with:
-              sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
-          - name: sfdx-test-run
-            run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
-          - name: sfdx-test-run
-            run: sfdx force:apex:test:run -l RunLocalTests -w 30
+#           - uses: sfdx-actions/setup-sfdx@v1
+#             with:
+#               sfdx-auth-url: ${{ secrets.AUTH_SECRET }}
+#           - name: sfdx-test-run
+#             run: sfdx force:source:deploy --sourcepath force-app/main/default --json --loglevel fatal
+#           - name: sfdx-test-run
+#             run: sfdx force:apex:test:run -l RunLocalTests -w 30
+#           - uses: actions/checkout@v2
+          - name: Install sfdx
+            run: |
+              mkdir sfdx
+              wget -qO- https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz | tar xJ -C sfdx --strip-components 1
+              ./sfdx/install
+              echo ${{ secrets.AUTH_SECRET }} > sfdx_auth
+              sfdx force:auth:sfdxurl:store -f sfdx_auth -d
           - name: Set up Python
             uses: actions/setup-python@v1
             with:
