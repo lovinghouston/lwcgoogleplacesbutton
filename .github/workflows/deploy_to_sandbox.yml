@@ -32,6 +32,8 @@ jobs:
               ./sfdx/install
               echo ${{ secrets.SFDX_DEV_HUB_AUTH_URL }} > sfdx_auth
               sfdx force:auth:sfdxurl:store -f sfdx_auth -d
+          - run: |
+              sfdx force:org:list
           - name: Set up Python
             uses: actions/setup-python@v1
             with:
