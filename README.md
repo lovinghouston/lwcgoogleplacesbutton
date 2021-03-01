@@ -1,12 +1,9 @@
 # lwcgoogleplacesbutton
 
-Add a brief description of this project here, in Markdown format.
-It will be shown on the main page of the project's GitHub repository.
+Adds a Lightning Web Component to create Google Place Listings (currently hardcoded to type "church") as a Salesforce object (currently hardcoded to a custom object named Church_School_Partnership__c).
 
 ## Development
 
-To work on this project in a scratch org:
+To work on this project:
 
-1. [Set up CumulusCI](https://cumulusci.readthedocs.io/en/latest/tutorial.html)
-2. Run `cci flow run dev_org --org dev` to deploy this project.
-3. Run `cci org browser dev` to open the org in your browser.
+Contact Julian Joseph (Julian88Tex@gmail.com)
