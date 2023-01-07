@@ -22,3 +22,15 @@ tasks:
     run_tests:
         options:
             required_org_code_coverage_percent: 75
+
+flow:
+    dev_org:
+        steps:
+            1:
+                flow: None
+            2:
+                flow: None
+            3:
+                flow: None     
+            4:
+                flow: None
