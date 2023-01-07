@@ -60,7 +60,7 @@ jobs:
           echo $(realpath sfdx/bin) >> $GITHUB_PATH
       - name: Authenticate Dev Hub
         run: |
-          echo ${{ secrets.SFDX_AUTH_URL_JULIAN }} > sfdx_auth
+          echo ${{ secrets.SFDX_DEV_HUB_AUTH_URL }} > sfdx_auth
           sfdx force:auth:sfdxurl:store -f sfdx_auth -d -a DevHub
       - name: Display Dev Hub Limits
         run: |
