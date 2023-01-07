@@ -1,0 +1,116 @@
+name: Org Setup
+run-name: '${{ github.event.inputs.name }}::${{ github.event.inputs.org }}::${{ github.event.inputs.flow }}::${{ github.event.inputs.days }}::${{ github.event.inputs.version }}::${{ github.event.inputs.delete_on_failure }}'
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        type: string
+        required: true
+        description: CumulusCI org name (no spaces)
+        default: my-org
+      flow:
+        type: choice
+        description: CumulusCI flow
+        default: dev_org
+        options:
+        - dev_org
+        - install_prod
+      org:
+        type: choice
+        description: CumulusCI org
+        default: dev
+        options:
+        - dev
+        - preview
+      days:
+        type: string
+        description: Days until org expires (1 to 30)
+        default: '1'
+      version:
+        type: string
+        description: Install version (only used for install_prod flow).
+        default: '1'
+      delete_on_failure:
+        type: boolean
+        description: Delete org if action fails or is cancelled.
+        default: true
+
+env:
+  CUMULUSCI_KEYCHAIN_CLASS: cumulusci.core.keychain.EnvironmentProjectKeychain
+  CUMULUSCI_SERVICE_github: ${{ secrets.CUMULUSCI_SERVICE_github }}
+
+jobs:
+  org_setup:
+    name: '${{ github.event.inputs.name }}::${{ github.event.inputs.org }}::${{ github.event.inputs.flow }}::${{ github.event.inputs.days }}::${{ github.event.inputs.version }}::${{ github.event.inputs.delete_on_failure }}'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v2
+      - name: Name Org Alias
+        run: |
+          perl -i -pe 's/manage - Dev Org/${{ github.event.inputs.name }}/g;' orgs/dev.json
+          perl -i -pe 's/manage - Preview Org/${{ github.event.inputs.name }}/g;' orgs/preview.json
+      - name: Install sfdx
+        run: |
+          mkdir sfdx
+          wget -qO- https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz | tar xJ -C sfdx --strip-components 1
+          echo $(realpath sfdx/bin) >> $GITHUB_PATH
+      - name: Authenticate Dev Hub
+        run: |
+          echo ${{ secrets.SFDX_AUTH_URL_JULIAN }} > sfdx_auth
+          sfdx force:auth:sfdxurl:store -f sfdx_auth -d -a DevHub
+      - name: Display Dev Hub Limits
+        run: |
+          sfdx force:limits:api:display -u DevHub
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.8'
+      - name: Install CumulusCI
+        run: |
+          python -m pip install -U pip
+          pip install cumulusci
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.17'
+      - name: Create Org
+        run: |
+          cci org scratch ${{ github.event.inputs.org }} ${{ github.event.inputs.name }} --days ${{ github.event.inputs.days }}
+      - name: Run ${{ github.event.inputs.flow }} Flow
+        run: |
+         cci flow run ${{ github.event.inputs.flow }} \
+         -o install_managed__version ${{ github.event.inputs.version }} \
+         -o robot__vars AUTH_PROVIDER_SECRET:"${{ secrets.AUTH_PROVIDER_SECRET }}",\
+         NAMED_CREDENTIAL_SECRET:"${{ secrets.NAMED_CREDENTIAL_SECRET }}",\
+         NIPR_CREDENTIAL_SECRET:"${{ secrets.NIPR_CREDENTIAL_SECRET }}",\
+         BROWSER:headlesschrome \
+         --org ${{ github.event.inputs.name }}
+      - name: Store Robot Results
+        if: failure()
+        uses: actions/upload-artifact@v1
+        with:
+          name: robot
+          path: robot/manage/results
+      - name: Display Org Info CCI
+        if: always()
+        run: |
+          echo "::set-output name=org_info_step::$(cci org info ${{ github.event.inputs.name }} --json)"
+      - name: Display Org Info SFDX
+        if: always()
+        run: |
+          sfdx force:org:display --verbose --json -u manage__${{ github.event.inputs.name }}
+      - name: Display Temporary Login URL (this will expire)
+        if: always()
+        run: |
+          sfdx force:org:open -r -u manage__${{ github.event.inputs.name }}
+      - name: Create Error Gist
+        if: failure()
+        run: |
+          cci error gist
+      - name: Delete Org On Cancellation or Failure
+        if: (cancelled() || failure()) && github.event.inputs.delete_on_failure == 'true'
+        run: |
+          cci org scratch_delete ${{ github.event.inputs.name }}
