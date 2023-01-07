@@ -23,7 +23,7 @@ tasks:
         options:
             required_org_code_coverage_percent: 75
 
-flow:
+flows:
     dev_org:
         steps:
             1:
