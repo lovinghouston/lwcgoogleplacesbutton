@@ -83,10 +83,6 @@ jobs:
         run: |
          cci flow run ${{ github.event.inputs.flow }} \
          -o install_managed__version ${{ github.event.inputs.version }} \
-         -o robot__vars AUTH_PROVIDER_SECRET:"${{ secrets.AUTH_PROVIDER_SECRET }}",\
-         NAMED_CREDENTIAL_SECRET:"${{ secrets.NAMED_CREDENTIAL_SECRET }}",\
-         NIPR_CREDENTIAL_SECRET:"${{ secrets.NIPR_CREDENTIAL_SECRET }}",\
-         BROWSER:headlesschrome \
          --org ${{ github.event.inputs.name }}
       - name: Store Robot Results
         if: failure()
