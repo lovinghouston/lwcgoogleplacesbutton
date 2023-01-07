@@ -51,8 +51,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Name Org Alias
         run: |
-          perl -i -pe 's/manage - Dev Org/${{ github.event.inputs.name }}/g;' orgs/dev.json
-          perl -i -pe 's/manage - Preview Org/${{ github.event.inputs.name }}/g;' orgs/preview.json
+          perl -i -pe 's/lwcgoogleplacesbutton - Dev Org/${{ github.event.inputs.name }}/g;' orgs/dev.json
+          perl -i -pe 's/lwcgoogleplacesbutton - Preview Org/${{ github.event.inputs.name }}/g;' orgs/preview.json
       - name: Install sfdx
         run: |
           mkdir sfdx
@@ -84,12 +84,6 @@ jobs:
          cci flow run ${{ github.event.inputs.flow }} \
          -o install_managed__version ${{ github.event.inputs.version }} \
          --org ${{ github.event.inputs.name }}
-      - name: Store Robot Results
-        if: failure()
-        uses: actions/upload-artifact@v1
-        with:
-          name: robot
-          path: robot/manage/results
       - name: Display Org Info CCI
         if: always()
         run: |
@@ -97,11 +91,11 @@ jobs:
       - name: Display Org Info SFDX
         if: always()
         run: |
-          sfdx force:org:display --verbose --json -u manage__${{ github.event.inputs.name }}
+          sfdx force:org:display --verbose --json -u lwcgoogleplacesbutton__${{ github.event.inputs.name }}
       - name: Display Temporary Login URL (this will expire)
         if: always()
         run: |
-          sfdx force:org:open -r -u manage__${{ github.event.inputs.name }}
+          sfdx force:org:open -r -u lwcgoogleplacesbutton__${{ github.event.inputs.name }}
       - name: Create Error Gist
         if: failure()
         run: |
